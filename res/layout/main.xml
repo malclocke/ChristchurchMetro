@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:orientation="horizontal"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      >
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:textSize="10pt"
+        android:gravity="center_vertical"
+        android:text="Stop Number:"/>
+    <EditText
+        android:id="@+id/entry"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:background="@android:drawable/editbox_background"
+        android:digits="0123456789"
+        android:inputType="numberDecimal"
+        android:maxLength="6"
+        android:text="40188"/>
+    <Button
+        android:id="@+id/go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go" />
+
+  </LinearLayout>
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      >
+    <WebView
+        android:id="@+id/info"
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent" 
+        />
+  </LinearLayout>
+</LinearLayout>
+
