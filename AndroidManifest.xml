@@ -13,7 +13,7 @@
             </intent-filter>
           </activity>
           <activity android:name=".StopActivity" />
-          <activity android:name=".MapActivity" />
+          <activity android:name=".FavouritesActivity" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

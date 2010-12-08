@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.widget.TabHost;
 
 import nz.co.wholemeal.christchurchmetro.StopActivity;
-import nz.co.wholemeal.christchurchmetro.MapActivity;
+import nz.co.wholemeal.christchurchmetro.FavouritesActivity;
 
 public class ChristchurchMetroActivity extends TabActivity
 {
@@ -24,17 +24,15 @@ public class ChristchurchMetroActivity extends TabActivity
         TabHost.TabSpec spec;  // Resusable TabSpec for each tab
         Intent intent;  // Reusable Intent for each tab
 
-        // Create an Intent to launch an Activity for the tab (to be reused)
+        // Stop info tab
         intent = new Intent().setClass(this, StopActivity.class);
-
-        // Initialize a TabSpec for each tab and add it to the TabHost
         spec = tabHost.newTabSpec("stop").setIndicator("Stop",
             res.getDrawable(R.drawable.tab_stop)).setContent(intent);
         tabHost.addTab(spec);
 
-        // Do the same for the other tabs
-        intent = new Intent().setClass(this, MapActivity.class);
-        spec = tabHost.newTabSpec("map").setIndicator("Map",
+        // Favourites tab
+        intent = new Intent().setClass(this, FavouritesActivity.class);
+        spec = tabHost.newTabSpec("favourites").setIndicator("Facourites",
             res.getDrawable(R.drawable.tab_map)).setContent(intent);
         tabHost.addTab(spec);
 

@@ -93,6 +93,10 @@ class Stop {
     return platformTag;
   }
 
+  public String getPlatformNumber() {
+    return platformNumber;
+  }
+
   public String getEtaHtml(int limit) {
     HttpGet httpget = new HttpGet(getEtaUrl(10));
     HttpClient httpclient = new DefaultHttpClient();
