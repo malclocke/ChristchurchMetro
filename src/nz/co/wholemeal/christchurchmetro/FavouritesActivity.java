@@ -18,17 +18,40 @@ import android.os.Bundle;
 public class FavouritesActivity extends ListActivity {
 
   private ArrayList stops = new ArrayList<Stop>();
+  /*
   private static final String[] FAVOURITES = new String[] {
-    "40188", "20763", "21450", "37375", "37334", "14864"
+    "40188", "20763", "21450", "37375", "37334", "14864", "21957"
   };
+  */
+  private static String STOP_JSON = "{" +
+      "\"attributes\" : {" +
+        "\"OBJECTID\" : 773," +
+        "\"Name\" : \"Bower Ave & Pinewood Ave\"," +
+        "\"PlatformTa\" : 821," +
+        "\"RoadName\" : \"Bower Ave\"," +
+        "\"PlatformNo\" : 40188," +
+        "\"Routes\" : \"70:814|70:816\"," +
+        "\"Lat\" : -43.488801000000002," +
+        "\"Long\" : 172.71179900000001," +
+        "\"BearingToR\" : null," +
+        "\"RouteNos\" : \"70\"," +
+        "\"RouteTags\" : \"814|816\"" +
+      "}," +
+      "\"geometry\" : {" +
+        "\"x\" : 19226189.518700004," +
+        "\"y\" : -5386670.7789999992" +
+      "}" +
+    "}";
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    for(String stop_number : FAVOURITES) {
-      stops.add(new Stop(stop_number));
-    }
+    Stop stop;
+
+    stop = new Stop();
+    stop.setAttributesFromJSONString(STOP_JSON);
+    stops.add(stop);
 
     setListAdapter(new StopAdapter(this, R.layout.list_item, stops));
 

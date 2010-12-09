@@ -39,20 +39,19 @@ class Stop {
   private double latitude;
   private double longitude;
 
+  public Stop() {
+  }
+
   /* Instantiate a Stop from a stop number */
   public Stop(String stopNumber) {
     JSONObject json = getJSONForStopNumber(stopNumber);
-    try {
-      JSONArray features = json.getJSONArray("features");
-      JSONObject attributes = features.getJSONObject(0).getJSONObject("attributes");
-      name = attributes.getString("Name");
-      platformTag = attributes.getString("PlatformTa");
-      platformNumber = attributes.getString("PlatformNo");
-      roadName = attributes.getString("RoadName");
-      routes = attributes.getString("Routes");
-      latitude = attributes.getDouble("Lat");
-      longitude = attributes.getDouble("Long");
-    } catch (JSONException e) {
+    if (json != null) {
+      try {
+        JSONArray features = json.getJSONArray("features");
+        JSONObject attributes = features.getJSONObject(0).getJSONObject("attributes");
+        setAttributesFromJSONObject(attributes);
+      } catch (JSONException e) {
+      }
     }
   }
 
@@ -77,24 +76,92 @@ class Stop {
       Log.e("ChristchurchMetro", "IOException: " + e);
     }
 
-    try {
-      json = (JSONObject) new JSONTokener(body).nextValue();
-    } catch (JSONException e) {
-      Log.e("ChristchurchMetro", "JSONException: " + e);
+    if (body != null) {
+      try {
+        json = (JSONObject) new JSONTokener(body).nextValue();
+      } catch (JSONException e) {
+        Log.e("ChristchurchMetro", "JSONException: " + e);
+      }
     }
     return json;
   }
 
+  public void setAttributesFromJSONObject(JSONObject attributes) throws JSONException {
+    name = attributes.getString("Name");
+    platformTag = attributes.getString("PlatformTa");
+    platformNumber = attributes.getString("PlatformNo");
+    roadName = attributes.getString("RoadName");
+    routes = attributes.getString("Routes");
+    latitude = attributes.getDouble("Lat");
+    longitude = attributes.getDouble("Long");
+  }
+
+  public void setAttributesFromJSONString(String json_string) {
+    if (json_string != null) {
+      try {
+        JSONObject json = (JSONObject) new JSONTokener(json_string).nextValue();
+        setAttributesFromJSONObject(json.getJSONObject("attributes"));
+      } catch (JSONException e) {
+        Log.e("ChristchurchMetro", "JSONException: " + e);
+      }
+    }
+  }
+
+
   public String getName() {
     return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getPlatformTag() {
     return platformTag;
   }
 
+  public void setPlatformTag(String platformTag) {
+    this.platformTag = platformTag;
+  }
+
+  public String getRoadName() {
+    return roadName;
+  }
+
+  public void setRoadName(String roadName) {
+    this.roadName = roadName;
+  }
+
   public String getPlatformNumber() {
     return platformNumber;
+  }
+
+  public void setPlatformNumber(String platformNumber) {
+    this.platformNumber = platformNumber;
+  }
+
+  public String getRoutes() {
+    return routes;
+  }
+
+  public void setRoutes(String routes) {
+    this.routes = routes;
+  }
+
+  public double getLatitude() {
+    return latitude;
+  }
+
+  public void setLatitude(double latitude) {
+    this.latitude = latitude;
+  }
+
+  public double getLongitude() {
+    return longitude;
+  }
+
+  public void setLongitude(double longitude) {
+    this.longitude = longitude;
   }
 
   public String getEtaHtml(int limit) {
