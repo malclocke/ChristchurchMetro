@@ -25,13 +25,17 @@
         android:background="@android:drawable/editbox_background"
         android:digits="0123456789"
         android:inputType="numberDecimal"
-        android:maxLength="6"
-        android:text="40188"/>
+        android:maxLength="5"/>
     <Button
         android:id="@+id/go"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Go" />
+    <Button
+        android:id="@+id/faves"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Faves" />
 
   </LinearLayout>
 

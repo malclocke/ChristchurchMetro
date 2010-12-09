@@ -2,6 +2,7 @@ package nz.co.wholemeal.christchurchmetro;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -13,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 public class FavouritesActivity extends ListActivity {
 
@@ -61,8 +64,20 @@ public class FavouritesActivity extends ListActivity {
     lv.setOnItemClickListener(new OnItemClickListener() {
       public void onItemClick(AdapterView<?> parent, View view,
           int position, long id) {
+        Intent intent = new Intent();
+        Stop stop = (Stop)stops.get(position);
+
+        if (stop == null) {
+          Log.e("FavouritesActivity", "Didn't get a stop");
+          finish();
+        }
+        intent.putExtra("platformNumber", stop.getPlatformNumber());
+        /*
         Toast.makeText(getApplicationContext(), ((Stop)stops.get(position)).getPlatformNumber(),
             Toast.LENGTH_SHORT).show();
+         */
+        setResult(RESULT_OK, intent);
+        finish();
       }
     });
   }
