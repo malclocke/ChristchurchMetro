@@ -28,6 +28,8 @@ import org.apache.http.util.EntityUtils;
 
 class Stop {
 
+  public final String TAG = "Stop";
+
   public static String gisURL = "http://arcgis.ecan.govt.nz/ArcGIS/rest/services/Beta/Bus_Routes/MapServer/2/query";
   public static String etaURL = "http://rtt.metroinfo.org.nz/RTT/Public/RoutePositionET.aspx";
 
@@ -47,12 +49,16 @@ class Stop {
     JSONObject json = getJSONForStopNumber(stopNumber);
     if (json != null) {
       try {
-        JSONArray features = json.getJSONArray("features");
-        JSONObject attributes = features.getJSONObject(0).getJSONObject("attributes");
-        setAttributesFromJSONObject(attributes);
+        JSONObject stop_json = json.getJSONArray("features").getJSONObject(0);
+        setAttributesFromJSONObject(stop_json);
       } catch (JSONException e) {
       }
     }
+  }
+
+  /* Instantiate a Stop from a JSONObject */
+  public Stop(JSONObject json) {
+    setAttributesFromJSONObject(json);
   }
 
   private JSONObject getJSONForStopNumber(String stopNumber) {
@@ -63,7 +69,7 @@ class Stop {
 
     try {
       List<NameValuePair> formparams = new ArrayList<NameValuePair>(2);
-      // Casino = 30846
+
       formparams.add(new BasicNameValuePair("where", "PlatformNo=" + stopNumber));
       formparams.add(new BasicNameValuePair("outfields", "Name,PlatformTa,RoadName,PlatformNo,Routes,Lat,Long"));
       formparams.add(new BasicNameValuePair("f", "pjson"));
@@ -86,14 +92,19 @@ class Stop {
     return json;
   }
 
-  public void setAttributesFromJSONObject(JSONObject attributes) throws JSONException {
-    name = attributes.getString("Name");
-    platformTag = attributes.getString("PlatformTa");
-    platformNumber = attributes.getString("PlatformNo");
-    roadName = attributes.getString("RoadName");
-    routes = attributes.getString("Routes");
-    latitude = attributes.getDouble("Lat");
-    longitude = attributes.getDouble("Long");
+  public void setAttributesFromJSONObject(JSONObject json) {
+    try {
+      JSONObject attributes = json.getJSONObject("attributes");
+      name = attributes.getString("Name");
+      platformTag = attributes.getString("PlatformTa");
+      platformNumber = attributes.getString("PlatformNo");
+      roadName = attributes.getString("RoadName");
+      routes = attributes.getString("Routes");
+      latitude = attributes.getDouble("Lat");
+      longitude = attributes.getDouble("Long");
+    } catch (JSONException e) {
+      Log.e(TAG, e.toString());
+    }
   }
 
   public void setAttributesFromJSONString(String json_string) {

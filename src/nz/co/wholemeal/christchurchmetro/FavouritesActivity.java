@@ -2,6 +2,11 @@ package nz.co.wholemeal.christchurchmetro;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.json.JSONException;
+import org.json.JSONArray;
+
 import android.app.Activity;
 import android.app.ListActivity;
 import android.widget.ArrayAdapter;
@@ -20,13 +25,16 @@ import android.util.Log;
 
 public class FavouritesActivity extends ListActivity {
 
+  public final String TAG = "FavouritesActivity";
+
   private ArrayList stops = new ArrayList<Stop>();
   /*
   private static final String[] FAVOURITES = new String[] {
     "40188", "20763", "21450", "37375", "37334", "14864", "21957"
   };
   */
-  private static String STOP_JSON = "{" +
+  private static String STOPS_JSON = "[" +
+    "{" +
       "\"attributes\" : {" +
         "\"OBJECTID\" : 773," +
         "\"Name\" : \"Bower Ave & Pinewood Ave\"," +
@@ -44,17 +52,33 @@ public class FavouritesActivity extends ListActivity {
         "\"x\" : 19226189.518700004," +
         "\"y\" : -5386670.7789999992" +
       "}" +
-    "}";
+    "}," +
+    "{" +
+    "  \"attributes\" : {" +
+    "    \"OBJECTID\" : 766," +
+    "    \"Name\" : \"Bower Ave & Castletown Pl\"," +
+    "    \"PlatformTa\" : 814," +
+    "    \"RoadName\" : \"Bower Ave\"," +
+    "    \"PlatformNo\" : 20763," +
+    "    \"Routes\" : \"49:804|70:814|70:816\"," +
+    "    \"Lat\" : -43.497529," +
+    "    \"Long\" : 172.71062900000001," +
+    "    \"BearingToR\" : null," +
+    "    \"RouteNos\" : \"49|70\"," +
+    "    \"RouteTags\" : \"804|814|816\"" +
+    "  }," +
+    "  \"geometry\" : {" +
+    "    \"x\" : 19226059.2971," +
+    "    \"y\" : -5388010.0443000011" +
+    "  }" +
+    "}" +
+  "]";
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    Stop stop;
-
-    stop = new Stop();
-    stop.setAttributesFromJSONString(STOP_JSON);
-    stops.add(stop);
+    initFavourites();
 
     setListAdapter(new StopAdapter(this, R.layout.list_item, stops));
 
@@ -68,7 +92,7 @@ public class FavouritesActivity extends ListActivity {
         Stop stop = (Stop)stops.get(position);
 
         if (stop == null) {
-          Log.e("FavouritesActivity", "Didn't get a stop");
+          Log.e(TAG, "Didn't get a stop");
           finish();
         }
         intent.putExtra("platformNumber", stop.getPlatformNumber());
@@ -80,6 +104,20 @@ public class FavouritesActivity extends ListActivity {
         finish();
       }
     });
+  }
+
+  private void initFavourites() {
+    try {
+      JSONArray stops_array = (JSONArray) new JSONTokener(STOPS_JSON).nextValue();
+      for (int i = 0;i < stops_array.length();i++) {
+        JSONObject stop_json = (JSONObject)stops_array.get(i);
+        Stop stop = new Stop(stop_json);
+        stops.add(stop);
+        Log.d(TAG, "initFavourites(): added stop " + stop.getPlatformNumber());
+      }
+    } catch (JSONException e) {
+      Log.e(TAG, "initFavourites(): " + e.toString());
+    }
   }
 
   private class StopAdapter extends ArrayAdapter<Stop> {
