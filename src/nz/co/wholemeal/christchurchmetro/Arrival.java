@@ -22,4 +22,16 @@ class Arrival {
   public String getRouteName() {
     return routeName;
   }
+
+  public String getRouteNumber() {
+    return routeNumber;
+  }
+
+  public String getDestination() {
+    return destination;
+  }
+
+  public int getEta() {
+    return eta;
+  }
 }

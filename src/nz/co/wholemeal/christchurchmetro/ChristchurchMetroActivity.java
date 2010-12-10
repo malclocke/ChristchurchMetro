@@ -27,7 +27,7 @@ public class ChristchurchMetroActivity extends ListActivity
   private EditText entry;
 
   private Stop current_stop;
-  private final static ArrayList arrivals = new ArrayList<Arrival>();
+  private ArrayList arrivals = new ArrayList<Arrival>();
   private ArrivalAdapter arrival_adapter;
 
   static final int CHOOSE_FAVOURITE = 0;
@@ -98,8 +98,13 @@ public class ChristchurchMetroActivity extends ListActivity
   public void loadStop(Stop stop) {
     Log.d(TAG, "loadStop(): " + stop.getPlatformNumber());
     current_stop = stop;
-    arrivals.add(new Arrival("1", "Dummy Route", "New Brighton", 10, true));
-    arrival_adapter.notifyDataSetChanged();
+    ArrayList stopArrivals = stop.getArrivals();
+    if (stopArrivals.size() > 0) {
+      Log.d(TAG, "arrivals.size() = " + arrivals.size());
+      arrivals.clear();
+      arrivals.addAll(stopArrivals);
+      arrival_adapter.notifyDataSetChanged();
+    }
   }
 
   public void loadStop(String platformNumber) {
@@ -126,13 +131,21 @@ public class ChristchurchMetroActivity extends ListActivity
       View v = convertView;
       if (v == null) {
         LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = vi.inflate(R.layout.list_item, null);
+        v = vi.inflate(R.layout.arrival, null);
       }
       Arrival arrival = arrivalList.get(position);
       if (arrival != null) {
-        TextView list_item = (TextView) v;
-        if (list_item != null) {
-          list_item.setText(arrival.getRouteName());
+        TextView routeNumber = (TextView) v.findViewById(R.id.route_number);
+        TextView routeName = (TextView) v.findViewById(R.id.route_name);
+        TextView eta = (TextView) v.findViewById(R.id.eta);
+        if (routeNumber != null) {
+          routeNumber.setText(arrival.getRouteNumber());
+        }
+        if (routeName != null) {
+          routeName.setText(arrival.getRouteName());
+        }
+        if (eta != null) {
+          eta.setText(arrival.getEta() + " minutes");
         }
       }
       return v;

@@ -2,6 +2,8 @@ package nz.co.wholemeal.christchurchmetro;
 
 import android.util.Log;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.IOException;
@@ -221,5 +223,21 @@ class Stop {
       json_string = json.toString();
     }
     return json_string;
+  }
+
+  public ArrayList getArrivals() {
+    ArrayList <Arrival> arrivals = new ArrayList<Arrival>();
+    arrivals.add(new Arrival("1", "Dummy Route", "New Brighton", 10, true));
+    arrivals.add(new Arrival("2", "Dummy Route", "New Brighton", 20, true));
+    arrivals.add(new Arrival("3", "Dummy Route", "New Brighton", 6, true));
+    arrivals.add(new Arrival("4", "Dummy Route", "New Brighton", 12, true));
+    Collections.sort(arrivals, new ComparatorByEta());
+    return arrivals;
+  }
+
+  private class ComparatorByEta implements Comparator {
+    public int compare(Object one, Object two) {
+      return ((Arrival)two).getEta() - ((Arrival)one).getEta();
+    }
   }
 }
