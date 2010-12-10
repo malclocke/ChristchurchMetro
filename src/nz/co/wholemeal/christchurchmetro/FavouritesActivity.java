@@ -1,6 +1,7 @@
 package nz.co.wholemeal.christchurchmetro;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -20,14 +21,16 @@ import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
 public class FavouritesActivity extends ListActivity {
 
-  public final String TAG = "FavouritesActivity";
+  public final static String TAG = "FavouritesActivity";
+  public final static String FAVOURITES_FILE = "FavouriteStopsFile";
 
-  private ArrayList stops = new ArrayList<Stop>();
+  private final static ArrayList stops = new ArrayList<Stop>();
   /*
   private static final String[] FAVOURITES = new String[] {
     "40188", "20763", "21450", "37375", "37334", "14864", "21957"
@@ -107,16 +110,35 @@ public class FavouritesActivity extends ListActivity {
   }
 
   private void initFavourites() {
-    try {
-      JSONArray stops_array = (JSONArray) new JSONTokener(STOPS_JSON).nextValue();
-      for (int i = 0;i < stops_array.length();i++) {
-        JSONObject stop_json = (JSONObject)stops_array.get(i);
-        Stop stop = new Stop(stop_json);
-        stops.add(stop);
-        Log.d(TAG, "initFavourites(): added stop " + stop.getPlatformNumber());
+    SharedPreferences favourites = getSharedPreferences(FAVOURITES_FILE, 0);
+    String stops_json = favourites.getString("favouriteStops", null);
+
+    if (stops_json != null) {
+      try {
+        JSONArray stops_array = (JSONArray) new JSONTokener(stops_json).nextValue();
+        for (int i = 0;i < stops_array.length();i++) {
+          JSONObject stop_json = (JSONObject)stops_array.get(i);
+          Stop stop = new Stop(stop_json);
+          stops.add(stop);
+          Log.d(TAG, "initFavourites(): added stop " + stop.getPlatformNumber());
+        }
+      } catch (JSONException e) {
+        Log.e(TAG, "initFavourites(): " + e.toString());
       }
-    } catch (JSONException e) {
-      Log.e(TAG, "initFavourites(): " + e.toString());
+    }
+  }
+
+  public static void saveFavourites() {
+    JSONArray jsonArray = new JSONArray();
+    Iterator iterator = stops.iterator();
+
+    while (iterator.hasNext()) {
+      Stop stop = (Stop)iterator.next();
+      jsonArray.put(stop.toJSONObject());
+    }
+
+    if (jsonArray.length() > 0) {
+      Log.d(TAG, jsonArray.toString());
     }
   }
 

@@ -28,7 +28,7 @@ import org.apache.http.util.EntityUtils;
 
 class Stop {
 
-  public final String TAG = "Stop";
+  public static final String TAG = "Stop";
 
   public static String gisURL = "http://arcgis.ecan.govt.nz/ArcGIS/rest/services/Beta/Bus_Routes/MapServer/2/query";
   public static String etaURL = "http://rtt.metroinfo.org.nz/RTT/Public/RoutePositionET.aspx";
@@ -59,6 +59,7 @@ class Stop {
   /* Instantiate a Stop from a JSONObject */
   public Stop(JSONObject json) {
     setAttributesFromJSONObject(json);
+    Log.d(TAG, toJSONString());
   }
 
   private JSONObject getJSONForStopNumber(String stopNumber) {
@@ -84,6 +85,7 @@ class Stop {
 
     if (body != null) {
       try {
+        Log.d(TAG, "Stop JSON = " + body);
         json = (JSONObject) new JSONTokener(body).nextValue();
       } catch (JSONException e) {
         Log.e("ChristchurchMetro", "JSONException: " + e);
@@ -191,5 +193,33 @@ class Stop {
 
   public String getEtaUrl(int limit) {
     return etaURL + "?MaxETRows=" + limit + "&PlatformTag=" + getPlatformTag();
+  }
+
+  public JSONObject toJSONObject() {
+    JSONObject json = new JSONObject();
+    JSONObject attributes = new JSONObject();
+    try {
+      attributes.put("PlatformNo", platformNumber);
+      attributes.put("PlatformTa", platformTag);
+      attributes.put("Name", name);
+      attributes.put("RoadName", name);
+      attributes.put("Routes", routes);
+      attributes.put("Lat", latitude);
+      attributes.put("Long", longitude);
+      json.put("attributes", attributes);
+    } catch (JSONException e) {
+      Log.e(TAG, "toJSONString(): " + e.toString());
+      return null;
+    }
+    return json;
+  }
+
+  public String toJSONString() {
+    JSONObject json = toJSONObject();
+    String json_string = null;
+    if (json != null) {
+      json_string = json.toString();
+    }
+    return json_string;
   }
 }

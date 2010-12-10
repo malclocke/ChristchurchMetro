@@ -25,7 +25,8 @@
         android:background="@android:drawable/editbox_background"
         android:digits="0123456789"
         android:inputType="numberDecimal"
-        android:maxLength="5"/>
+        android:maxLength="5"
+        android:text="40188" />
     <Button
         android:id="@+id/go"
         android:layout_width="wrap_content"
@@ -44,11 +45,15 @@
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
       >
-    <WebView
-        android:id="@+id/info"
-        android:layout_width="fill_parent" 
-        android:layout_height="fill_parent" 
-        />
+    <Button
+        android:id="@+id/addtofaves"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Add to faves" />
+    <ListView
+      android:id="@id/android:list"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent" />
   </LinearLayout>
 </LinearLayout>
 
