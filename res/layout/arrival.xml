@@ -7,7 +7,7 @@
         android:id="@+id/route_number"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:textSize="10pt"
+        android:textSize="12pt"
         android:layout_marginRight="6dip" />
     <LinearLayout
         android:orientation="vertical"
@@ -16,6 +16,7 @@
         android:layout_height="fill_parent">
         <TextView
             android:id="@+id/route_name"
+            android:textSize="8pt"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1"

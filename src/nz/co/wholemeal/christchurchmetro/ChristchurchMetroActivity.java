@@ -67,13 +67,6 @@ public class ChristchurchMetroActivity extends ListActivity
         ChristchurchMetroActivity.this.startActivityForResult(intent, CHOOSE_FAVOURITE);
       }
     });
-
-    final Button add_to_faves = (Button)findViewById(R.id.addtofaves);
-    add_to_faves.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        addToFavourites(current_stop);
-      }
-    });
   }
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -109,12 +102,6 @@ public class ChristchurchMetroActivity extends ListActivity
 
   public void loadStop(String platformNumber) {
     loadStop(new Stop(platformNumber));
-  }
-
-  public void addToFavourites(Stop stop) {
-    if (stop != null) {
-      Log.d(TAG, "Adding " + stop.getPlatformNumber() + " to favourites");
-    }
   }
 
   private class ArrivalAdapter extends ArrayAdapter<Arrival> {
