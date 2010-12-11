@@ -86,7 +86,7 @@ class Stop {
       List<NameValuePair> formparams = new ArrayList<NameValuePair>(2);
 
       formparams.add(new BasicNameValuePair("where", "PlatformNo=" + stopNumber));
-      formparams.add(new BasicNameValuePair("outfields", "Name,PlatformTa,RoadName,PlatformNo,Routes,Lat,Long"));
+      formparams.add(new BasicNameValuePair("outfields", "Name,PlatformTa,RoadName,PlatformNo,RouteNos,Lat,Long"));
       formparams.add(new BasicNameValuePair("f", "pjson"));
       UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, "UTF-8");
       httppost.setEntity(entity);
@@ -100,7 +100,15 @@ class Stop {
     if (body != null) {
       try {
         Log.d(TAG, "Stop JSON = " + body);
-        json = (JSONObject) new JSONTokener(body).nextValue();
+        /* If the web service doesn't return a normal response, it may still
+         * be parseable but will just return a String of all the content.  So
+         * double check the first element can be cast to the correct type.
+         */
+        try {
+          json = (JSONObject) new JSONTokener(body).nextValue();
+        } catch (ClassCastException e) {
+          Log.d(TAG, "Unable to parse response to JSONObject");
+        }
       } catch (JSONException e) {
         Log.e("ChristchurchMetro", "JSONException: " + e);
       }
@@ -115,7 +123,7 @@ class Stop {
       platformTag = attributes.getString("PlatformTa");
       platformNumber = attributes.getString("PlatformNo");
       roadName = attributes.getString("RoadName");
-      routes = attributes.getString("Routes");
+      routes = attributes.getString("RouteNos");
       latitude = attributes.getDouble("Lat");
       longitude = attributes.getDouble("Long");
     } catch (JSONException e) {
@@ -217,7 +225,7 @@ class Stop {
       attributes.put("PlatformTa", platformTag);
       attributes.put("Name", name);
       attributes.put("RoadName", name);
-      attributes.put("Routes", routes);
+      attributes.put("RouteNos", routes);
       attributes.put("Lat", latitude);
       attributes.put("Long", longitude);
       json.put("attributes", attributes);

@@ -30,7 +30,7 @@ public class FavouritesActivity extends ListActivity {
   public final static String TAG = "FavouritesActivity";
   public final static String FAVOURITES_FILE = "FavouriteStopsFile";
 
-  private final static ArrayList stops = new ArrayList<Stop>();
+  public static ArrayList stops = new ArrayList<Stop>();
 
   private static String STOPS_JSON = "[" +
     "{" +
@@ -108,7 +108,6 @@ public class FavouritesActivity extends ListActivity {
   }
 
   private void initFavourites() {
-    /*
     SharedPreferences favourites = getSharedPreferences(FAVOURITES_FILE, 0);
     String stops_json = favourites.getString("favouriteStops", null);
 
@@ -125,8 +124,8 @@ public class FavouritesActivity extends ListActivity {
         Log.e(TAG, "initFavourites(): " + e.toString());
       }
     }
-    */
     /* "40188", "20763", "21450", "37375", "37334", "14864", "21957" */
+    /*
     Stop stop;
 
     stop = new Stop();
@@ -208,6 +207,7 @@ public class FavouritesActivity extends ListActivity {
     stop.setLatitude(-43.534118999999997);
     stop.setLongitude(172.63719);
     stops.add(stop);
+    */
   }
 
   public static void saveFavourites() {
@@ -222,6 +222,20 @@ public class FavouritesActivity extends ListActivity {
     if (jsonArray.length() > 0) {
       Log.d(TAG, jsonArray.toString());
     }
+  }
+
+  public static boolean isFavourite(Stop stop) {
+    Iterator iterator = stops.iterator();
+
+    /* Check the Stop is not already present in favourites */
+    while (iterator.hasNext()) {
+      Stop favourite = (Stop)iterator.next();
+      if (favourite.getPlatformNumber().equals(stop.getPlatformNumber())) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   private class StopAdapter extends ArrayAdapter<Stop> {

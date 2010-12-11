@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="#ddd"
     android:padding="6dip">
     <TextView
-        android:id="@+id/route_number"
+        android:id="@+id/platform_number"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:textSize="12pt"
+        android:textSize="8pt"
+        android:textColor="#000"
         android:layout_marginRight="6dip" />
     <LinearLayout
         android:orientation="vertical"
@@ -15,18 +17,20 @@
         android:layout_weight="1"
         android:layout_height="fill_parent">
         <TextView
-            android:id="@+id/route_name"
+            android:id="@+id/platform_name"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
+            android:textColor="#000"
             android:gravity="center_vertical"
         />
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:id="@+id/eta"
+            android:id="@+id/platform_routes"
             android:singleLine="true"
+            android:textColor="#000"
             android:ellipsize="marquee"
         />
     </LinearLayout>
