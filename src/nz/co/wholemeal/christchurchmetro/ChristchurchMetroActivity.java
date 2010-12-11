@@ -36,7 +36,6 @@ public class ChristchurchMetroActivity extends ListActivity
   private ArrayList arrivals = new ArrayList<Arrival>();
   private ArrivalAdapter arrival_adapter;
   private View stopHeader;
-  private Button addToFavourites;
 
   static final int CHOOSE_FAVOURITE = 0;
   static final String TAG = "ChristchurchMetroActivity";
@@ -49,17 +48,6 @@ public class ChristchurchMetroActivity extends ListActivity
 
     stopHeader = getLayoutInflater().inflate(R.layout.stop_header, null);
     getListView().addHeaderView(stopHeader);
-
-    addToFavourites = (Button)getLayoutInflater().inflate(R.layout.add_to_favourites, null);
-    getListView().addFooterView((View)addToFavourites);
-    addToFavourites.setEnabled(false);
-    addToFavourites.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        if (current_stop != null) {
-          addToFavourites(current_stop);
-        }
-      }
-    });
 
     arrival_adapter = new ArrivalAdapter(this, R.layout.list_item, arrivals);
     setListAdapter(arrival_adapter);
@@ -157,22 +145,35 @@ public class ChristchurchMetroActivity extends ListActivity
     }
 
     arrival_adapter.notifyDataSetChanged();
-    /* Set the add to favourites button state based on whether the stop is a
-     * favourite or not */
-    addToFavourites.setEnabled(!FavouritesActivity.isFavourite(stop));
   }
 
   public void loadStop(String platformNumber) {
     loadStop(new Stop(platformNumber));
   }
 
-  public void setStopHeader(Stop stop) {
+  public void setStopHeader(final Stop stop) {
     TextView platformNumber = (TextView)stopHeader.findViewById(R.id.platform_number);
     TextView platformName = (TextView)stopHeader.findViewById(R.id.platform_name);
     TextView platformRoutes = (TextView)stopHeader.findViewById(R.id.platform_routes);
+    final Button addToFavouritesButton = (Button)stopHeader.findViewById(R.id.add_to_favourites);
     platformNumber.setText(stop.getPlatformNumber());
     platformName.setText(stop.getName());
     platformRoutes.setText("Routes: " + stop.getRoutes());
+
+    /* Set the add to favourites button visibility based on whether the stop is
+     * a favourite or not */
+    if (FavouritesActivity.isFavourite(stop)) {
+      addToFavouritesButton.setVisibility(android.view.View.INVISIBLE);
+    } else {
+      addToFavouritesButton.setVisibility(android.view.View.VISIBLE);
+    }
+
+    addToFavouritesButton.setOnClickListener(new OnClickListener() {
+      public void onClick(View v) {
+        addToFavourites(stop);
+        addToFavouritesButton.setVisibility(android.view.View.INVISIBLE);
+      }
+    });
   }
 
   public void addToFavourites(Stop stop) {
@@ -182,7 +183,6 @@ public class ChristchurchMetroActivity extends ListActivity
       FavouritesActivity.stops.add(stop);
       Toast.makeText(getApplicationContext(), "Added '" + stop.getName() +
           "' to favourites", Toast.LENGTH_SHORT).show();
-      addToFavourites.setEnabled(false);
     }
   }
 
