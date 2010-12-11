@@ -149,14 +149,14 @@ public class ChristchurchMetroActivity extends ListActivity
     Log.d(TAG, "loadStop(): " + stop.getPlatformNumber());
     current_stop = stop;
     setStopHeader(stop);
+    arrivals.clear();
     ArrayList stopArrivals = stop.getArrivals();
     if (stopArrivals.size() > 0) {
       Log.d(TAG, "arrivals.size() = " + arrivals.size());
-      arrivals.clear();
       arrivals.addAll(stopArrivals);
-      arrival_adapter.notifyDataSetChanged();
     }
 
+    arrival_adapter.notifyDataSetChanged();
     /* Set the add to favourites button state based on whether the stop is a
      * favourite or not */
     addToFavourites.setEnabled(!FavouritesActivity.isFavourite(stop));
