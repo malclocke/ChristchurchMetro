@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|right"
         android:text="Stop Number:"/>
     <EditText
         android:id="@+id/entry"
@@ -24,18 +24,13 @@
         android:background="@android:drawable/editbox_background"
         android:digits="0123456789"
         android:inputType="numberDecimal"
+        android:ems="5"
         android:maxLength="5" />
     <Button
         android:id="@+id/go"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Go" />
-    <Button
-        android:id="@+id/faves"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Faves" />
-
   </LinearLayout>
 
   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

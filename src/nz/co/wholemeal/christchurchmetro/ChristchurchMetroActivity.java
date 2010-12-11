@@ -19,6 +19,9 @@ import android.text.Html;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.util.Log;
@@ -82,16 +85,6 @@ public class ChristchurchMetroActivity extends ListActivity
       public void onTextChanged(CharSequence s, int start, int before, int count) {
       }
     });
-
-
-    final Button faves_button = (Button)findViewById(R.id.faves);
-    faves_button.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        Intent intent = new Intent(ChristchurchMetroActivity.this,
-          FavouritesActivity.class);
-        ChristchurchMetroActivity.this.startActivityForResult(intent, CHOOSE_FAVOURITE);
-      }
-    });
   }
 
   @Override
@@ -111,6 +104,27 @@ public class ChristchurchMetroActivity extends ListActivity
       }
       editor.putString("favouriteStops", stopArray.toString());
       editor.commit();
+    }
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.main_menu, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.favourite_stops:
+        Log.d(TAG, "Favourite stops selected");
+        Intent intent = new Intent(ChristchurchMetroActivity.this,
+          FavouritesActivity.class);
+        ChristchurchMetroActivity.this.startActivityForResult(intent, CHOOSE_FAVOURITE);
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
     }
   }
 
