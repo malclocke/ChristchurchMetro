@@ -239,12 +239,6 @@ class Stop {
 
   public ArrayList getArrivals() {
     arrivals.clear();
-    /*
-    arrivals.add(new Arrival("1", "Dummy Route", "New Brighton", 10, true));
-    arrivals.add(new Arrival("2", "Dummy Route", "New Brighton", 20, true));
-    arrivals.add(new Arrival("3", "Dummy Route", "New Brighton", 6, true));
-    arrivals.add(new Arrival("4", "Dummy Route", "New Brighton", 12, true));
-    */
     try {
       SAXParserFactory spf = SAXParserFactory.newInstance();
       SAXParser sp = spf.newSAXParser();
