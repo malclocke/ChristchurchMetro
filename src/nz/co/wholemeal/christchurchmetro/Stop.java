@@ -2,11 +2,15 @@ package nz.co.wholemeal.christchurchmetro;
 
 import android.util.Log;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
-import java.io.IOException;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -24,6 +28,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
+
 /*
  * Represents a bus stop
  */
@@ -34,6 +44,8 @@ class Stop {
 
   public static String gisURL = "http://arcgis.ecan.govt.nz/ArcGIS/rest/services/Beta/Bus_Routes/MapServer/2/query";
   public static String etaURL = "http://rtt.metroinfo.org.nz/RTT/Public/RoutePositionET.aspx";
+
+  private ArrayList <Arrival> arrivals = new ArrayList<Arrival>();
 
   private String name;
   private String platformTag;
@@ -226,18 +238,70 @@ class Stop {
   }
 
   public ArrayList getArrivals() {
-    ArrayList <Arrival> arrivals = new ArrayList<Arrival>();
+    arrivals.clear();
+    /*
     arrivals.add(new Arrival("1", "Dummy Route", "New Brighton", 10, true));
     arrivals.add(new Arrival("2", "Dummy Route", "New Brighton", 20, true));
     arrivals.add(new Arrival("3", "Dummy Route", "New Brighton", 6, true));
     arrivals.add(new Arrival("4", "Dummy Route", "New Brighton", 12, true));
+    */
+    try {
+      SAXParserFactory spf = SAXParserFactory.newInstance();
+      SAXParser sp = spf.newSAXParser();
+      XMLReader xr = sp.getXMLReader();
+      URL source = new URL("http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?Name=RoutePositionET.xml&ContentType=SQLXML&PlatformNo=" + getPlatformNumber());
+      EtaHandler handler = new EtaHandler();
+      xr.setContentHandler(handler);
+      xr.parse(new InputSource(source.openStream()));
+    } catch (Exception e) {
+      Log.e(TAG, e.toString());
+    }
+
     Collections.sort(arrivals, new ComparatorByEta());
     return arrivals;
   }
 
   private class ComparatorByEta implements Comparator {
     public int compare(Object one, Object two) {
-      return ((Arrival)two).getEta() - ((Arrival)one).getEta();
+      return ((Arrival)one).getEta() - ((Arrival)two).getEta();
+    }
+  }
+
+  private class EtaHandler extends DefaultHandler {
+
+    private Arrival arrival = null;
+
+    public void startElement(String uri, String localName, String qName,
+        Attributes attributes) throws SAXException {
+      Log.d(TAG, "Got start element <" + localName + ">");
+      if (localName.equals("Route")) {
+        Log.d(TAG, "Arrival for RouteNo " + attributes.getValue("RouteNo"));
+        arrival = new Arrival();
+        arrival.setRouteNumber(attributes.getValue("RouteNo"));
+        arrival.setRouteName(attributes.getValue("Name"));
+      } else if (localName.equals("Destination")) {
+        if (arrival != null) {
+          arrival.setDestination(attributes.getValue("Name"));
+        }
+      } else if (localName.equals("Trip")) {
+        if (arrival != null) {
+          try {
+            arrival.setEta(Integer.parseInt(attributes.getValue("ETA")));
+          } catch (NumberFormatException e) {
+            Log.e(TAG, "NumberFormatException: " + e.getMessage());
+          }
+        }
+      }
+    }
+
+    public void endElement(String uri, String localName, String qName)
+      throws SAXException {
+      Log.d(TAG, "Got end element </" + localName + ">");
+      if (localName.equals("Route")) {
+        Log.d(TAG, "Arrival finished ");
+        arrivals.add(arrival);
+        arrival = null;
+      }
     }
   }
 }
