@@ -42,6 +42,7 @@ public class ChristchurchMetroActivity extends ListActivity
 
   static final int CHOOSE_FAVOURITE = 0;
   static final String TAG = "ChristchurchMetroActivity";
+  static final String PREFERENCES_FILE = "Preferences";
 
   /** Called when the activity is first created. */
   @Override
@@ -91,20 +92,8 @@ public class ChristchurchMetroActivity extends ListActivity
   protected void onStop() {
     super.onStop();
 
-    ArrayList stops = FavouritesActivity.stops;
-
-    if (!stops.isEmpty()) {
-      SharedPreferences favourites = getSharedPreferences(FavouritesActivity.FAVOURITES_FILE, 0);
-      SharedPreferences.Editor editor = favourites.edit();
-      JSONArray stopArray = new JSONArray();
-      Iterator iterator = stops.iterator();
-      while (iterator.hasNext()) {
-        Stop stop = (Stop)iterator.next();
-        stopArray.put(stop.toJSONObject());
-      }
-      editor.putString("favouriteStops", stopArray.toString());
-      editor.commit();
-    }
+    SharedPreferences favourites = getSharedPreferences(PREFERENCES_FILE, 0);
+    FavouritesActivity.saveFavourites(favourites);
   }
 
   @Override
@@ -157,6 +146,8 @@ public class ChristchurchMetroActivity extends ListActivity
       Log.d(TAG, "arrivals.size() = " + arrivals.size());
       arrivals.addAll(stopArrivals);
     }
+
+    entry.selectAll();
 
     arrival_adapter.notifyDataSetChanged();
   }

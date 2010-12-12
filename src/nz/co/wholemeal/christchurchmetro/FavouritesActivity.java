@@ -15,7 +15,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.TextView;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
@@ -33,9 +39,9 @@ import android.util.Log;
 public class FavouritesActivity extends ListActivity {
 
   public final static String TAG = "FavouritesActivity";
-  public final static String FAVOURITES_FILE = "FavouriteStopsFile";
 
   public static ArrayList stops = new ArrayList<Stop>();
+  private StopAdapter stopAdapter;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -45,10 +51,13 @@ public class FavouritesActivity extends ListActivity {
       initFavourites();
     }
 
-    setListAdapter(new StopAdapter(this, R.layout.list_item, stops));
+    stopAdapter = new StopAdapter(this, R.layout.list_item, stops);
+    setListAdapter(stopAdapter);
 
     ListView lv = getListView();
-    lv.setTextFilterEnabled(true);
+
+    /* Enables the long click in the ListView to be handled in this Activity */
+    registerForContextMenu(lv);
 
     lv.setOnItemClickListener(new OnItemClickListener() {
       public void onItemClick(AdapterView<?> parent, View view,
@@ -68,8 +77,30 @@ public class FavouritesActivity extends ListActivity {
     });
   }
 
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v,
+                                  ContextMenuInfo menuInfo) {
+    super.onCreateContextMenu(menu, v, menuInfo);
+    menu.setHeaderTitle("Options");
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.favourite_context_menu, menu);
+  }
+
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    Stop stop = (Stop)stops.get((int)info.id);
+    switch (item.getItemId()) {
+      case R.id.remove_favourite:
+        removeFavourite(stop);
+        return true;
+      default:
+        return super.onContextItemSelected(item);
+    }
+  }
+
   private void initFavourites() {
-    SharedPreferences favourites = getSharedPreferences(FAVOURITES_FILE, 0);
+    SharedPreferences favourites = getSharedPreferences(ChristchurchMetroActivity.PREFERENCES_FILE, 0);
     String stops_json = favourites.getString("favouriteStops", null);
 
     if (stops_json != null) {
@@ -87,18 +118,22 @@ public class FavouritesActivity extends ListActivity {
     }
   }
 
-  public static void saveFavourites() {
-    JSONArray jsonArray = new JSONArray();
-    Iterator iterator = stops.iterator();
+  public void saveFavourites() {
+    SharedPreferences favourites = getSharedPreferences(ChristchurchMetroActivity.PREFERENCES_FILE, 0);
+    saveFavourites(favourites);
+    stopAdapter.notifyDataSetChanged();
+  }
 
+  public static void saveFavourites(SharedPreferences favourites) {
+    SharedPreferences.Editor editor = favourites.edit();
+    JSONArray stopArray = new JSONArray();
+    Iterator iterator = stops.iterator();
     while (iterator.hasNext()) {
       Stop stop = (Stop)iterator.next();
-      jsonArray.put(stop.toJSONObject());
+      stopArray.put(stop.toJSONObject());
     }
-
-    if (jsonArray.length() > 0) {
-      Log.d(TAG, jsonArray.toString());
-    }
+    editor.putString("favouriteStops", stopArray.toString());
+    editor.commit();
   }
 
   public static boolean isFavourite(Stop stop) {
@@ -113,6 +148,17 @@ public class FavouritesActivity extends ListActivity {
     }
 
     return false;
+  }
+
+  public void removeFavourite(Stop stop) {
+    if (isFavourite(stop)) {
+      Log.d(TAG, "Removed stop " + stop.getPlatformNumber() + " from favourites");
+      stops.remove(stop);
+      saveFavourites();
+    } else {
+      Log.e(TAG, "Remove requested for stop " + stop.getPlatformNumber() +
+          " but it's not present in favourites");
+    }
   }
 
   private class StopAdapter extends ArrayAdapter<Stop> {
