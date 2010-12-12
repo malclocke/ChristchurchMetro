@@ -59,13 +59,15 @@ class Stop {
   }
 
   /* Instantiate a Stop from a stop number */
-  public Stop(String stopNumber) {
+  public Stop(String stopNumber) throws InvalidPlatformNumberException {
     JSONObject json = getJSONForStopNumber(stopNumber);
     if (json != null) {
       try {
         JSONObject stop_json = json.getJSONArray("features").getJSONObject(0);
         setAttributesFromJSONObject(stop_json);
       } catch (JSONException e) {
+        Log.e(TAG, "JSONException: " + e.getMessage());
+        throw new InvalidPlatformNumberException(stopNumber);
       }
     }
   }
@@ -261,6 +263,16 @@ class Stop {
 
     Collections.sort(arrivals, new ComparatorByEta());
     return arrivals;
+  }
+
+  public class InvalidPlatformNumberException extends Exception {
+
+    public String platformNumber;
+
+    public InvalidPlatformNumberException(String platformNumber) {
+      super("Cannot find platform number " + platformNumber);
+      this.platformNumber = platformNumber;
+    }
   }
 
   private class ComparatorByEta implements Comparator {

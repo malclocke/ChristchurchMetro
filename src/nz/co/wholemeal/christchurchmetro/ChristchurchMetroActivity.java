@@ -64,8 +64,7 @@ public class ChristchurchMetroActivity extends ListActivity
       public void onClick(View v) {
         String stop_number = entry.getText().toString();
         if (stop_number.length() == 5) {
-          Stop stop = new Stop(stop_number);
-          loadStop(stop);
+          loadStop(stop_number);
         } else {
           Log.d(TAG, "go_button.onClick(): entry text incorrect length");
         }
@@ -125,9 +124,8 @@ public class ChristchurchMetroActivity extends ListActivity
           Bundle extras = data.getExtras();
           if (extras != null) {
             Log.d(TAG, "stop " + extras.getString("platformNumber") + " selected");
-            Stop stop = new Stop(extras.getString("platformNumber"));
             entry.setText(extras.getString("platformNumber"));
-            loadStop(stop);
+            loadStop(extras.getString("platformNumber"));
           }
         }
 
@@ -153,7 +151,15 @@ public class ChristchurchMetroActivity extends ListActivity
   }
 
   public void loadStop(String platformNumber) {
-    loadStop(new Stop(platformNumber));
+    try {
+      Stop stop;
+      stop = new Stop(platformNumber);
+      loadStop(stop);
+    } catch (Stop.InvalidPlatformNumberException e) {
+      Log.d(TAG, "InvalidPlatformNumberException: " + e.getMessage());
+      Toast.makeText(getApplicationContext(), "Unable to find stop number " +
+          platformNumber, Toast.LENGTH_LONG).show();
+    }
   }
 
   public void setStopHeader(final Stop stop) {
@@ -187,7 +193,7 @@ public class ChristchurchMetroActivity extends ListActivity
     if (! FavouritesActivity.isFavourite(stop)) {
       FavouritesActivity.stops.add(stop);
       Toast.makeText(getApplicationContext(), "Added '" + stop.getName() +
-          "' to favourites", Toast.LENGTH_SHORT).show();
+          "' to favourites", Toast.LENGTH_LONG).show();
     }
   }
 
