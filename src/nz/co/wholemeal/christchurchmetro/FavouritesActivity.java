@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -51,7 +52,7 @@ public class FavouritesActivity extends ListActivity {
       initFavourites();
     }
 
-    stopAdapter = new StopAdapter(this, R.layout.list_item, stops);
+    stopAdapter = new StopAdapter(this, R.layout.stop_list_item, stops);
     setListAdapter(stopAdapter);
 
     ListView lv = getListView();
@@ -175,16 +176,48 @@ public class FavouritesActivity extends ListActivity {
       View v = convertView;
       if (v == null) {
         LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = vi.inflate(R.layout.list_item, null);
+        v = vi.inflate(R.layout.stop_list_item, null);
       }
       Stop stop = items.get(position);
       if (stop != null) {
-        TextView list_item = (TextView) v;
-        if (list_item != null) {
-          list_item.setText(stop.getName());
-        }
+        TextView platformNumber = (TextView) v.findViewById(R.id.platform_number);
+        TextView platformName = (TextView) v.findViewById(R.id.platform_name);
+        TextView platformRoutes = (TextView) v.findViewById(R.id.platform_routes);
+        TextView nextBus = (TextView) v.findViewById(R.id.next_bus);
+        platformNumber.setText(stop.getPlatformNumber());
+        platformName.setText(stop.getName());
+        platformRoutes.setText("Routes: " + stop.getRoutes());
+        nextBus.setTag(stop);
+        nextBus.setText("Next bus: Loading ...");
+        new AsyncNextArrival().execute(nextBus);
       }
       return v;
+    }
+  }
+
+  /* Load next arrival for each favourite in the background */
+  public class AsyncNextArrival extends AsyncTask<TextView, Void, TextView> {
+
+    private String arrivalText = null;
+
+    protected TextView doInBackground(TextView... textViews) {
+      TextView textView = textViews[0];
+      Stop stop = (Stop)textView.getTag();
+      Arrival arrival = null;
+      Log.d(TAG, "Running AsyncNextArrival.doInBackground() for stop " + stop.getPlatformNumber());
+      ArrayList arrivals = stop.getArrivals();
+      if (!arrivals.isEmpty()) {
+        arrival = (Arrival)arrivals.get(0);
+        arrivalText = "Next bus: " + arrival.getRouteNumber() + " - " +
+            arrival.getDestination() + " : " + arrival.getEta() + " minutes";
+      } else {
+        arrivalText = "No buses due in the next 30 minutes";
+      }
+      return textView;
+    }
+
+    protected void onPostExecute(TextView textView) {
+      textView.setText(arrivalText);
     }
   }
 }

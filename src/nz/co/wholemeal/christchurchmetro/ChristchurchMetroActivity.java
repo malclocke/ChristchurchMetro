@@ -54,7 +54,7 @@ public class ChristchurchMetroActivity extends ListActivity
     stopHeader = getLayoutInflater().inflate(R.layout.stop_header, null);
     getListView().addHeaderView(stopHeader);
 
-    arrival_adapter = new ArrivalAdapter(this, R.layout.list_item, arrivals);
+    arrival_adapter = new ArrivalAdapter(this, R.layout.arrival, arrivals);
     setListAdapter(arrival_adapter);
 
     current_stop = null;
