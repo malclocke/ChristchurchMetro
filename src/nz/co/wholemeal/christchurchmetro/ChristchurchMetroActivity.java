@@ -7,6 +7,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -135,31 +136,19 @@ public class ChristchurchMetroActivity extends ListActivity
   }
 
   public void loadStop(Stop stop) {
-    Log.d(TAG, "loadStop(): " + stop.getPlatformNumber());
+    Log.d(TAG, "loadStop(Stop): " + stop.getPlatformNumber());
     current_stop = stop;
     setStopHeader(stop);
     arrivals.clear();
-    ArrayList stopArrivals = stop.getArrivals();
-    if (stopArrivals.size() > 0) {
-      Log.d(TAG, "arrivals.size() = " + arrivals.size());
-      arrivals.addAll(stopArrivals);
-    }
+    arrival_adapter.notifyDataSetChanged();
+
+    new AsyncLoadArrivals().execute(stop);
 
     entry.selectAll();
-
-    arrival_adapter.notifyDataSetChanged();
   }
 
   public void loadStop(String platformNumber) {
-    try {
-      Stop stop;
-      stop = new Stop(platformNumber);
-      loadStop(stop);
-    } catch (Stop.InvalidPlatformNumberException e) {
-      Log.d(TAG, "InvalidPlatformNumberException: " + e.getMessage());
-      Toast.makeText(getApplicationContext(), "Unable to find stop number " +
-          platformNumber, Toast.LENGTH_LONG).show();
-    }
+    new AsyncLoadStop().execute(platformNumber);
   }
 
   public void setStopHeader(final Stop stop) {
@@ -229,6 +218,53 @@ public class ChristchurchMetroActivity extends ListActivity
         }
       }
       return v;
+    }
+  }
+
+  /* Load stop info in the background */
+  public class AsyncLoadStop extends AsyncTask<String, Void, Stop> {
+    protected void onPostExecute(Stop stop) {
+      Log.d(TAG, "AsyncLoadStop.onPostExecute()");
+      if (stop == null) {
+        Toast.makeText(getApplicationContext(), "Unable to find stop",
+            Toast.LENGTH_LONG).show();
+      } else {
+        loadStop(stop);
+      }
+    }
+
+    protected Stop doInBackground(String... platformNumbers) {
+      Log.d(TAG, "Running AsyncLoadStop.doInBackground()");
+      Stop stop = null;
+      try {
+        stop = new Stop(platformNumbers[0]);
+      } catch (Stop.InvalidPlatformNumberException e) {
+        Log.d(TAG, "InvalidPlatformNumberException: " + e.getMessage());
+      }
+      return stop;
+    }
+  }
+
+  /* Loads the arrival information in a background thread. */
+  public class AsyncLoadArrivals extends AsyncTask<Stop, Void, ArrayList> {
+
+    protected void onPostExecute(ArrayList stopArrivals) {
+      Log.d(TAG, "onPostExecute()");
+      if (stopArrivals.size() > 0) {
+        Log.d(TAG, "arrivals.size() = " + arrivals.size());
+        arrivals.addAll(stopArrivals);
+      } else {
+        Log.d(TAG, "No arrivals");
+        Toast.makeText(getApplicationContext(),
+            "No arrivals for this stop in the next 30 minutes",
+            Toast.LENGTH_LONG).show();
+      }
+      arrival_adapter.notifyDataSetChanged();
+    }
+
+    protected ArrayList doInBackground(Stop... stops) {
+      Log.d(TAG, "Running doInBackground()");
+      return stops[0].getArrivals();
     }
   }
 }
