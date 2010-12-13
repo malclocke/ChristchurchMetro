@@ -253,7 +253,7 @@ class Stop {
       SAXParserFactory spf = SAXParserFactory.newInstance();
       SAXParser sp = spf.newSAXParser();
       XMLReader xr = sp.getXMLReader();
-      URL source = new URL("http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?Name=RoutePositionET.xml&ContentType=SQLXML&PlatformNo=" + getPlatformNumber());
+      URL source = new URL("http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?Name=RoutePositionET.xml&ContentType=SQLXML&PlatformTag=" + getPlatformTag());
       EtaHandler handler = new EtaHandler();
       xr.setContentHandler(handler);
       xr.parse(new InputSource(source.openStream()));
