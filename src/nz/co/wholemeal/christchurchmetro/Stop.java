@@ -42,163 +42,37 @@ class Stop {
 
   public static final String TAG = "Stop";
 
-  public static String gisURL = "http://arcgis.ecan.govt.nz/ArcGIS/rest/services/Beta/Bus_Routes/MapServer/2/query";
+  public static String stopURL = "http://wholemeal.co.nz/~malc/metro/platforms/";
   public static String etaURL = "http://rtt.metroinfo.org.nz/RTT/Public/RoutePositionET.aspx";
 
   private ArrayList <Arrival> arrivals = new ArrayList<Arrival>();
 
-  private String name;
-  private String platformTag;
-  private String platformNumber;
-  private String roadName;
-  private String routes;
-  private double latitude;
-  private double longitude;
+  public String name;
+  public String platformTag;
+  public String platformNumber;
+  public String roadName;
+  public String routes;
+  public double latitude;
+  public double longitude;
 
   public Stop() {
   }
 
   /* Instantiate a Stop from a stop number */
   public Stop(String stopNumber) throws InvalidPlatformNumberException {
-    JSONObject json = getJSONForStopNumber(stopNumber);
-    if (json != null) {
-      try {
-        JSONObject stop_json = json.getJSONArray("features").getJSONObject(0);
-        setAttributesFromJSONObject(stop_json);
-      } catch (JSONException e) {
-        Log.e(TAG, "JSONException: " + e.getMessage());
-        throw new InvalidPlatformNumberException(stopNumber);
-      }
-    }
-  }
-
-  /* Instantiate a Stop from a JSONObject */
-  public Stop(JSONObject json) {
-    setAttributesFromJSONObject(json);
-    Log.d(TAG, toJSONString());
-  }
-
-  private JSONObject getJSONForStopNumber(String stopNumber) {
-    HttpPost httppost = new HttpPost(gisURL);
-    HttpClient httpclient = new DefaultHttpClient();
-    String body = null;
-    JSONObject json = null;
-
+    platformNumber = stopNumber;
     try {
-      List<NameValuePair> formparams = new ArrayList<NameValuePair>(2);
-
-      formparams.add(new BasicNameValuePair("where", "PlatformNo=" + stopNumber));
-      formparams.add(new BasicNameValuePair("outfields", "Name,PlatformTa,RoadName,PlatformNo,RouteNos,Lat,Long"));
-      formparams.add(new BasicNameValuePair("f", "pjson"));
-      UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, "UTF-8");
-      httppost.setEntity(entity);
-
-      HttpResponse response = httpclient.execute(httppost);
-      body = EntityUtils.toString(response.getEntity());
-    } catch (IOException e) {
-      Log.e("ChristchurchMetro", "IOException: " + e);
-    }
-
-    if (body != null) {
-      try {
-        Log.d(TAG, "Stop JSON = " + body);
-        /* If the web service doesn't return a normal response, it may still
-         * be parseable but will just return a String of all the content.  So
-         * double check the first element can be cast to the correct type.
-         */
-        try {
-          json = (JSONObject) new JSONTokener(body).nextValue();
-        } catch (ClassCastException e) {
-          Log.d(TAG, "Unable to parse response to JSONObject");
-        }
-      } catch (JSONException e) {
-        Log.e("ChristchurchMetro", "JSONException: " + e);
-      }
-    }
-    return json;
-  }
-
-  public void setAttributesFromJSONObject(JSONObject json) {
-    try {
-      JSONObject attributes = json.getJSONObject("attributes");
-      name = attributes.getString("Name");
-      platformTag = attributes.getString("PlatformTa");
-      platformNumber = attributes.getString("PlatformNo");
-      roadName = attributes.getString("RoadName");
-      routes = attributes.getString("RouteNos");
-      latitude = attributes.getDouble("Lat");
-      longitude = attributes.getDouble("Long");
-    } catch (JSONException e) {
+      SAXParserFactory spf = SAXParserFactory.newInstance();
+      SAXParser sp = spf.newSAXParser();
+      XMLReader xr = sp.getXMLReader();
+      URL source = new URL(stopURL + "numbers/" + stopNumber + ".xml");
+      StopHandler handler = new StopHandler();
+      xr.setContentHandler(handler);
+      xr.parse(new InputSource(source.openStream()));
+    } catch (Exception e) {
       Log.e(TAG, e.toString());
+      throw new InvalidPlatformNumberException(e.getMessage());
     }
-  }
-
-  public void setAttributesFromJSONString(String json_string) {
-    if (json_string != null) {
-      try {
-        JSONObject json = (JSONObject) new JSONTokener(json_string).nextValue();
-        setAttributesFromJSONObject(json.getJSONObject("attributes"));
-      } catch (JSONException e) {
-        Log.e("ChristchurchMetro", "JSONException: " + e);
-      }
-    }
-  }
-
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getPlatformTag() {
-    return platformTag;
-  }
-
-  public void setPlatformTag(String platformTag) {
-    this.platformTag = platformTag;
-  }
-
-  public String getRoadName() {
-    return roadName;
-  }
-
-  public void setRoadName(String roadName) {
-    this.roadName = roadName;
-  }
-
-  public String getPlatformNumber() {
-    return platformNumber;
-  }
-
-  public void setPlatformNumber(String platformNumber) {
-    this.platformNumber = platformNumber;
-  }
-
-  public String getRoutes() {
-    return routes;
-  }
-
-  public void setRoutes(String routes) {
-    this.routes = routes;
-  }
-
-  public double getLatitude() {
-    return latitude;
-  }
-
-  public void setLatitude(double latitude) {
-    this.latitude = latitude;
-  }
-
-  public double getLongitude() {
-    return longitude;
-  }
-
-  public void setLongitude(double longitude) {
-    this.longitude = longitude;
   }
 
   public String getEtaHtml(int limit) {
@@ -216,7 +90,7 @@ class Stop {
   }
 
   public String getEtaUrl(int limit) {
-    return etaURL + "?MaxETRows=" + limit + "&PlatformTag=" + getPlatformTag();
+    return etaURL + "?MaxETRows=" + limit + "&PlatformTag=" + platformTag;
   }
 
   public JSONObject toJSONObject() {
@@ -253,7 +127,7 @@ class Stop {
       SAXParserFactory spf = SAXParserFactory.newInstance();
       SAXParser sp = spf.newSAXParser();
       XMLReader xr = sp.getXMLReader();
-      URL source = new URL("http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?Name=RoutePositionET.xml&ContentType=SQLXML&PlatformTag=" + getPlatformTag());
+      URL source = new URL("http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?Name=RoutePositionET.xml&ContentType=SQLXML&PlatformTag=" + platformTag);
       EtaHandler handler = new EtaHandler();
       xr.setContentHandler(handler);
       xr.parse(new InputSource(source.openStream()));
@@ -277,7 +151,7 @@ class Stop {
 
   private class ComparatorByEta implements Comparator {
     public int compare(Object one, Object two) {
-      return ((Arrival)one).getEta() - ((Arrival)two).getEta();
+      return ((Arrival)one).eta - ((Arrival)two).eta;
     }
   }
 
@@ -299,11 +173,11 @@ class Stop {
         destination = attributes.getValue("Name");
       } else if (localName.equals("Trip")) {
         arrival = new Arrival();
-        arrival.setRouteNumber(routeNumber);
-        arrival.setRouteName(routeName);
-        arrival.setDestination(destination);
+        arrival.routeNumber = routeNumber;
+        arrival.routeName = routeName;
+        arrival.destination = destination;
         try {
-          arrival.setEta(Integer.parseInt(attributes.getValue("ETA")));
+          arrival.eta = Integer.parseInt(attributes.getValue("ETA"));
         } catch (NumberFormatException e) {
           Log.e(TAG, "NumberFormatException: " + e.getMessage());
         }
@@ -322,6 +196,32 @@ class Stop {
       } else if (localName.equals("Destination")) {
         destination = null;
       }
+    }
+  }
+
+  private class StopHandler extends DefaultHandler {
+
+    /* At the moment this handler expects there to be a single <Platform>
+     * element in the XML */
+    public String TAG = "StopHandler";
+
+    public void startElement(String uri, String localName, String qName,
+        Attributes attributes) throws SAXException {
+      Log.d(TAG, "Got start element <" + localName + ">");
+      if (localName.equals("Platform")) {
+        Log.d(TAG, "PlatformTag = " + attributes.getValue("PlatformTag"));
+        platformTag = attributes.getValue("PlatformTag");
+        roadName = attributes.getValue("RoadName");
+        name = attributes.getValue("Name");
+      } else if (localName.equals("Position")) {
+        latitude = Double.parseDouble(attributes.getValue("Lat"));
+        longitude = Double.parseDouble(attributes.getValue("Long"));
+      }
+    }
+
+    public void endElement(String uri, String localName, String qName)
+      throws SAXException {
+      Log.d(TAG, "Got end element </" + localName + ">");
     }
   }
 }

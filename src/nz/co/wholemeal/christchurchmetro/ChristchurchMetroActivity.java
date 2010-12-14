@@ -136,7 +136,7 @@ public class ChristchurchMetroActivity extends ListActivity
   }
 
   public void loadStop(Stop stop) {
-    Log.d(TAG, "loadStop(Stop): " + stop.getPlatformNumber() + " platformTag = " + stop.getPlatformTag());
+    Log.d(TAG, "loadStop(Stop): " + stop.platformNumber + " platformTag = " + stop.platformTag);
     current_stop = stop;
     setStopHeader(stop);
     arrivals.clear();
@@ -156,9 +156,9 @@ public class ChristchurchMetroActivity extends ListActivity
     TextView platformName = (TextView)stopHeader.findViewById(R.id.platform_name);
     TextView platformRoutes = (TextView)stopHeader.findViewById(R.id.platform_routes);
     final Button addToFavouritesButton = (Button)stopHeader.findViewById(R.id.add_to_favourites);
-    platformNumber.setText(stop.getPlatformNumber());
-    platformName.setText(stop.getName());
-    platformRoutes.setText("Routes: " + stop.getRoutes());
+    platformNumber.setText(stop.platformNumber);
+    platformName.setText(stop.name);
+    platformRoutes.setText("Routes: " + stop.routes);
 
     /* Set the add to favourites button visibility based on whether the stop is
      * a favourite or not */
@@ -177,11 +177,11 @@ public class ChristchurchMetroActivity extends ListActivity
   }
 
   public void addToFavourites(Stop stop) {
-    Log.d(TAG, "addToFavourites(): " + stop.getPlatformNumber());
+    Log.d(TAG, "addToFavourites(): " + stop.platformNumber);
 
     if (! FavouritesActivity.isFavourite(stop)) {
       FavouritesActivity.stops.add(stop);
-      Toast.makeText(getApplicationContext(), "Added '" + stop.getName() +
+      Toast.makeText(getApplicationContext(), "Added '" + stop.name +
           "' to favourites", Toast.LENGTH_LONG).show();
     }
   }
@@ -208,13 +208,13 @@ public class ChristchurchMetroActivity extends ListActivity
         TextView destination = (TextView) v.findViewById(R.id.destination);
         TextView eta = (TextView) v.findViewById(R.id.eta);
         if (routeNumber != null) {
-          routeNumber.setText(arrival.getRouteNumber());
+          routeNumber.setText(arrival.routeNumber);
         }
         if (destination != null) {
-          destination.setText(arrival.getDestination());
+          destination.setText(arrival.destination);
         }
         if (eta != null) {
-          eta.setText(arrival.getEta() + " minutes");
+          eta.setText(arrival.eta + " minutes");
         }
       }
       return v;

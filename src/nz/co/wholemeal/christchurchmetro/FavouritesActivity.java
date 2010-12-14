@@ -70,7 +70,7 @@ public class FavouritesActivity extends ListActivity {
           Log.e(TAG, "Didn't get a stop");
           finish();
         }
-        intent.putExtra("platformNumber", stop.getPlatformNumber());
+        intent.putExtra("platformNumber", stop.platformNumber);
 
         setResult(RESULT_OK, intent);
         finish();
@@ -105,18 +105,24 @@ public class FavouritesActivity extends ListActivity {
     String stops_json = favourites.getString("favouriteStops", null);
 
     if (stops_json != null) {
+      Log.d(TAG, "initFavourites(): stops_json = " + stops_json);
       try {
         JSONArray stops_array = (JSONArray) new JSONTokener(stops_json).nextValue();
         for (int i = 0;i < stops_array.length();i++) {
-          JSONObject stop_json = (JSONObject)stops_array.get(i);
-          Stop stop = new Stop(stop_json);
-          stops.add(stop);
-          Log.d(TAG, "initFavourites(): added stop " + stop.getPlatformNumber());
+          String stopNumber = (String)stops_array.get(i);
+          try {
+            Stop stop = new Stop(stopNumber);
+            stops.add(stop);
+            Log.d(TAG, "initFavourites(): added stop " + stop.platformNumber);
+          } catch (Stop.InvalidPlatformNumberException e) {
+            Log.e(TAG, "Invalid stop number as favourite: " + stopNumber);
+          }
         }
       } catch (JSONException e) {
-        Log.e(TAG, "initFavourites(): " + e.toString());
+        Log.e(TAG, "initFavourites(): JSONException: " + e.toString());
       }
     }
+    Log.d(TAG, "initFavourites(): stops.size() = " + stops.size());
   }
 
   public void saveFavourites() {
@@ -131,7 +137,7 @@ public class FavouritesActivity extends ListActivity {
     Iterator iterator = stops.iterator();
     while (iterator.hasNext()) {
       Stop stop = (Stop)iterator.next();
-      stopArray.put(stop.toJSONObject());
+      stopArray.put(stop.platformNumber);
     }
     editor.putString("favouriteStops", stopArray.toString());
     editor.commit();
@@ -143,7 +149,7 @@ public class FavouritesActivity extends ListActivity {
     /* Check the Stop is not already present in favourites */
     while (iterator.hasNext()) {
       Stop favourite = (Stop)iterator.next();
-      if (favourite.getPlatformNumber().equals(stop.getPlatformNumber())) {
+      if (favourite.platformNumber.equals(stop.platformNumber)) {
         return true;
       }
     }
@@ -153,11 +159,11 @@ public class FavouritesActivity extends ListActivity {
 
   public void removeFavourite(Stop stop) {
     if (isFavourite(stop)) {
-      Log.d(TAG, "Removed stop " + stop.getPlatformNumber() + " from favourites");
+      Log.d(TAG, "Removed stop " + stop.platformNumber + " from favourites");
       stops.remove(stop);
       saveFavourites();
     } else {
-      Log.e(TAG, "Remove requested for stop " + stop.getPlatformNumber() +
+      Log.e(TAG, "Remove requested for stop " + stop.platformNumber +
           " but it's not present in favourites");
     }
   }
@@ -184,9 +190,9 @@ public class FavouritesActivity extends ListActivity {
         TextView platformName = (TextView) v.findViewById(R.id.platform_name);
         TextView platformRoutes = (TextView) v.findViewById(R.id.platform_routes);
         TextView nextBus = (TextView) v.findViewById(R.id.next_bus);
-        platformNumber.setText(stop.getPlatformNumber());
-        platformName.setText(stop.getName());
-        platformRoutes.setText("Routes: " + stop.getRoutes());
+        platformNumber.setText(stop.platformNumber);
+        platformName.setText(stop.name);
+        platformRoutes.setText("Routes: " + stop.routes);
         nextBus.setTag(stop);
         nextBus.setText("Next bus: Loading ...");
         new AsyncNextArrival().execute(nextBus);
@@ -204,12 +210,12 @@ public class FavouritesActivity extends ListActivity {
       TextView textView = textViews[0];
       Stop stop = (Stop)textView.getTag();
       Arrival arrival = null;
-      Log.d(TAG, "Running AsyncNextArrival.doInBackground() for stop " + stop.getPlatformNumber());
+      Log.d(TAG, "Running AsyncNextArrival.doInBackground() for stop " + stop.platformNumber);
       ArrayList arrivals = stop.getArrivals();
       if (!arrivals.isEmpty()) {
         arrival = (Arrival)arrivals.get(0);
-        arrivalText = "Next bus: " + arrival.getEta() + " mins: " +
-          arrival.getRouteNumber() + " - " + arrival.getDestination();
+        arrivalText = "Next bus: " + arrival.eta + " mins: " +
+          arrival.routeNumber + " - " + arrival.destination;
       } else {
         arrivalText = "No buses due in the next 30 minutes";
       }
