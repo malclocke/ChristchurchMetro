@@ -59,13 +59,23 @@ class Stop {
   }
 
   /* Instantiate a Stop from a stop number */
-  public Stop(String stopNumber) throws InvalidPlatformNumberException {
-    platformNumber = stopNumber;
+  public Stop(String platformTag, String platformNumber) throws InvalidPlatformNumberException {
+    // Which directory to look for platform, tags or numbers
+    String searchPath;
+
+    if (platformTag == null) {
+      this.platformNumber = platformNumber;
+      searchPath = "numbers/" + platformNumber + ".xml";
+    } else {
+      this.platformTag = platformTag;
+      searchPath = "tags/" + platformTag + ".xml";
+    }
+
     try {
       SAXParserFactory spf = SAXParserFactory.newInstance();
       SAXParser sp = spf.newSAXParser();
       XMLReader xr = sp.getXMLReader();
-      URL source = new URL(stopURL + "numbers/" + stopNumber + ".xml");
+      URL source = new URL(stopURL + searchPath);
       StopHandler handler = new StopHandler();
       xr.setContentHandler(handler);
       xr.parse(new InputSource(source.openStream()));
@@ -164,6 +174,7 @@ class Stop {
       Log.d(TAG, "Got start element <" + localName + ">");
       if (localName.equals("Platform")) {
         Log.d(TAG, "PlatformTag = " + attributes.getValue("PlatformTag"));
+        platformNumber = attributes.getValue("PlatformNo");
         platformTag = attributes.getValue("PlatformTag");
         roadName = attributes.getValue("RoadName");
         name = attributes.getValue("Name");
