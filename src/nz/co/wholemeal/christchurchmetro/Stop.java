@@ -43,7 +43,7 @@ class Stop {
   public static final String TAG = "Stop";
 
   public static String stopURL = "http://wholemeal.co.nz/~malc/metro/platforms/";
-  public static String etaURL = "http://rtt.metroinfo.org.nz/RTT/Public/RoutePositionET.aspx";
+  public static String arrivalURL = "http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?Name=JPRoutePositionET.xml&ContentType=SQLXML&PlatformTag=";
 
   private ArrayList <Arrival> arrivals = new ArrayList<Arrival>();
 
@@ -75,59 +75,13 @@ class Stop {
     }
   }
 
-  public String getEtaHtml(int limit) {
-    HttpGet httpget = new HttpGet(getEtaUrl(10));
-    HttpClient httpclient = new DefaultHttpClient();
-    String body = null;
-
-    try {
-      HttpResponse response = httpclient.execute(httpget);
-      body = EntityUtils.toString(response.getEntity());
-    } catch (IOException e) {
-      Log.e("ChristchurchMetro", "IOException: " + e);
-    }
-    return body;
-  }
-
-  public String getEtaUrl(int limit) {
-    return etaURL + "?MaxETRows=" + limit + "&PlatformTag=" + platformTag;
-  }
-
-  public JSONObject toJSONObject() {
-    JSONObject json = new JSONObject();
-    JSONObject attributes = new JSONObject();
-    try {
-      attributes.put("PlatformNo", platformNumber);
-      attributes.put("PlatformTa", platformTag);
-      attributes.put("Name", name);
-      attributes.put("RoadName", name);
-      attributes.put("RouteNos", routes);
-      attributes.put("Lat", latitude);
-      attributes.put("Long", longitude);
-      json.put("attributes", attributes);
-    } catch (JSONException e) {
-      Log.e(TAG, "toJSONString(): " + e.toString());
-      return null;
-    }
-    return json;
-  }
-
-  public String toJSONString() {
-    JSONObject json = toJSONObject();
-    String json_string = null;
-    if (json != null) {
-      json_string = json.toString();
-    }
-    return json_string;
-  }
-
   public ArrayList getArrivals() {
     arrivals.clear();
     try {
       SAXParserFactory spf = SAXParserFactory.newInstance();
       SAXParser sp = spf.newSAXParser();
       XMLReader xr = sp.getXMLReader();
-      URL source = new URL("http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?Name=RoutePositionET.xml&ContentType=SQLXML&PlatformTag=" + platformTag);
+      URL source = new URL(arrivalURL + platformTag);
       EtaHandler handler = new EtaHandler();
       xr.setContentHandler(handler);
       xr.parse(new InputSource(source.openStream()));
