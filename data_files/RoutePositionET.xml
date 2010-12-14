@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<RoutePositionET xmlns="urn:connexionz-co-nz">
+  <Content Expires="2010-12-10T23:21:31+13:00" MaxArrivalScope="30" />
+  <Platform PlatformTag="2114" Name="Canterbury University">
+    <Route RouteNo="3" Name="Airport/Sumner via Avonhead">
+      <Destination Name="Sumner via City">
+        <Trip ETA="1" WheelchairAccess="true" />
+        <Trip ETA="29" WheelchairAccess="true" />
+      </Destination>
+    </Route>
+    <Route RouteNo="21" Name="Ilam/Mt Pleasant">
+      <Destination Name="Mt Pleasant via City">
+        <Trip ETA="13" />
+      </Destination>
+    </Route>
+    <Route RouteNo="M" Name="Metrostar">
+      <Destination Name="Halswell via The Hub Hornby">
+        <Trip ETA="18" WheelchairAccess="true" />
+      </Destination>
+    </Route>
+    <Route RouteNo="Oa" Name="Orbiter">
+      <Destination Name="Orbiter via Riccarton Mall">
+        <Trip ETA="12" WheelchairAccess="true" />
+      </Destination>
+    </Route>
+  </Platform>
+</RoutePositionET>

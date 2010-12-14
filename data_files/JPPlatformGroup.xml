@@ -1,0 +1,506 @@
+<?xml version="1.0"?>
+<JPPlatformGroups xmlns="urn:connexionz-co-nz:jp" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:connexionz-co-nz:jp JourneyPlanner.xsd">
+  <Content Expires="2010-12-14T03:32:00" />
+  <PlatformGroup Name="Airport">
+    <Platform PlatformTag="2868" PlatformNo="47222" Name="Christchurch International Airport" />
+  </PlatformGroup>
+  <PlatformGroup Name="Aranui">
+    <Platform PlatformTag="357" PlatformNo="15684" Name="Pages Rd &amp; Charles Gallagher Pl" />
+    <Platform PlatformTag="886" PlatformNo="15433" Name="Carisbrooke St &amp; Mattingley St" />
+    <Platform PlatformTag="887" PlatformNo="26191" Name="Carisbrooke St &amp; Portchester St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Avondale">
+    <Platform PlatformTag="29" PlatformNo="21198" Name="Waratah St &amp; Baladin St" />
+    <Platform PlatformTag="769" PlatformNo="20096" Name="Avondale Rd &amp; Woolley St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Avonhead">
+    <Platform PlatformTag="707" PlatformNo="10331" Name="Avonhead Mall" />
+    <Platform PlatformTag="708" PlatformNo="10214" Name="Avonhead Mall" />
+  </PlatformGroup>
+  <PlatformGroup Name="Avonside Girls High School">
+    <Platform PlatformTag="2980" PlatformNo="47280" Name="AGHS" />
+  </PlatformGroup>
+  <PlatformGroup Name="Barrington">
+    <Platform PlatformTag="1624" PlatformNo="22398" Name="Barrington Mall" />
+    <Platform PlatformTag="1625" PlatformNo="22141" Name="Barrington Mall" />
+    <Platform PlatformTag="1640" PlatformNo="11384" Name="Barrington Mall" />
+    <Platform PlatformTag="1641" PlatformNo="11378" Name="Barrington Mall" />
+  </PlatformGroup>
+  <PlatformGroup Name="Beckenham">
+    <Platform PlatformTag="695" PlatformNo="32146" Name="St Martins Shops" />
+    <Platform PlatformTag="696" PlatformNo="37001" Name="St Martins Shops" />
+    <Platform PlatformTag="1665" PlatformNo="22125" Name="Birdwood Ave &amp; Malcolm Ave" />
+    <Platform PlatformTag="1666" PlatformNo="22997" Name="Birdwood Ave &amp; Malcolm Ave" />
+  </PlatformGroup>
+  <PlatformGroup Name="Belfast">
+    <Platform PlatformTag="164" PlatformNo="12941" Name="Belfast" />
+    <Platform PlatformTag="169" PlatformNo="12355" Name="Main North Rd &amp; Dickeys Rd" />
+    <Platform PlatformTag="176" PlatformNo="15361" Name="Belfast" />
+    <Platform PlatformTag="2242" PlatformNo="15374" Name="Factory Rd &amp; Burnridge Pl" />
+  </PlatformGroup>
+  <PlatformGroup Name="Benmore St">
+    <Platform PlatformTag="2759" PlatformNo="41094" Name="Waitaki St &amp; Benmore St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Bishopdale">
+    <Platform PlatformTag="458" PlatformNo="16679" Name="Sawyers Arms Rd &amp; Cotswold Ave" />
+    <Platform PlatformTag="2865" PlatformNo="16985" Name="Bishopdale Mall" />
+  </PlatformGroup>
+  <PlatformGroup Name="Bouverie St">
+    <Platform PlatformTag="2807" PlatformNo="44964" Name="Bouverie St &amp; Tay St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Bowenvale">
+    <Platform PlatformTag="1794" PlatformNo="11753" Name="Bowenvale" />
+    <Platform PlatformTag="1805" PlatformNo="11619" Name="Centaurus Rd &amp; St Martins Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Bromley">
+    <Platform PlatformTag="1010" PlatformNo="15621" Name="Ferry Rd Countdown" />
+    <Platform PlatformTag="1012" PlatformNo="15737" Name="Ferry Rd &amp; Settlers Cres" />
+    <Platform PlatformTag="1013" PlatformNo="40967" Name="Ferry Rd &amp; Settlers Cres" />
+    <Platform PlatformTag="2154" PlatformNo="18862" Name="Buckleys Rd and Dacre St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Bryndwr">
+    <Platform PlatformTag="1560" PlatformNo="44196" Name="Sheffield Cres" />
+  </PlatformGroup>
+  <PlatformGroup Name="Burnham">
+    <Platform PlatformTag="2107" PlatformNo="17834" Name="Burnham" />
+    <Platform PlatformTag="2108" Name="Burnham" />
+  </PlatformGroup>
+  <PlatformGroup Name="Burnside">
+    <Platform PlatformTag="1560" PlatformNo="44196" Name="Sheffield Cres" />
+  </PlatformGroup>
+  <PlatformGroup Name="Burnside High School">
+    <Platform PlatformTag="1333" PlatformNo="17156" Name="Burnside High School" />
+    <Platform PlatformTag="1342" PlatformNo="32360" Name="Burnside High School" />
+  </PlatformGroup>
+  <PlatformGroup Name="Burnside Park">
+    <Platform PlatformTag="1338" PlatformNo="17604" Name="Memorial Ave &amp; Roydvale Ave" />
+    <Platform PlatformTag="1347" PlatformNo="17351" Name="Memorial Ave &amp; Roydvale Ave" />
+  </PlatformGroup>
+  <PlatformGroup Name="Burwood">
+    <Platform PlatformTag="300" PlatformNo="39536" Name="New Brighton Rd &amp; Lake Terrace Rd" />
+    <Platform PlatformTag="511" PlatformNo="39061" Name="Travis Rd &amp; Travis Country Dr" />
+    <Platform PlatformTag="885" PlatformNo="13732" Name="Burwood Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Casebrook">
+    <Platform PlatformTag="55" PlatformNo="19060" Name="Highsted Rd &amp; Glenmore Ave" />
+    <Platform PlatformTag="2225" PlatformNo="19883" Name="Cavendish Rd &amp; Sturrocks Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Cashmere">
+    <Platform PlatformTag="2061" PlatformNo="23495" Name="Cashmere " />
+    <Platform PlatformTag="2062" PlatformNo="23476" Name="Cashmere " />
+  </PlatformGroup>
+  <PlatformGroup Name="Cashmere Road">
+    <Platform PlatformTag="1778" PlatformNo="11707" Name="Cashmere Rd" />
+    <Platform PlatformTag="1779" PlatformNo="11880" Name="Cashmere Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Casino">
+    <Platform PlatformTag="2184" PlatformNo="30846" Name="Casino" />
+    <Platform PlatformTag="2185" PlatformNo="32394" Name="Durham St N, Kilmore St &amp; Victoria St" />
+  </PlatformGroup>
+  <PlatformGroup Name="City">
+    <Platform PlatformTag="1" Name="City Exchange (A)" />
+    <Platform PlatformTag="2" PlatformNo="37323" Name="City Exchange (B)" />
+    <Platform PlatformTag="3" PlatformNo="37334" Name="City Exchange (C)" />
+    <Platform PlatformTag="4" PlatformNo="39911" Name="City Exchange (D1)" />
+    <Platform PlatformTag="5" PlatformNo="39924" Name="City Exchange (E2)" />
+    <Platform PlatformTag="560" PlatformNo="14654" Name="St Asaph St &amp; Manchester St" />
+    <Platform PlatformTag="726" PlatformNo="32534" Name="City" />
+    <Platform PlatformTag="1213" PlatformNo="30833" Name="City Exchange (F)" />
+    <Platform PlatformTag="2857" PlatformNo="39930" Name="City Exchange (E1)" />
+    <Platform PlatformTag="2858" PlatformNo="39907" Name="City Exchange (D2)" />
+  </PlatformGroup>
+  <PlatformGroup Name="City Exchange">
+    <Platform PlatformTag="1" Name="City Exchange (A)" />
+    <Platform PlatformTag="2" PlatformNo="37323" Name="City Exchange (B)" />
+    <Platform PlatformTag="3" PlatformNo="37334" Name="City Exchange (C)" />
+    <Platform PlatformTag="4" PlatformNo="39911" Name="City Exchange (D1)" />
+    <Platform PlatformTag="5" PlatformNo="39924" Name="City Exchange (E2)" />
+    <Platform PlatformTag="1213" PlatformNo="30833" Name="City Exchange (F)" />
+    <Platform PlatformTag="2857" PlatformNo="39930" Name="City Exchange (E1)" />
+    <Platform PlatformTag="2858" PlatformNo="39907" Name="City Exchange (D2)" />
+  </PlatformGroup>
+  <PlatformGroup Name="City.East">
+    <Platform PlatformTag="2009" PlatformNo="30688" Name="City East" />
+    <Platform PlatformTag="2497" PlatformNo="36219" Name="City.East" />
+  </PlatformGroup>
+  <PlatformGroup Name="Cracroft">
+    <Platform PlatformTag="1108" PlatformNo="11592" Name="Hoon Hay Rd &amp; Cashmere Rd" />
+    <Platform PlatformTag="2109" PlatformNo="23165" Name="Princess Margaret Hospital" />
+  </PlatformGroup>
+  <PlatformGroup Name="Cranford St">
+    <Platform PlatformTag="919" PlatformNo="42992" Name="Cranford St &amp; Innes Rd" />
+    <Platform PlatformTag="920" PlatformNo="29434" Name="Cranford St &amp; Innes Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Diamond Harbour">
+    <Platform PlatformTag="2543" Name="Diamond Harbour Jetty" />
+  </PlatformGroup>
+  <PlatformGroup Name="Dyers Pass Rd">
+    <Platform PlatformTag="1245" PlatformNo="22000" Name="Dyers Pass Rd &amp; Macmillan Ave" />
+    <Platform PlatformTag="2061" PlatformNo="23495" Name="Cashmere " />
+    <Platform PlatformTag="2062" PlatformNo="23476" Name="Cashmere " />
+    <Platform PlatformTag="2490" PlatformNo="22615" Name="Dyers Pass Rd - Sign of the Takahe" />
+  </PlatformGroup>
+  <PlatformGroup Name="Eastgate">
+    <Platform PlatformTag="865" PlatformNo="11164" Name="Eastgate Mall" />
+    <Platform PlatformTag="869" PlatformNo="40882" Name="Eastgate Mall" />
+    <Platform PlatformTag="2481" PlatformNo="15595" Name="Eastgate Mall" />
+    <Platform PlatformTag="2482" PlatformNo="23033" Name="Eastgate Mall" />
+  </PlatformGroup>
+  <PlatformGroup Name="Fendalton">
+    <Platform PlatformTag="1325" PlatformNo="17457" Name="Memorial Ave &amp; Otara St" />
+    <Platform PlatformTag="1964" PlatformNo="41348" Name="Fendalton Rd &amp; Clyde Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Ferry Rd">
+    <Platform PlatformTag="990" PlatformNo="15181" Name="Ferry Rd &amp; Manning Pl" />
+    <Platform PlatformTag="995" PlatformNo="32105" Name="Ferry Rd, Hargood St &amp; Radley St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Gleniti">
+    <Platform PlatformTag="2759" PlatformNo="41094" Name="Waitaki St &amp; Benmore St" />
+    <Platform PlatformTag="2817" PlatformNo="41883" Name="Station St &amp; George St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Governors Bay">
+    <Platform PlatformTag="2979" Name="Governors Bay" />
+  </PlatformGroup>
+  <PlatformGroup Name="Grantlea">
+    <Platform PlatformTag="2807" PlatformNo="44964" Name="Bouverie St &amp; Tay St" />
+    <Platform PlatformTag="2817" PlatformNo="41883" Name="Station St &amp; George St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Halswell">
+    <Platform PlatformTag="2174" PlatformNo="33820" Name="Nicholls Rd &amp; Halswell Rd" />
+    <Platform PlatformTag="2180" PlatformNo="22419" Name="Halswell Shops" />
+    <Platform PlatformTag="2181" PlatformNo="33999" Name="Halswell" />
+  </PlatformGroup>
+  <PlatformGroup Name="Harewood">
+    <Platform PlatformTag="1990" PlatformNo="16874" Name="Gardiners Rd &amp; Cullahill St" />
+    <Platform PlatformTag="2096" PlatformNo="42835" Name="Harewood Rd &amp; Crofton Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Harewood School">
+    <Platform PlatformTag="617" Name="Waimakariri Rd &amp; Harewood Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Heathcote">
+    <Platform PlatformTag="850" PlatformNo="42391" Name="Heathcote" />
+    <Platform PlatformTag="851" PlatformNo="42447" Name="Heathcote" />
+  </PlatformGroup>
+  <PlatformGroup Name="Hei Hei">
+    <Platform PlatformTag="1080" PlatformNo="14599" Name="Hei Hei Rd &amp; Buchanans Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Hoon Hay">
+    <Platform PlatformTag="1101" PlatformNo="33127" Name="Hoon Hay Rd &amp; Smartlea St" />
+    <Platform PlatformTag="1238" PlatformNo="11814" Name="Lyttelton St &amp; Glue Pl" />
+    <Platform PlatformTag="1579" PlatformNo="33561" Name="Sparks Rd &amp; Maryhill Ave" />
+    <Platform PlatformTag="2180" PlatformNo="22419" Name="Halswell Shops" />
+    <Platform PlatformTag="2391" PlatformNo="33910" Name="Sparks Rd &amp; Claude Hendry Ln" />
+  </PlatformGroup>
+  <PlatformGroup Name="Hoon Hay Rd">
+    <Platform PlatformTag="2391" PlatformNo="33910" Name="Sparks Rd &amp; Claude Hendry Ln" />
+  </PlatformGroup>
+  <PlatformGroup Name="Hornby">
+    <Platform PlatformTag="549" PlatformNo="24537" Name="Springs Rd &amp; Dufek Cres" />
+    <Platform PlatformTag="2105" PlatformNo="11500" Name="The Hub Hornby" />
+    <Platform PlatformTag="2854" Name="The Hub Hornby" />
+  </PlatformGroup>
+  <PlatformGroup Name="Hoyts 8">
+    <Platform PlatformTag="1375" PlatformNo="36098" Name="Hoyts 8" />
+  </PlatformGroup>
+  <PlatformGroup Name="Huntsbury">
+    <Platform PlatformTag="1115" PlatformNo="32919" Name="Huntsbury Ave &amp; Vista Pl" />
+    <Platform PlatformTag="1116" PlatformNo="32893" Name="Huntsbury Ave &amp; Major Aitken Dve" />
+    <Platform PlatformTag="1815" PlatformNo="23634" Name="Centaurus Rd &amp; Vernon Tce" />
+    <Platform PlatformTag="1816" PlatformNo="45514" Name="Centaurus Rd &amp; Aynsley Tce" />
+  </PlatformGroup>
+  <PlatformGroup Name="Hyde Park">
+    <Platform PlatformTag="1606" PlatformNo="10171" Name="Hyde Park" />
+  </PlatformGroup>
+  <PlatformGroup Name="Ilam">
+    <Platform PlatformTag="718" PlatformNo="13518" Name="Ilam" />
+  </PlatformGroup>
+  <PlatformGroup Name="Kaiapoi">
+    <Platform PlatformTag="2127" PlatformNo="12301" Name="Kaiapoi (Police Station)" />
+    <Platform PlatformTag="2262" PlatformNo="15255" Name="Williams St &amp; Ohoka Rd" />
+    <Platform PlatformTag="2263" PlatformNo="12317" Name="Williams St &amp; Ohoka Rd" />
+    <Platform PlatformTag="2270" PlatformNo="13876" Name="Williams St &amp; Davie St" />
+    <Platform PlatformTag="2551" PlatformNo="44668" Name="Waikuku" />
+    <Platform PlatformTag="2552" PlatformNo="44578" Name="Kaiapoi High School" />
+  </PlatformGroup>
+  <PlatformGroup Name="Kainga">
+    <Platform PlatformTag="81" PlatformNo="29176" Name="Kainga Rd &amp; George Oliver Pl" />
+    <Platform PlatformTag="183" PlatformNo="15904" Name="Kainga" />
+  </PlatformGroup>
+  <PlatformGroup Name="Kennedy's Bush">
+    <Platform PlatformTag="1167" PlatformNo="22765" Name="Kennedys Bush" />
+    <Platform PlatformTag="2862" PlatformNo="47279" Name="Kennedys Bush Terminus" />
+  </PlatformGroup>
+  <PlatformGroup Name="Kilmarnock St">
+    <Platform PlatformTag="1175" PlatformNo="10995" Name="Kilmarnock St &amp; Deans Ave" />
+  </PlatformGroup>
+  <PlatformGroup Name="Landcare">
+    <Platform PlatformTag="2924" Name="Landcare Research" />
+  </PlatformGroup>
+  <PlatformGroup Name="Lincoln">
+    <Platform PlatformTag="2103" PlatformNo="25930" Name="Gerald St &amp; Murray Pl" />
+    <Platform PlatformTag="2104" PlatformNo="11062" Name="Lincoln University" />
+    <Platform PlatformTag="2458" PlatformNo="25472" Name="Lincoln (James St)" />
+    <Platform PlatformTag="2464" PlatformNo="24397" Name="Gerald St &amp; Murray Pl" />
+  </PlatformGroup>
+  <PlatformGroup Name="Linwood Ave">
+    <Platform PlatformTag="1005" PlatformNo="15763" Name="Ferry Rd" />
+    <Platform PlatformTag="1233" PlatformNo="15152" Name="Linwood Ave &amp; Cashel St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Lyttelton">
+    <Platform PlatformTag="2122" PlatformNo="42633" Name="Lyttelton Wharf" />
+    <Platform PlatformTag="2513" PlatformNo="40713" Name="Oxford St &amp; London St" />
+    <Platform PlatformTag="2514" PlatformNo="41812" Name="Norwich Qy &amp; Canterbury St" />
+    <Platform PlatformTag="2538" Name="Lyttelton Jetty" />
+  </PlatformGroup>
+  <PlatformGroup Name="Mail Centre">
+    <Platform PlatformTag="2872" PlatformNo="47233" Name="Orchard Rd &amp; Harewood Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Mairehau">
+    <Platform PlatformTag="76" PlatformNo="37905" Name="Innes Rd &amp; Manuka St" />
+    <Platform PlatformTag="89" PlatformNo="24769" Name="Kensington Ave &amp; Innes Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Major Aitken Drive">
+    <Platform PlatformTag="1116" PlatformNo="32893" Name="Huntsbury Ave &amp; Major Aitken Dve" />
+    <Platform PlatformTag="2861" PlatformNo="45816" Name="Huntsbury Ave &amp; Major Aitken Dve" />
+  </PlatformGroup>
+  <PlatformGroup Name="Marchwiel">
+    <Platform PlatformTag="2799" PlatformNo="41686" Name="Selwyn St &amp; Leven St" />
+    <Platform PlatformTag="2817" PlatformNo="41883" Name="Station St &amp; George St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Marchwiel Shops">
+    <Platform PlatformTag="2799" PlatformNo="41686" Name="Selwyn St &amp; Leven St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Marshland">
+    <Platform PlatformTag="2964" PlatformNo="45420" Name="Marshland" />
+  </PlatformGroup>
+  <PlatformGroup Name="Merivale">
+    <Platform PlatformTag="1414" PlatformNo="12546" Name="Bealey Ave" />
+    <Platform PlatformTag="1423" PlatformNo="38580" Name="Merivale Mall" />
+    <Platform PlatformTag="1424" PlatformNo="39706" Name="Merivale Mall" />
+  </PlatformGroup>
+  <PlatformGroup Name="Merrin">
+    <Platform PlatformTag="708" PlatformNo="10214" Name="Avonhead Mall" />
+    <Platform PlatformTag="709" PlatformNo="13556" Name="Withells Rd &amp; Merrin St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Metrostar">
+    <Platform PlatformTag="332" PlatformNo="18242" Name="New Brighton" />
+    <Platform PlatformTag="335" PlatformNo="39192" Name="New Brighton" />
+    <Platform PlatformTag="2180" PlatformNo="22419" Name="Halswell Shops" />
+  </PlatformGroup>
+  <PlatformGroup Name="Mt Pleasant">
+    <Platform PlatformTag="275" PlatformNo="36363" Name="Mt Pleasant" />
+  </PlatformGroup>
+  <PlatformGroup Name="Murray Aynsley">
+    <Platform PlatformTag="1815" PlatformNo="23634" Name="Centaurus Rd &amp; Vernon Tce" />
+    <Platform PlatformTag="1816" PlatformNo="45514" Name="Centaurus Rd &amp; Aynsley Tce" />
+    <Platform PlatformTag="2869" PlatformNo="47171" Name="Opawa Rd (Sh 73) &amp; Kennedy Pl" />
+  </PlatformGroup>
+  <PlatformGroup Name="New Brighton">
+    <Platform PlatformTag="332" PlatformNo="18242" Name="New Brighton" />
+    <Platform PlatformTag="335" PlatformNo="39192" Name="New Brighton" />
+    <Platform PlatformTag="2495" PlatformNo="18972" Name="New Brighton" />
+  </PlatformGroup>
+  <PlatformGroup Name="North Shore">
+    <Platform PlatformTag="765" PlatformNo="21683" Name="North Shore" />
+  </PlatformGroup>
+  <PlatformGroup Name="Northcote">
+    <Platform PlatformTag="146" PlatformNo="12973" Name="Main North Rd &amp; Cranford St" />
+    <Platform PlatformTag="328" PlatformNo="40709" Name="Northcote Rd &amp; Fenchurch St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Northlands">
+    <Platform PlatformTag="115" Name="Northlands Mall" />
+    <Platform PlatformTag="139" PlatformNo="40721" Name="Main North Rd &amp; Loftus St" />
+    <Platform PlatformTag="140" PlatformNo="15650" Name="Northlands Mall" />
+    <Platform PlatformTag="141" PlatformNo="39641" Name="Northlands Mall" />
+    <Platform PlatformTag="2416" PlatformNo="16900" Name="Northlands Mall" />
+    <Platform PlatformTag="2876" PlatformNo="47781" Name="Northlands Mall" />
+  </PlatformGroup>
+  <PlatformGroup Name="Northwood">
+    <Platform PlatformTag="2173" PlatformNo="15970" Name="Northwood" />
+    <Platform PlatformTag="2241" PlatformNo="43210" Name="Northwood Blvd &amp; Mounter Ave" />
+  </PlatformGroup>
+  <PlatformGroup Name="Nunweek">
+    <Platform PlatformTag="1560" PlatformNo="44196" Name="Sheffield Cres" />
+  </PlatformGroup>
+  <PlatformGroup Name="Oaklands">
+    <Platform PlatformTag="683" PlatformNo="22488" Name="Westlake Dr &amp; Riverton Tce" />
+  </PlatformGroup>
+  <PlatformGroup Name="Orbiter">
+    <Platform PlatformTag="865" PlatformNo="11164" Name="Eastgate Mall" />
+    <Platform PlatformTag="869" PlatformNo="40882" Name="Eastgate Mall" />
+  </PlatformGroup>
+  <PlatformGroup Name="PMH">
+    <Platform PlatformTag="2109" PlatformNo="23165" Name="Princess Margaret Hospital" />
+  </PlatformGroup>
+  <PlatformGroup Name="Parklands">
+    <Platform PlatformTag="207" PlatformNo="12393" Name="Mairehau Rd &amp; Royal Pk Dve" />
+    <Platform PlatformTag="802" PlatformNo="18261" Name="Beach Rd &amp; Pinewood Ave" />
+  </PlatformGroup>
+  <PlatformGroup Name="Parkside">
+    <Platform PlatformTag="2182" PlatformNo="14575" Name="Parkside Terminus" />
+  </PlatformGroup>
+  <PlatformGroup Name="Pegasus">
+    <Platform PlatformTag="2991" Name="Pegasus" />
+  </PlatformGroup>
+  <PlatformGroup Name="Polytech">
+    <Platform PlatformTag="1965" PlatformNo="36051" Name="Polytech" />
+  </PlatformGroup>
+  <PlatformGroup Name="Public Hospital">
+    <Platform PlatformTag="1409" PlatformNo="14568" Name="Christchurch Hospital" />
+    <Platform PlatformTag="2102" PlatformNo="14704" Name="Christchurch Hospital" />
+  </PlatformGroup>
+  <PlatformGroup Name="QEII">
+    <Platform PlatformTag="513" PlatformNo="39589" Name="QEII" />
+    <Platform PlatformTag="2151" PlatformNo="39417" Name="QEII" />
+  </PlatformGroup>
+  <PlatformGroup Name="Queenspark">
+    <Platform PlatformTag="862" PlatformNo="20414" Name="Queenspark" />
+  </PlatformGroup>
+  <PlatformGroup Name="Railway Station">
+    <Platform PlatformTag="2817" PlatformNo="41883" Name="Station St &amp; George St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Rangiora">
+    <Platform PlatformTag="2125" PlatformNo="26877" Name="Rangiora (Ashley St)" />
+    <Platform PlatformTag="2307" PlatformNo="26733" Name="Ivory St &amp; Collins St" />
+    <Platform PlatformTag="2551" PlatformNo="44668" Name="Waikuku" />
+    <Platform PlatformTag="2554" PlatformNo="44235" Name="Southbrook Road" />
+    <Platform PlatformTag="2555" PlatformNo="44257" Name="Lineside Rd, Southbrook Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Rapaki">
+    <Platform PlatformTag="2124" PlatformNo="41115" Name="Rapaki" />
+  </PlatformGroup>
+  <PlatformGroup Name="Redcliffs">
+    <Platform PlatformTag="193" PlatformNo="28807" Name="Main Rd &amp; Raekura Pl" />
+  </PlatformGroup>
+  <PlatformGroup Name="Redwood">
+    <Platform PlatformTag="987" PlatformNo="29992" Name="Redwood" />
+  </PlatformGroup>
+  <PlatformGroup Name="Riccarton">
+    <Platform PlatformTag="1322" PlatformNo="28587" Name="Matipo St &amp; Peverel St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Riccarton Mall">
+    <Platform PlatformTag="1498" PlatformNo="38790" Name="Westfield Riccarton" />
+    <Platform PlatformTag="1499" PlatformNo="38774" Name="Westfield Riccarton" />
+  </PlatformGroup>
+  <PlatformGroup Name="Rolleston">
+    <Platform PlatformTag="2445" PlatformNo="17071" Name="Brookside Rd" />
+    <Platform PlatformTag="2890" PlatformNo="47752" Name="Rolleston Terminus" />
+  </PlatformGroup>
+  <PlatformGroup Name="Roydvale">
+    <Platform PlatformTag="1528" PlatformNo="32478" Name="Roydvale Ave" />
+  </PlatformGroup>
+  <PlatformGroup Name="Russley">
+    <Platform PlatformTag="1535" PlatformNo="24642" Name="Russley Rd &amp; Dinton St" />
+    <Platform PlatformTag="1926" PlatformNo="24275" Name="Cutts Rd &amp; Delaware Cres" />
+  </PlatformGroup>
+  <PlatformGroup Name="Sawyers Arms Rd">
+    <Platform PlatformTag="51" PlatformNo="43140" Name="Highsted Rd" />
+    <Platform PlatformTag="448" PlatformNo="16410" Name="Sawyers Arms Rd &amp; Leander St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Sheffield Cres.">
+    <Platform PlatformTag="1560" PlatformNo="44196" Name="Sheffield Cres" />
+  </PlatformGroup>
+  <PlatformGroup Name="Shirley">
+    <Platform PlatformTag="247" PlatformNo="18288" Name="The Palms" />
+    <Platform PlatformTag="2136" PlatformNo="18476" Name="Marshland Rd, New Brighton Rd, North Pde and Shirl" />
+    <Platform PlatformTag="2542" PlatformNo="46840" Name="Marshland Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Sockburn">
+    <Platform PlatformTag="1269" PlatformNo="38885" Name="Main South Rd &amp; Craven St" />
+  </PlatformGroup>
+  <PlatformGroup Name="South End">
+    <Platform PlatformTag="2650" PlatformNo="43657" Name="Queen St &amp; Edward St" />
+    <Platform PlatformTag="2817" PlatformNo="41883" Name="Station St &amp; George St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Southshore">
+    <Platform PlatformTag="432" PlatformNo="26213" Name="Southshore" />
+  </PlatformGroup>
+  <PlatformGroup Name="Sparks Rd">
+    <Platform PlatformTag="540" PlatformNo="33503" Name="Sparks Rd" />
+    <Platform PlatformTag="1583" PlatformNo="33535" Name="Sparks Rd" />
+    <Platform PlatformTag="1584" PlatformNo="33519" Name="Sparks Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Spreydon">
+    <Platform PlatformTag="1625" PlatformNo="22141" Name="Barrington Mall" />
+  </PlatformGroup>
+  <PlatformGroup Name="St Albans">
+    <Platform PlatformTag="487" PlatformNo="38449" Name="Springfield Rd &amp; Pitt Pl" />
+    <Platform PlatformTag="488" PlatformNo="38522" Name="Springfield Rd &amp; Kinloch St" />
+    <Platform PlatformTag="491" PlatformNo="38567" Name="Springfield Rd &amp; St Albans St" />
+    <Platform PlatformTag="777" PlatformNo="38465" Name="Warrington St Shops " />
+  </PlatformGroup>
+  <PlatformGroup Name="St Martins">
+    <Platform PlatformTag="695" PlatformNo="32146" Name="St Martins Shops" />
+    <Platform PlatformTag="696" PlatformNo="37001" Name="St Martins Shops" />
+  </PlatformGroup>
+  <PlatformGroup Name="Styx Mill">
+    <Platform PlatformTag="2418" PlatformNo="29256" Name="Styx Mill" />
+    <Platform PlatformTag="2835" PlatformNo="40064" Name="Hussey Rd &amp; Springvale Gdns" />
+  </PlatformGroup>
+  <PlatformGroup Name="Sumner">
+    <Platform PlatformTag="287" PlatformNo="42651" Name="Nayland St &amp; Head St" />
+    <Platform PlatformTag="898" PlatformNo="42772" Name="Colenso St &amp; Menzies St" />
+    <Platform PlatformTag="899" PlatformNo="42698" Name="Colenso St &amp; Menzies St" />
+    <Platform PlatformTag="2113" PlatformNo="42680" Name="Sumner" />
+  </PlatformGroup>
+  <PlatformGroup Name="Supa Centa">
+    <Platform PlatformTag="2827" PlatformNo="46988" Name="Supa Centa Terminus" />
+  </PlatformGroup>
+  <PlatformGroup Name="Sydenham">
+    <Platform PlatformTag="1863" PlatformNo="23972" Name="Sydenham Shops" />
+    <Platform PlatformTag="1864" PlatformNo="23392" Name="Sydenham Shops" />
+  </PlatformGroup>
+  <PlatformGroup Name="Templeton">
+    <Platform PlatformTag="681" PlatformNo="25706" Name="Waterloo Rd &amp; Kissel St" />
+  </PlatformGroup>
+  <PlatformGroup Name="The Hub Hornby">
+    <Platform PlatformTag="1285" PlatformNo="43089" Name="Main South Rd &amp; Carmen Rd" />
+    <Platform PlatformTag="2105" PlatformNo="11500" Name="The Hub Hornby" />
+    <Platform PlatformTag="2854" Name="The Hub Hornby" />
+  </PlatformGroup>
+  <PlatformGroup Name="The Palms">
+    <Platform PlatformTag="247" PlatformNo="18288" Name="The Palms" />
+    <Platform PlatformTag="250" PlatformNo="13306" Name="Marshland Rd &amp; Alma Pl" />
+    <Platform PlatformTag="288" PlatformNo="39527" Name="The Palms" />
+    <Platform PlatformTag="289" PlatformNo="39618" Name="New Brighton Rd &amp; Netherby Ln" />
+    <Platform PlatformTag="326" PlatformNo="40296" Name="North Pde &amp; Averill St" />
+    <Platform PlatformTag="327" PlatformNo="13277" Name="North Parade" />
+    <Platform PlatformTag="468" PlatformNo="43908" Name="The Palms" />
+    <Platform PlatformTag="2152" PlatformNo="13283" Name="The Palms" />
+  </PlatformGroup>
+  <PlatformGroup Name="Timaru Hospital">
+    <Platform PlatformTag="2650" PlatformNo="43657" Name="Queen St &amp; Edward St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Tower Junction">
+    <Platform PlatformTag="2840" Name="Tower Junction" />
+    <Platform PlatformTag="2853" PlatformNo="47768" Name="Tower Junction" />
+  </PlatformGroup>
+  <PlatformGroup Name="University">
+    <Platform PlatformTag="1140" PlatformNo="39687" Name="University of Canterbury" />
+    <Platform PlatformTag="1141" PlatformNo="13671" Name="Ilam Rd &amp; Montana Ave" />
+    <Platform PlatformTag="1919" PlatformNo="32122" Name="Canterbury University" />
+    <Platform PlatformTag="2110" PlatformNo="13064" Name="Ilam Rd &amp; Montana Ave" />
+    <Platform PlatformTag="2114" PlatformNo="38719" Name="Canterbury University" />
+    <Platform PlatformTag="2144" PlatformNo="32114" Name="Canterbury University" />
+    <Platform PlatformTag="2162" PlatformNo="38735" Name="University Dr &amp; Ilam Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Waikuku">
+    <Platform PlatformTag="2551" PlatformNo="44668" Name="Waikuku" />
+  </PlatformGroup>
+  <PlatformGroup Name="Wainoni">
+    <Platform PlatformTag="9" PlatformNo="44154" Name="Wainoni Rd &amp; Shortland St" />
+    <Platform PlatformTag="539" PlatformNo="18108" Name="Wainoni Rd &amp; Ottawa Rd" />
+  </PlatformGroup>
+  <PlatformGroup Name="Westmorland">
+    <Platform PlatformTag="721" PlatformNo="43402" Name="Woodside Com &amp; Ravensdale Rse" />
+    <Platform PlatformTag="1537" PlatformNo="33485" Name="Disused Westmorland" />
+  </PlatformGroup>
+  <PlatformGroup Name="Woodend">
+    <Platform PlatformTag="2131" PlatformNo="26170" Name="Woodend (Main North Rd)" />
+  </PlatformGroup>
+  <PlatformGroup Name="Woolston">
+    <Platform PlatformTag="442" PlatformNo="23385" Name="Rutherford St &amp; Barton St" />
+    <Platform PlatformTag="1003" PlatformNo="15759" Name="Ferry Rd &amp; Alport Pl" />
+    <Platform PlatformTag="1006" PlatformNo="15716" Name="Ferry Rd &amp; Charlesworth St" />
+  </PlatformGroup>
+</JPPlatformGroups>
