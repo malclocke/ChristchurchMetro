@@ -136,7 +136,7 @@ public class ChristchurchMetroActivity extends ListActivity
   }
 
   public void loadStop(Stop stop) {
-    Log.d(TAG, "loadStop(Stop): " + stop.getPlatformNumber());
+    Log.d(TAG, "loadStop(Stop): " + stop.getPlatformNumber() + " platformTag = " + stop.getPlatformTag());
     current_stop = stop;
     setStopHeader(stop);
     arrivals.clear();
@@ -205,13 +205,13 @@ public class ChristchurchMetroActivity extends ListActivity
       Arrival arrival = arrivalList.get(position);
       if (arrival != null) {
         TextView routeNumber = (TextView) v.findViewById(R.id.route_number);
-        TextView routeName = (TextView) v.findViewById(R.id.route_name);
+        TextView destination = (TextView) v.findViewById(R.id.destination);
         TextView eta = (TextView) v.findViewById(R.id.eta);
         if (routeNumber != null) {
           routeNumber.setText(arrival.getRouteNumber());
         }
-        if (routeName != null) {
-          routeName.setText(arrival.getRouteName());
+        if (destination != null) {
+          destination.setText(arrival.getDestination());
         }
         if (eta != null) {
           eta.setText(arrival.getEta() + " minutes");

@@ -208,8 +208,8 @@ public class FavouritesActivity extends ListActivity {
       ArrayList arrivals = stop.getArrivals();
       if (!arrivals.isEmpty()) {
         arrival = (Arrival)arrivals.get(0);
-        arrivalText = "Next bus: " + arrival.getRouteNumber() + " - " +
-            arrival.getDestination() + " : " + arrival.getEta() + " minutes";
+        arrivalText = "Next bus: " + arrival.getEta() + " mins: " +
+          arrival.getRouteNumber() + " - " + arrival.getDestination();
       } else {
         arrivalText = "No buses due in the next 30 minutes";
       }

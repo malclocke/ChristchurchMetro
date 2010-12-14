@@ -284,27 +284,31 @@ class Stop {
   private class EtaHandler extends DefaultHandler {
 
     private Arrival arrival = null;
+    private String routeNumber = null;
+    private String routeName = null;
+    private String destination = null;
 
     public void startElement(String uri, String localName, String qName,
         Attributes attributes) throws SAXException {
       Log.d(TAG, "Got start element <" + localName + ">");
       if (localName.equals("Route")) {
-        Log.d(TAG, "Arrival for RouteNo " + attributes.getValue("RouteNo"));
-        arrival = new Arrival();
-        arrival.setRouteNumber(attributes.getValue("RouteNo"));
-        arrival.setRouteName(attributes.getValue("Name"));
+        Log.d(TAG, "Arrivals for RouteNo " + attributes.getValue("RouteNo"));
+        routeNumber = attributes.getValue("RouteNo");
+        routeName = attributes.getValue("Name");
       } else if (localName.equals("Destination")) {
-        if (arrival != null) {
-          arrival.setDestination(attributes.getValue("Name"));
-        }
+        destination = attributes.getValue("Name");
       } else if (localName.equals("Trip")) {
-        if (arrival != null) {
-          try {
-            arrival.setEta(Integer.parseInt(attributes.getValue("ETA")));
-          } catch (NumberFormatException e) {
-            Log.e(TAG, "NumberFormatException: " + e.getMessage());
-          }
+        arrival = new Arrival();
+        arrival.setRouteNumber(routeNumber);
+        arrival.setRouteName(routeName);
+        arrival.setDestination(destination);
+        try {
+          arrival.setEta(Integer.parseInt(attributes.getValue("ETA")));
+        } catch (NumberFormatException e) {
+          Log.e(TAG, "NumberFormatException: " + e.getMessage());
         }
+        arrivals.add(arrival);
+        arrival = null;
       }
     }
 
@@ -313,8 +317,10 @@ class Stop {
       Log.d(TAG, "Got end element </" + localName + ">");
       if (localName.equals("Route")) {
         Log.d(TAG, "Arrival finished ");
-        arrivals.add(arrival);
-        arrival = null;
+        routeNumber = null;
+        routeName = null;
+      } else if (localName.equals("Destination")) {
+        destination = null;
       }
     }
   }
