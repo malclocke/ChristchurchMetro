@@ -1,5 +1,9 @@
 package nz.co.wholemeal.christchurchmetro;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.io.IOException;
@@ -42,7 +46,6 @@ class Stop {
 
   public static final String TAG = "Stop";
 
-  public static String stopURL = "http://wholemeal.co.nz/~malc/metro/platforms/";
   public static String arrivalURL = "http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?Name=JPRoutePositionET.xml&ContentType=SQLXML&PlatformTag=";
 
   private ArrayList <Arrival> arrivals = new ArrayList<Arrival>();
@@ -55,33 +58,38 @@ class Stop {
   public double latitude;
   public double longitude;
 
-  public Stop() {
-  }
+  public Stop(String platformTag, String platformNumber, Context context)
+    throws InvalidPlatformNumberException {
 
-  /* Instantiate a Stop from a stop number */
-  public Stop(String platformTag, String platformNumber) throws InvalidPlatformNumberException {
-    // Which directory to look for platform, tags or numbers
-    String searchPath;
+    String queryBase = "SELECT platform_tag, platform_number, name, road_name, latitude, longitude FROM platforms ";
+    String whereClause;
+    String whereParameter;
 
     if (platformTag == null) {
-      this.platformNumber = platformNumber;
-      searchPath = "numbers/" + platformNumber + ".xml";
+      whereClause = "WHERE platform_number = ?";
+      whereParameter = platformNumber;
     } else {
-      this.platformTag = platformTag;
-      searchPath = "tags/" + platformTag + ".xml";
+      whereClause = "WHERE platform_tag = ?";
+      whereParameter = platformTag;
     }
 
-    try {
-      SAXParserFactory spf = SAXParserFactory.newInstance();
-      SAXParser sp = spf.newSAXParser();
-      XMLReader xr = sp.getXMLReader();
-      URL source = new URL(stopURL + searchPath);
-      StopHandler handler = new StopHandler();
-      xr.setContentHandler(handler);
-      xr.parse(new InputSource(source.openStream()));
-    } catch (Exception e) {
-      Log.e(TAG, e.toString());
-      throw new InvalidPlatformNumberException(e.getMessage());
+    DatabaseHelper databaseHelper = new DatabaseHelper(context);
+    SQLiteDatabase database = databaseHelper.getWritableDatabase();
+
+    Cursor cursor = database.rawQuery(queryBase + whereClause,
+      new String [] {whereParameter});
+
+    if (cursor.moveToFirst()) {
+      this.platformTag = cursor.getString(0);
+      this.platformNumber = cursor.getString(1);
+      this.name = cursor.getString(2);
+      this.roadName = cursor.getString(3);
+      this.latitude = cursor.getDouble(4);
+      this.longitude = cursor.getDouble(5);
+      database.close();
+    } else {
+      database.close();
+      throw new InvalidPlatformNumberException("Invalid platform");
     }
   }
 
@@ -160,33 +168,6 @@ class Stop {
       } else if (localName.equals("Destination")) {
         destination = null;
       }
-    }
-  }
-
-  private class StopHandler extends DefaultHandler {
-
-    /* At the moment this handler expects there to be a single <Platform>
-     * element in the XML */
-    public String TAG = "StopHandler";
-
-    public void startElement(String uri, String localName, String qName,
-        Attributes attributes) throws SAXException {
-      Log.d(TAG, "Got start element <" + localName + ">");
-      if (localName.equals("Platform")) {
-        Log.d(TAG, "PlatformTag = " + attributes.getValue("PlatformTag"));
-        platformNumber = attributes.getValue("PlatformNo");
-        platformTag = attributes.getValue("PlatformTag");
-        roadName = attributes.getValue("RoadName");
-        name = attributes.getValue("Name");
-      } else if (localName.equals("Position")) {
-        latitude = Double.parseDouble(attributes.getValue("Lat"));
-        longitude = Double.parseDouble(attributes.getValue("Long"));
-      }
-    }
-
-    public void endElement(String uri, String localName, String qName)
-      throws SAXException {
-      Log.d(TAG, "Got end element </" + localName + ">");
     }
   }
 }

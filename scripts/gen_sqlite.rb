@@ -5,8 +5,10 @@ require 'hpricot'
 
 DATA_DIR="data_files/"
 
-puts 'CREATE TABLE platforms (platform_tag int, platform_number int,
-            name varchar ,road_name varchar, latitude double, longitude double);'
+puts <<-EOT
+CREATE TABLE platforms (platform_tag INT, platform_number INT, name VARCHAR,
+        road_name VARCHAR, latitude DOUBLE, longitude DOUBLE);
+EOT
 
 puts 'BEGIN TRANSACTION;'
 xml = File.read(DATA_DIR + "JPPlatform.xml")

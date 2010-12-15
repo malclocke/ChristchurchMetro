@@ -231,7 +231,7 @@ public class FavouritesActivity extends ListActivity {
         try {
           String platformTag = (String)json_array.get(i);
           Log.d(TAG, "Loading stop platformTag = " + platformTag);
-          Stop stop = new Stop(platformTag, null);
+          Stop stop = new Stop(platformTag, null, getApplicationContext());
           favourite_stops.add(stop);
           Log.d(TAG, "initFavourites(): added stop platformTag = " + stop.platformTag);
         } catch (Stop.InvalidPlatformNumberException e) {

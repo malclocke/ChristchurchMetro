@@ -229,7 +229,7 @@ public class ChristchurchMetroActivity extends ListActivity
       Log.d(TAG, "Running AsyncLoadStopByPlatformTag.doInBackground()");
       Stop stop = null;
       try {
-        stop = new Stop(platformTags[0], null);
+        stop = new Stop(platformTags[0], null, getApplicationContext());
       } catch (Stop.InvalidPlatformNumberException e) {
         Log.d(TAG, "InvalidPlatformNumberException: " + e.getMessage());
       }
@@ -253,7 +253,7 @@ public class ChristchurchMetroActivity extends ListActivity
       Log.d(TAG, "Running AsyncLoadStopByPlatformNumber.doInBackground() platformNumber = " + platformNumber);
       Stop stop = null;
       try {
-        stop = new Stop(null, platformNumber);
+        stop = new Stop(null, platformNumber, getApplicationContext());
       } catch (Stop.InvalidPlatformNumberException e) {
         Log.d(TAG, "InvalidPlatformNumberException: " + e.getMessage());
       }
