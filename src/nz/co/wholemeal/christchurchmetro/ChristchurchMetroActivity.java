@@ -13,7 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.text.Editable;
 import android.text.Html;
@@ -84,6 +88,18 @@ public class ChristchurchMetroActivity extends ListActivity
       }
 
       public void onTextChanged(CharSequence s, int start, int before, int count) {
+      }
+    });
+    entry.setOnEditorActionListener(new OnEditorActionListener() {
+      public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_GO) {
+          if (v.getText().toString().length() == 5) {
+            go_button.performClick();
+            InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+          }
+        }
+        return true;
       }
     });
   }
