@@ -53,7 +53,7 @@ import nz.co.wholemeal.christchurchmetro.Stop;
 
 import org.json.JSONArray;
 
-public class ChristchurchMetroActivity extends ListActivity
+public class PlatformActivity extends ListActivity
 {
   private EditText entry;
 
@@ -63,7 +63,7 @@ public class ChristchurchMetroActivity extends ListActivity
   private View stopHeader;
 
   static final int CHOOSE_FAVOURITE = 0;
-  static final String TAG = "ChristchurchMetroActivity";
+  static final String TAG = "PlatformActivity";
   static final String PREFERENCES_FILE = "Preferences";
 
   /** Called when the activity is first created. */
@@ -119,6 +119,15 @@ public class ChristchurchMetroActivity extends ListActivity
         return true;
       }
     });
+
+    /* Load the requested stop information */
+    Bundle extras = getIntent().getExtras();
+    if (extras != null) {
+      String platformTag = extras.getString("platformTag");
+      if (platformTag != null) {
+        loadStopByPlatformTag(platformTag);
+      }
+    }
   }
 
   @Override
@@ -140,15 +149,15 @@ public class ChristchurchMetroActivity extends ListActivity
     switch (item.getItemId()) {
       case R.id.favourite_stops:
         Log.d(TAG, "Favourite stops selected");
-        intent = new Intent(ChristchurchMetroActivity.this,
+        intent = new Intent(PlatformActivity.this,
           FavouritesActivity.class);
-        ChristchurchMetroActivity.this.startActivityForResult(intent, CHOOSE_FAVOURITE);
+        PlatformActivity.this.startActivityForResult(intent, CHOOSE_FAVOURITE);
         return true;
       case R.id.map:
         Log.d(TAG, "Map selected from menu");
         intent = new Intent();
         intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
-        ChristchurchMetroActivity.this.startActivity(intent);
+        PlatformActivity.this.startActivity(intent);
         return true;
       default:
         return super.onOptionsItemSelected(item);

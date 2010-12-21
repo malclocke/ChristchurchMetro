@@ -87,11 +87,21 @@ public class FavouritesActivity extends ListActivity {
           finish();
         }
         intent.putExtra("platformTag", stop.platformTag);
+        intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.PlatformActivity");
 
-        setResult(RESULT_OK, intent);
-        finish();
+        startActivity(intent);
       }
     });
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    /*
+     * Other activities can modify the favourites list, so reload every time
+     * we come back to the foreground
+     */
+    stopAdapter.notifyDataSetChanged();
   }
 
   @Override
@@ -116,8 +126,36 @@ public class FavouritesActivity extends ListActivity {
     }
   }
 
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.main_menu, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    Intent intent;
+    switch (item.getItemId()) {
+      case R.id.favourite_stops:
+        Log.d(TAG, "Favourite stops selected");
+        intent = new Intent();
+        intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.FavouritesActivity");
+        startActivity(intent);
+        return true;
+      case R.id.map:
+        Log.d(TAG, "Map selected from menu");
+        intent = new Intent();
+        intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
+        startActivity(intent);
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
   private void initFavourites() {
-    SharedPreferences favourites = getSharedPreferences(ChristchurchMetroActivity.PREFERENCES_FILE, 0);
+    SharedPreferences favourites = getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
     String stops_json = favourites.getString("favouriteStops", null);
 
     if (stops_json != null) {
@@ -132,7 +170,7 @@ public class FavouritesActivity extends ListActivity {
   }
 
   public void saveFavourites() {
-    SharedPreferences favourites = getSharedPreferences(ChristchurchMetroActivity.PREFERENCES_FILE, 0);
+    SharedPreferences favourites = getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
     saveFavourites(favourites);
     stopAdapter.notifyDataSetChanged();
   }
@@ -157,7 +195,7 @@ public class FavouritesActivity extends ListActivity {
     /* Check the Stop is not already present in favourites */
     while (iterator.hasNext()) {
       Stop favourite = (Stop)iterator.next();
-      if (favourite.platformNumber.equals(stop.platformNumber)) {
+      if (favourite.platformTag.equals(stop.platformTag)) {
         return true;
       }
     }

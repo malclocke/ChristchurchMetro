@@ -4,14 +4,14 @@
       android:versionCode="4"
       android:versionName="0.1alpha4">
     <application android:label="@string/app_name" android:icon="@drawable/icon">
-        <activity android:name="ChristchurchMetroActivity"
+        <activity android:name=".FavouritesActivity" android:launchMode="singleTop"
           android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
           </activity>
-          <activity android:name=".FavouritesActivity" />
+          <activity android:name=".PlatformActivity" />
           <activity android:name=".MetroMapActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
       <uses-library android:name="com.google.android.maps" />
