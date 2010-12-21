@@ -12,6 +12,10 @@
             </intent-filter>
           </activity>
           <activity android:name=".FavouritesActivity" />
+          <activity android:name=".MetroMapActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+      <uses-library android:name="com.google.android.maps" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 </manifest>

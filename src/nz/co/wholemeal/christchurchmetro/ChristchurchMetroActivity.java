@@ -1,3 +1,20 @@
+/**
+ * Copyright 2010 Malcolm Locke
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package nz.co.wholemeal.christchurchmetro;
 
 import java.util.ArrayList;
@@ -119,12 +136,19 @@ public class ChristchurchMetroActivity extends ListActivity
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    Intent intent;
     switch (item.getItemId()) {
       case R.id.favourite_stops:
         Log.d(TAG, "Favourite stops selected");
-        Intent intent = new Intent(ChristchurchMetroActivity.this,
+        intent = new Intent(ChristchurchMetroActivity.this,
           FavouritesActivity.class);
         ChristchurchMetroActivity.this.startActivityForResult(intent, CHOOSE_FAVOURITE);
+        return true;
+      case R.id.map:
+        Log.d(TAG, "Map selected from menu");
+        intent = new Intent();
+        intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
+        ChristchurchMetroActivity.this.startActivity(intent);
         return true;
       default:
         return super.onOptionsItemSelected(item);

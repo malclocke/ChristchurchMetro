@@ -1,3 +1,19 @@
+/**
+ * Copyright 2010 Malcolm Locke
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 package nz.co.wholemeal.christchurchmetro;
 
 import android.content.Context;
@@ -5,6 +21,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.OverlayItem;
 
 import java.io.IOException;
 import java.net.URL;
@@ -58,6 +77,9 @@ class Stop {
   public double latitude;
   public double longitude;
 
+  public Stop() {
+  }
+
   public Stop(String platformTag, String platformNumber, Context context)
     throws InvalidPlatformNumberException {
 
@@ -93,6 +115,48 @@ class Stop {
     }
   }
 
+  /**
+   * Returns an ArrayList of all the stops within the square bounded by the
+   * two GeoPoints
+   */
+  public static ArrayList<Stop> getAllWithinBounds(Context context, GeoPoint topLeft, GeoPoint bottomRight) {
+    ArrayList<Stop> stops = new ArrayList<Stop>();
+
+    String topLat = Double.toString(topLeft.getLatitudeE6() / 1E6);
+    String topLon = Double.toString(topLeft.getLongitudeE6() / 1E6);
+    String bottomLat = Double.toString(bottomRight.getLatitudeE6() / 1E6);
+    String bottomLon = Double.toString(bottomRight.getLongitudeE6() / 1E6);
+
+    String query = "SELECT platform_tag, platform_number, name, road_name, latitude, longitude FROM platforms " +
+                   "WHERE latitude < " + topLat + " AND longitude > " + topLon +
+                   " AND latitude > " + bottomLat + " AND longitude < " + bottomLon;
+    Log.d(TAG, "query: " + query);
+
+    DatabaseHelper databaseHelper = new DatabaseHelper(context);
+    SQLiteDatabase database = databaseHelper.getWritableDatabase();
+    Cursor cursor = database.rawQuery(query, null);
+
+    try {
+      if (cursor.moveToFirst()) {
+        do {
+          Stop stop = new Stop();
+          stop.platformTag = cursor.getString(0);
+          stop.platformNumber = cursor.getString(1);
+          stop.name = cursor.getString(2);
+          stop.roadName = cursor.getString(3);
+          stop.latitude = cursor.getDouble(4);
+          stop.longitude = cursor.getDouble(5);
+          stops.add(stop);
+        } while (cursor.moveToNext());
+      }
+    } finally {
+      cursor.close();
+    }
+    Log.d(TAG, "stops.size() = " + stops.size());
+    database.close();
+    return stops;
+  }
+
   public ArrayList getArrivals() {
     arrivals.clear();
     try {
@@ -109,6 +173,17 @@ class Stop {
 
     Collections.sort(arrivals, new ComparatorByEta());
     return arrivals;
+  }
+
+  /* Returns a Map OverlayItem for this stop */
+  public OverlayItem getOverlayItem() {
+    GeoPoint point = getGeoPoint();
+    return new OverlayItem(point, this.platformNumber, this.name);
+  }
+
+  /* Returns the GeoPoint for this stop */
+  public GeoPoint getGeoPoint() {
+    return new GeoPoint((int) (this.latitude * 1E6), (int) (longitude * 1E6));
   }
 
   public class InvalidPlatformNumberException extends Exception {
