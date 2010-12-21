@@ -2,27 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#ddd"
     android:padding="6dip">
     <TextView
         android:id="@+id/platform_number"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:textSize="8pt"
-        android:textColor="#000"
         android:layout_marginRight="6dip" />
     <TextView
         android:id="@+id/platform_name"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="8pt"
         android:layout_weight="1"
-        android:textColor="#000"
+        android:textSize="8pt"
     />
-    <Button xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/add_to_favourites"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:text="+" />
 </LinearLayout>

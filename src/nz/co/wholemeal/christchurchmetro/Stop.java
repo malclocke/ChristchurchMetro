@@ -157,6 +157,41 @@ class Stop {
     return stops;
   }
 
+  /* Perform a search query for any stops which match query string */
+  public static ArrayList<Stop> searchStops(Context context, String queryString) {
+    ArrayList<Stop> stops = new ArrayList<Stop>();
+
+    String query = "SELECT platform_tag, platform_number, name, road_name, latitude, longitude FROM platforms " +
+                   "WHERE platform_number LIKE '" + queryString + "%' " +
+                   "OR name LIKE '%" + queryString +"%' " +
+                   "OR road_name LIKE '%" + queryString + "%'";
+    Log.d(TAG, "query: " + query);
+
+    DatabaseHelper databaseHelper = new DatabaseHelper(context);
+    SQLiteDatabase database = databaseHelper.getWritableDatabase();
+    Cursor cursor = database.rawQuery(query, null);
+
+    try {
+      if (cursor.moveToFirst()) {
+        do {
+          Stop stop = new Stop();
+          stop.platformTag = cursor.getString(0);
+          stop.platformNumber = cursor.getString(1);
+          stop.name = cursor.getString(2);
+          stop.roadName = cursor.getString(3);
+          stop.latitude = cursor.getDouble(4);
+          stop.longitude = cursor.getDouble(5);
+          stops.add(stop);
+        } while (cursor.moveToNext());
+      }
+    } finally {
+      cursor.close();
+    }
+    Log.d(TAG, "stops.size() = " + stops.size());
+    database.close();
+    return stops;
+  }
+
   public ArrayList getArrivals() {
     arrivals.clear();
     try {

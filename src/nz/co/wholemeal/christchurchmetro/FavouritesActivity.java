@@ -149,6 +149,10 @@ public class FavouritesActivity extends ListActivity {
         intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
         startActivity(intent);
         return true;
+      case R.id.search:
+        Log.d(TAG, "Search selected from menu");
+        onSearchRequested();
+        return true;
       default:
         return super.onOptionsItemSelected(item);
     }
@@ -234,11 +238,9 @@ public class FavouritesActivity extends ListActivity {
       if (stop != null) {
         TextView platformNumber = (TextView) v.findViewById(R.id.platform_number);
         TextView platformName = (TextView) v.findViewById(R.id.platform_name);
-        TextView platformRoutes = (TextView) v.findViewById(R.id.platform_routes);
         TextView nextBus = (TextView) v.findViewById(R.id.next_bus);
         platformNumber.setText(stop.platformNumber);
         platformName.setText(stop.name);
-        platformRoutes.setText("Routes: " + stop.routes);
         nextBus.setTag(stop);
         nextBus.setText("Next bus: Loading ...");
         new AsyncNextArrival().execute(nextBus);

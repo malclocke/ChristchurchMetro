@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Chch Metro</string>
+    <string name="search_hint">Search stops or streets</string>
 </resources>

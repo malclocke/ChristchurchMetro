@@ -55,8 +55,6 @@ import org.json.JSONArray;
 
 public class PlatformActivity extends ListActivity
 {
-  private EditText entry;
-
   private Stop current_stop;
   private ArrayList arrivals = new ArrayList<Arrival>();
   private ArrivalAdapter arrival_adapter;
@@ -79,46 +77,6 @@ public class PlatformActivity extends ListActivity
     setListAdapter(arrival_adapter);
 
     current_stop = null;
-
-    final Button go_button = (Button)findViewById(R.id.go);
-    go_button.setEnabled(false);
-    go_button.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        String stop_number = entry.getText().toString();
-        if (stop_number.length() == 5) {
-          loadStopByPlatformNumber(stop_number);
-        } else {
-          Log.d(TAG, "go_button.onClick(): entry text incorrect length");
-        }
-      }
-    });
-
-    entry = (EditText)findViewById(R.id.entry);
-    entry.addTextChangedListener(new TextWatcher() {
-      /* The go button should only be enabled when there are 5 characters
-       * in the stop number text entry */
-      public void afterTextChanged(Editable s) {
-        go_button.setEnabled(s.length() == 5);
-      }
-
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-      }
-
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
-      }
-    });
-    entry.setOnEditorActionListener(new OnEditorActionListener() {
-      public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (actionId == EditorInfo.IME_ACTION_GO) {
-          if (v.getText().toString().length() == 5) {
-            go_button.performClick();
-            InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-          }
-        }
-        return true;
-      }
-    });
 
     /* Load the requested stop information */
     Bundle extras = getIntent().getExtras();
@@ -189,8 +147,6 @@ public class PlatformActivity extends ListActivity
     arrival_adapter.notifyDataSetChanged();
 
     new AsyncLoadArrivals().execute(stop);
-
-    entry.selectAll();
   }
 
   public void loadStopByPlatformNumber(String platformNumber) {
@@ -204,11 +160,9 @@ public class PlatformActivity extends ListActivity
   public void setStopHeader(final Stop stop) {
     TextView platformNumber = (TextView)stopHeader.findViewById(R.id.platform_number);
     TextView platformName = (TextView)stopHeader.findViewById(R.id.platform_name);
-    TextView platformRoutes = (TextView)stopHeader.findViewById(R.id.platform_routes);
     final Button addToFavouritesButton = (Button)stopHeader.findViewById(R.id.add_to_favourites);
     platformNumber.setText(stop.platformNumber);
     platformName.setText(stop.name);
-    platformRoutes.setText("Routes: " + stop.routes);
 
     /* Set the add to favourites button visibility based on whether the stop is
      * a favourite or not */
