@@ -87,7 +87,7 @@ public class MetroMapActivity extends MapActivity {
         exchangeGeoPoint.getLatitudeE6());
     int lastLongitude = preferences.getInt("lastLongitude",
         exchangeGeoPoint.getLongitudeE6());
-    int lastZoom = preferences.getInt("lastZoom", 15);
+    int lastZoom = preferences.getInt("lastZoom", 11);
 
     /* An intent may have been passed requesting a particular map location
      * to be centered */
