@@ -43,7 +43,7 @@ public class PlatformSearchActivity extends ListActivity {
   public void onCreate(Bundle saveInstanceState) {
     super.onCreate(saveInstanceState);
 
-    setContentView(R.layout.list);
+    setContentView(R.layout.search_list);
 
     Intent intent = getIntent();
 

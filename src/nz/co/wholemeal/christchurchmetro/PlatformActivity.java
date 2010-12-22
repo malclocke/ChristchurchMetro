@@ -97,7 +97,10 @@ public class PlatformActivity extends ListActivity
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.main_menu, menu);
+    inflater.inflate(R.menu.platform_menu, menu);
+    if (FavouritesActivity.isFavourite(current_stop)) {
+      menu.removeItem(R.id.add_to_favourites);
+    }
     return true;
   }
 
@@ -105,17 +108,9 @@ public class PlatformActivity extends ListActivity
   public boolean onOptionsItemSelected(MenuItem item) {
     Intent intent;
     switch (item.getItemId()) {
-      case R.id.favourite_stops:
-        Log.d(TAG, "Favourite stops selected");
-        intent = new Intent(PlatformActivity.this,
-          FavouritesActivity.class);
-        PlatformActivity.this.startActivityForResult(intent, CHOOSE_FAVOURITE);
-        return true;
-      case R.id.map:
-        Log.d(TAG, "Map selected from menu");
-        intent = new Intent();
-        intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
-        PlatformActivity.this.startActivity(intent);
+      case R.id.add_to_favourites:
+        Log.d(TAG, "Add to favourites selected");
+        addToFavourites(current_stop);
         return true;
       default:
         return super.onOptionsItemSelected(item);
@@ -160,24 +155,8 @@ public class PlatformActivity extends ListActivity
   public void setStopHeader(final Stop stop) {
     TextView platformNumber = (TextView)stopHeader.findViewById(R.id.platform_number);
     TextView platformName = (TextView)stopHeader.findViewById(R.id.platform_name);
-    final Button addToFavouritesButton = (Button)stopHeader.findViewById(R.id.add_to_favourites);
     platformNumber.setText(stop.platformNumber);
     platformName.setText(stop.name);
-
-    /* Set the add to favourites button visibility based on whether the stop is
-     * a favourite or not */
-    if (FavouritesActivity.isFavourite(stop)) {
-      addToFavouritesButton.setVisibility(android.view.View.INVISIBLE);
-    } else {
-      addToFavouritesButton.setVisibility(android.view.View.VISIBLE);
-    }
-
-    addToFavouritesButton.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        addToFavourites(stop);
-        addToFavouritesButton.setVisibility(android.view.View.INVISIBLE);
-      }
-    });
   }
 
   public void addToFavourites(Stop stop) {

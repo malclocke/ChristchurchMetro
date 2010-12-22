@@ -64,7 +64,7 @@ public class FavouritesActivity extends ListActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.list);
+    setContentView(R.layout.favourites_list);
 
     if (stops.size() == 0) {
       initFavourites();
@@ -305,9 +305,6 @@ public class FavouritesActivity extends ListActivity {
       Log.d(TAG, "onPostExecute() favouriteStops.size = " + favouriteStops.size());
       if (favouriteStops.size() > 0) {
         stops.addAll(favouriteStops);
-      } else {
-        Toast.makeText(getApplicationContext(), "No favourite stops yet",
-            Toast.LENGTH_LONG).show();
       }
       stopAdapter.notifyDataSetChanged();
     }

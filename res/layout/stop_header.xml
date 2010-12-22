@@ -19,10 +19,4 @@
         android:layout_weight="1"
         android:textColor="#000"
     />
-    <Button xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/add_to_favourites"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:text="+" />
 </LinearLayout>
