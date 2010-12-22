@@ -66,9 +66,7 @@ public class FavouritesActivity extends ListActivity {
 
     setContentView(R.layout.favourites_list);
 
-    if (stops.size() == 0) {
-      initFavourites();
-    }
+    initFavourites();
 
     stopAdapter = new StopAdapter(this, R.layout.stop_list_item, stops);
     setListAdapter(stopAdapter);
@@ -167,8 +165,26 @@ public class FavouritesActivity extends ListActivity {
     if (stops_json != null) {
       Log.d(TAG, "initFavourites(): stops_json = " + stops_json);
       try {
-        JSONArray stops_array = (JSONArray) new JSONTokener(stops_json).nextValue();
-        new AsyncLoadFavourites().execute(stops_array);
+        ArrayList favouriteStops = new ArrayList<Stop>();
+        JSONArray stopsArray = (JSONArray) new JSONTokener(stops_json).nextValue();
+
+        for (int i = 0;i < stopsArray.length();i++) {
+          try {
+            String platformTag = (String)stopsArray.get(i);
+            Log.d(TAG, "Loading stop platformTag = " + platformTag);
+            Stop stop = new Stop(platformTag, null, getApplicationContext());
+            favouriteStops.add(stop);
+            Log.d(TAG, "initFavourites(): added stop platformTag = " + stop.platformTag);
+          } catch (Stop.InvalidPlatformNumberException e) {
+            Log.e(TAG, "Invalid platformTag in favourites: " + e.getMessage());
+          } catch (JSONException e) {
+            Log.e(TAG, "JSONException() parsing favourites: " + e.getMessage());
+          }
+        }
+
+        if (favouriteStops.size() > 0) {
+          stops.addAll(favouriteStops);
+        }
       } catch (JSONException e) {
         Log.e(TAG, "initFavourites(): JSONException: " + e.toString());
       }
@@ -277,36 +293,4 @@ public class FavouritesActivity extends ListActivity {
     }
   }
 
-  public class AsyncLoadFavourites extends AsyncTask<JSONArray, Void, ArrayList> {
-
-    private String TAG = "AsyncLoadFavourites";
-
-    protected ArrayList doInBackground(JSONArray... stops_array) {
-      ArrayList favourite_stops = new ArrayList<Stop>();
-      JSONArray json_array = stops_array[0];
-
-      for (int i = 0;i < json_array.length();i++) {
-        try {
-          String platformTag = (String)json_array.get(i);
-          Log.d(TAG, "Loading stop platformTag = " + platformTag);
-          Stop stop = new Stop(platformTag, null, getApplicationContext());
-          favourite_stops.add(stop);
-          Log.d(TAG, "initFavourites(): added stop platformTag = " + stop.platformTag);
-        } catch (Stop.InvalidPlatformNumberException e) {
-          Log.e(TAG, "Invalid platformTag in favourites: " + e.getMessage());
-        } catch (JSONException e) {
-          Log.e(TAG, "JSONException() parsing favourites: " + e.getMessage());
-        }
-      }
-      return favourite_stops;
-    }
-
-    protected void onPostExecute(ArrayList favouriteStops) {
-      Log.d(TAG, "onPostExecute() favouriteStops.size = " + favouriteStops.size());
-      if (favouriteStops.size() > 0) {
-        stops.addAll(favouriteStops);
-      }
-      stopAdapter.notifyDataSetChanged();
-    }
-  }
 }
