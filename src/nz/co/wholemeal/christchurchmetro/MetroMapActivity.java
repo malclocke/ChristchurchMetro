@@ -18,6 +18,7 @@ package nz.co.wholemeal.christchurchmetro;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
@@ -25,8 +26,11 @@ import android.graphics.drawable.Drawable;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,6 +59,14 @@ public class MetroMapActivity extends MapActivity {
   private MapController mapController;
   private MyLocationOverlay myLocationOverlay;
 
+  /* The location used for the 'Bus Exchange' menu item */
+  private GeoPoint exchangeGeoPoint = new GeoPoint(-43533798,172637573);
+
+  /* The last location received from the location manager */
+  private GeoPoint lastFix = null;
+
+  /* The last recorded center on the map */
+
   public static final String TAG = "MetroMapActivity";
   @Override
   protected boolean isRouteDisplayed() {
@@ -70,34 +82,81 @@ public class MetroMapActivity extends MapActivity {
     mapController = mapView.getController();
     mapView.setBuiltInZoomControls(true);
 
+    SharedPreferences preferences = getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
+    int lastLatitude = preferences.getInt("lastLatitude",
+        exchangeGeoPoint.getLatitudeE6());
+    int lastLongitude = preferences.getInt("lastLongitude",
+        exchangeGeoPoint.getLongitudeE6());
+    int lastZoom = preferences.getInt("lastZoom", 15);
+
+    mapController.setCenter(new GeoPoint(lastLatitude, lastLongitude));
+    mapController.setZoom(lastZoom);
+
     List<Overlay> mapOverlays = mapView.getOverlays();
 
     myLocationOverlay = new MyLocationOverlay(this, mapView);
     mapOverlays.add(myLocationOverlay);
-    myLocationOverlay.enableMyLocation();
     myLocationOverlay.runOnFirstFix(new Runnable() {
       public void run() {
         // Test with 'geo fix 172.641437 -43.534675' = Twisted Hop
-        mapController.animateTo(myLocationOverlay.getMyLocation());
-        mapController.setZoom(17);
+        lastFix = myLocationOverlay.getMyLocation();
       }
     });
 
     Drawable drawable = this.getResources().getDrawable(R.drawable.stop_marker);
-    //MetroMapItemizedOverlay itemizedOverlay = new MetroMapItemizedOverlay(drawable, getApplicationContext());
     MetroMapOverlay overlay = new MetroMapOverlay(drawable, getApplicationContext());
     mapOverlays.add(overlay);
-
-    try {
-      Stop stop = new Stop("1",null,getApplicationContext());
-
-      mapController.animateTo(stop.getGeoPoint());
-      mapController.setZoom(17);
-    } catch (Stop.InvalidPlatformNumberException e) {
-      Log.e(TAG, "Invalid platform: " + e.getMessage(), e);
-    }
   }
 
+  @Override
+  public void onStop() {
+    super.onStop();
+    SharedPreferences preferences = getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
+    SharedPreferences.Editor editor = preferences.edit();
+
+    editor.putInt("lastLatitude", mapView.getMapCenter().getLatitudeE6());
+    editor.putInt("lastLongitude", mapView.getMapCenter().getLongitudeE6());
+    editor.putInt("lastZoom", mapView.getZoomLevel());
+
+    editor.commit();
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    myLocationOverlay.enableMyLocation();
+  }
+
+  @Override
+  public void onPause() {
+    super.onPause();
+    myLocationOverlay.disableMyLocation();
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.map_menu, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.my_location:
+        Log.d(TAG, "My location selected");
+        if (lastFix != null) {
+          mapController.animateTo(lastFix);
+        }
+        return true;
+      case R.id.exchange:
+        Log.d(TAG, "Bus exchange selected");
+        mapController.animateTo(exchangeGeoPoint);
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
 
   public class MetroMapOverlay extends Overlay {
 
@@ -237,6 +296,11 @@ public class MetroMapActivity extends MapActivity {
 
     public Stop getHitLocation(GeoPoint point) {
       Stop hitStop = null;
+
+      if (stops == null) {
+        return null;
+      }
+
       Iterator<Stop> iterator = stops.iterator();
 
       while (iterator.hasNext()) {
