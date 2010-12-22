@@ -20,6 +20,7 @@ package nz.co.wholemeal.christchurchmetro;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -111,6 +112,19 @@ public class PlatformActivity extends ListActivity
       case R.id.add_to_favourites:
         Log.d(TAG, "Add to favourites selected");
         addToFavourites(current_stop);
+        return true;
+      case R.id.info:
+        Log.d(TAG, "Info selected");
+        String message = "Road Name: " + current_stop.roadName +
+          "\nPlatform Number: " + current_stop.platformNumber +
+          "\nPlatform Tag: " + current_stop.platformTag +
+          "\nLatitude: " + current_stop.latitude +
+          "\nLongitude: " + current_stop.longitude;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(current_stop.name)
+          .setMessage(message)
+          .setNeutralButton("Ok", null);
+        builder.show();
         return true;
       default:
         return super.onOptionsItemSelected(item);
