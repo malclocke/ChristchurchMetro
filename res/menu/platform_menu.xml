@@ -6,4 +6,7 @@
     <item android:id="@+id/info"
           android:icon="@drawable/ic_menu_info_details"
           android:title="Details" />
+    <item android:id="@+id/map"
+          android:icon="@drawable/ic_menu_mapmode"
+          android:title="Map" />
 </menu>

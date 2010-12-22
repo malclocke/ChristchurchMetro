@@ -107,7 +107,6 @@ public class PlatformActivity extends ListActivity
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    Intent intent;
     switch (item.getItemId()) {
       case R.id.add_to_favourites:
         Log.d(TAG, "Add to favourites selected");
@@ -126,6 +125,16 @@ public class PlatformActivity extends ListActivity
           .setNeutralButton("Ok", null);
         builder.show();
         return true;
+      case R.id.map:
+        Log.d(TAG, "Map selected");
+        Intent intent = new Intent();
+        intent.putExtra("latitude", current_stop.getGeoPoint().getLatitudeE6());
+        intent.putExtra("longitude", current_stop.getGeoPoint().getLongitudeE6());
+        intent.setClassName("nz.co.wholemeal.christchurchmetro",
+            "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
+        startActivity(intent);
+        return true;
+
       default:
         return super.onOptionsItemSelected(item);
     }
