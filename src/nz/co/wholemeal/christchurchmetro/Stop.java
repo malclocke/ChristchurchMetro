@@ -32,6 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -192,8 +193,9 @@ class Stop {
     return stops;
   }
 
-  public ArrayList getArrivals() {
+  public ArrayList getArrivals() throws Exception {
     arrivals.clear();
+
     try {
       SAXParserFactory spf = SAXParserFactory.newInstance();
       SAXParser sp = spf.newSAXParser();
@@ -203,7 +205,7 @@ class Stop {
       xr.setContentHandler(handler);
       xr.parse(new InputSource(source.openStream()));
     } catch (Exception e) {
-      Log.e(TAG, e.toString());
+      throw e;
     }
 
     Collections.sort(arrivals, new ComparatorByEta());

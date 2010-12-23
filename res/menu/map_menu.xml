@@ -5,4 +5,10 @@
           android:title="My Location" />
     <item android:id="@+id/exchange"
           android:title="Bus Exchange" />
+    <item android:id="@+id/favourite_stops"
+          android:icon="@drawable/ic_menu_favourites"
+          android:title="Favourite stops" />
+    <item android:id="@+id/search"
+          android:icon="@drawable/ic_menu_search"
+          android:title="Search" />
 </menu>

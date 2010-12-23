@@ -155,6 +155,7 @@ public class MetroMapActivity extends MapActivity {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    Intent intent;
     switch (item.getItemId()) {
       case R.id.my_location:
         Log.d(TAG, "My location selected");
@@ -165,6 +166,16 @@ public class MetroMapActivity extends MapActivity {
       case R.id.exchange:
         Log.d(TAG, "Bus exchange selected");
         mapController.animateTo(exchangeGeoPoint);
+        return true;
+      case R.id.favourite_stops:
+        Log.d(TAG, "Favourite stops selected");
+        intent = new Intent();
+        intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.FavouritesActivity");
+        startActivity(intent);
+        return true;
+      case R.id.search:
+        Log.d(TAG, "Search selected from menu");
+        onSearchRequested();
         return true;
       default:
         return super.onOptionsItemSelected(item);

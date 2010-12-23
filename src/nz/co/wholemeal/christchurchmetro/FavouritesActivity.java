@@ -66,7 +66,9 @@ public class FavouritesActivity extends ListActivity {
 
     setContentView(R.layout.favourites_list);
 
-    initFavourites();
+    if (stops.size() == 0) {
+      initFavourites();
+    }
 
     stopAdapter = new StopAdapter(this, R.layout.stop_list_item, stops);
     setListAdapter(stopAdapter);
@@ -137,12 +139,6 @@ public class FavouritesActivity extends ListActivity {
   public boolean onOptionsItemSelected(MenuItem item) {
     Intent intent;
     switch (item.getItemId()) {
-      case R.id.favourite_stops:
-        Log.d(TAG, "Favourite stops selected");
-        intent = new Intent();
-        intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.FavouritesActivity");
-        startActivity(intent);
-        return true;
       case R.id.map:
         Log.d(TAG, "Map selected from menu");
         intent = new Intent();
@@ -236,6 +232,17 @@ public class FavouritesActivity extends ListActivity {
     }
   }
 
+  public void removeFavourite(SharedPreferences preferences, Stop stop) {
+    if (isFavourite(stop)) {
+      Log.d(TAG, "Removed stop " + stop.platformNumber + " from favourites");
+      stops.remove(stop);
+      saveFavourites();
+    } else {
+      Log.e(TAG, "Remove requested for stop " + stop.platformNumber +
+          " but it's not present in favourites");
+    }
+  }
+
   private class StopAdapter extends ArrayAdapter<Stop> {
 
     private ArrayList<Stop> items;
@@ -276,14 +283,22 @@ public class FavouritesActivity extends ListActivity {
       TextView textView = textViews[0];
       Stop stop = (Stop)textView.getTag();
       Arrival arrival = null;
+      ArrayList arrivals = null;
       Log.d(TAG, "Running AsyncNextArrival.doInBackground() for stop " + stop.platformNumber);
-      ArrayList arrivals = stop.getArrivals();
-      if (!arrivals.isEmpty()) {
-        arrival = (Arrival)arrivals.get(0);
-        arrivalText = "Next bus: " + arrival.eta + " mins: " +
-          arrival.routeNumber + " - " + arrival.destination;
-      } else {
-        arrivalText = "No buses due in the next 30 minutes";
+      try {
+        arrivals = stop.getArrivals();
+      } catch (Exception e) {
+        arrivalText = "Unable to retrieve information";
+      }
+
+      if (arrivals != null) {
+        if (!arrivals.isEmpty()) {
+          arrival = (Arrival)arrivals.get(0);
+          arrivalText = "Next bus: " + arrival.eta + " mins: " +
+            arrival.routeNumber + " - " + arrival.destination;
+        } else {
+          arrivalText = "No buses due in the next 30 minutes";
+        }
       }
       return textView;
     }

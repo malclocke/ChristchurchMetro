@@ -48,6 +48,7 @@ import android.view.MenuInflater;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.util.Log;
+import android.widget.ImageView;
 
 import nz.co.wholemeal.christchurchmetro.R;
 import nz.co.wholemeal.christchurchmetro.Stop;
@@ -178,8 +179,26 @@ public class PlatformActivity extends ListActivity
   public void setStopHeader(final Stop stop) {
     TextView platformNumber = (TextView)stopHeader.findViewById(R.id.platform_number);
     TextView platformName = (TextView)stopHeader.findViewById(R.id.platform_name);
+    final ImageView favouriteIcon = (ImageView)stopHeader.findViewById(R.id.favourite_icon);
     platformNumber.setText(stop.platformNumber);
     platformName.setText(stop.name);
+    if (FavouritesActivity.isFavourite(stop)) {
+      favouriteIcon.setImageResource(R.drawable.favourite_active);
+      favouriteIcon.setOnClickListener(new OnClickListener() {
+        public void onClick(View view) {
+          removeFromFavourites(stop);
+          favouriteIcon.setImageResource(R.drawable.favourite_inactive);
+        }
+      });
+    } else {
+      favouriteIcon.setImageResource(R.drawable.favourite_inactive);
+      favouriteIcon.setOnClickListener(new OnClickListener() {
+        public void onClick(View view) {
+          addToFavourites(stop);
+          favouriteIcon.setImageResource(R.drawable.favourite_active);
+        }
+      });
+    }
   }
 
   public void addToFavourites(Stop stop) {
@@ -191,6 +210,28 @@ public class PlatformActivity extends ListActivity
       FavouritesActivity.saveFavourites(favourites);
       Toast.makeText(getApplicationContext(), "Added '" + stop.name +
           "' to favourites", Toast.LENGTH_LONG).show();
+    }
+  }
+
+  public void removeFromFavourites(Stop stop) {
+    if (FavouritesActivity.isFavourite(stop)) {
+      SharedPreferences favourites = getSharedPreferences(PREFERENCES_FILE, 0);
+
+      /* Need to compare by platformTag, as stops.remove(stop) won't work
+       * directly as this instance and the one in FavouritesActivity.stops
+       * are different instances */
+      Iterator<Stop> iterator = FavouritesActivity.stops.iterator();
+
+      while (iterator.hasNext()) {
+        Stop favouriteStop = iterator.next();
+        if (favouriteStop.platformTag.equals(stop.platformTag)) {
+          FavouritesActivity.stops.remove(favouriteStop);
+          FavouritesActivity.saveFavourites(favourites);
+          Toast.makeText(getApplicationContext(), "Removed '" + stop.name +
+              "' from favourites", Toast.LENGTH_LONG).show();
+          break;
+        }
+      }
     }
   }
 
@@ -281,7 +322,12 @@ public class PlatformActivity extends ListActivity
 
     protected void onPostExecute(ArrayList stopArrivals) {
       Log.d(TAG, "onPostExecute()");
-      if (stopArrivals.size() > 0) {
+      if (stopArrivals == null) {
+        Toast.makeText(getApplicationContext(),
+            "Unable to retrieve arrival information.",
+            Toast.LENGTH_LONG).show();
+
+      } else if (stopArrivals.size() > 0) {
         Log.d(TAG, "arrivals.size() = " + arrivals.size());
         arrivals.addAll(stopArrivals);
       } else {
@@ -295,7 +341,14 @@ public class PlatformActivity extends ListActivity
 
     protected ArrayList doInBackground(Stop... stops) {
       Log.d(TAG, "Running doInBackground()");
-      return stops[0].getArrivals();
+      ArrayList arrivals = null;
+      try {
+        arrivals = stops[0].getArrivals();
+      } catch (Exception e) {
+        Log.e(TAG, "getArrivals(): " + e.getMessage());
+      }
+
+      return arrivals;
     }
   }
 }
