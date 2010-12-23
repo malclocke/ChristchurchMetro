@@ -173,7 +173,19 @@ public class PlatformActivity extends ListActivity
   }
 
   public void loadStopByPlatformTag(String platformTag) {
-    new AsyncLoadStopByPlatformTag().execute(platformTag);
+    Log.d(TAG, "Running loadStopByPlatformTag.doInBackground()");
+    Stop stop = null;
+    try {
+      stop = new Stop(platformTag, null, getApplicationContext());
+    } catch (Stop.InvalidPlatformNumberException e) {
+      Log.d(TAG, "InvalidPlatformNumberException: " + e.getMessage());
+    }
+    if (stop == null) {
+      Toast.makeText(getApplicationContext(), "Unable to find stop",
+          Toast.LENGTH_LONG).show();
+    } else {
+      loadStop(stop);
+    }
   }
 
   public void setStopHeader(final Stop stop) {
@@ -268,29 +280,6 @@ public class PlatformActivity extends ListActivity
         }
       }
       return v;
-    }
-  }
-
-  public class AsyncLoadStopByPlatformTag extends AsyncTask<String, Void, Stop> {
-    protected Stop doInBackground(String... platformTags) {
-      Log.d(TAG, "Running AsyncLoadStopByPlatformTag.doInBackground()");
-      Stop stop = null;
-      try {
-        stop = new Stop(platformTags[0], null, getApplicationContext());
-      } catch (Stop.InvalidPlatformNumberException e) {
-        Log.d(TAG, "InvalidPlatformNumberException: " + e.getMessage());
-      }
-      return stop;
-    }
-
-    protected void onPostExecute(Stop stop) {
-      Log.d(TAG, "AsyncLoadStopByPlatformTag.onPostExecute()");
-      if (stop == null) {
-        Toast.makeText(getApplicationContext(), "Unable to find stop",
-            Toast.LENGTH_LONG).show();
-      } else {
-        loadStop(stop);
-      }
     }
   }
 
