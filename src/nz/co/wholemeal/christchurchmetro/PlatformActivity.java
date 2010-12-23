@@ -182,23 +182,24 @@ public class PlatformActivity extends ListActivity
     final ImageView favouriteIcon = (ImageView)stopHeader.findViewById(R.id.favourite_icon);
     platformNumber.setText(stop.platformNumber);
     platformName.setText(stop.name);
+
     if (FavouritesActivity.isFavourite(stop)) {
       favouriteIcon.setImageResource(R.drawable.favourite_active);
-      favouriteIcon.setOnClickListener(new OnClickListener() {
-        public void onClick(View view) {
-          removeFromFavourites(stop);
-          favouriteIcon.setImageResource(R.drawable.favourite_inactive);
-        }
-      });
     } else {
       favouriteIcon.setImageResource(R.drawable.favourite_inactive);
-      favouriteIcon.setOnClickListener(new OnClickListener() {
-        public void onClick(View view) {
+    }
+
+    favouriteIcon.setOnClickListener(new OnClickListener() {
+      public void onClick(View view) {
+        if (FavouritesActivity.isFavourite(stop)) {
+          removeFromFavourites(stop);
+          favouriteIcon.setImageResource(R.drawable.favourite_inactive);
+        } else {
           addToFavourites(stop);
           favouriteIcon.setImageResource(R.drawable.favourite_active);
         }
-      });
-    }
+      }
+    });
   }
 
   public void addToFavourites(Stop stop) {
