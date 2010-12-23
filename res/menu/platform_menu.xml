@@ -8,5 +8,5 @@
           android:title="Details" />
     <item android:id="@+id/map"
           android:icon="@drawable/ic_menu_mapmode"
-          android:title="Map" />
+          android:title="Show on map" />
 </menu>
