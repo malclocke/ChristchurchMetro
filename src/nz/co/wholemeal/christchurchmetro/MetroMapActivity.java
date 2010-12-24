@@ -210,7 +210,7 @@ public class MetroMapActivity extends MapActivity {
       int mapViewWidth = mapView.getWidth();
 
       GeoPoint topLeft = projection.fromPixels(0, 0);
-      GeoPoint bottomRight = projection.fromPixels(mapViewHeight, mapViewWidth);
+      GeoPoint bottomRight = projection.fromPixels(mapViewWidth, mapViewHeight);
 
       Log.d(TAG, "topLeft coords = " + topLeft.toString());
       Log.d(TAG, "bottomRight coords = " + bottomRight.toString());
