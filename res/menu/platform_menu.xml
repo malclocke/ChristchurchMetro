@@ -9,4 +9,7 @@
     <item android:id="@+id/map"
           android:icon="@drawable/ic_menu_mapmode"
           android:title="Show on map" />
+    <item android:id="@+id/refresh"
+          android:icon="@drawable/ic_menu_refresh"
+          android:title="Refresh" />
 </menu>

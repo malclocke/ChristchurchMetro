@@ -109,10 +109,6 @@ public class PlatformActivity extends ListActivity
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
-      case R.id.add_to_favourites:
-        Log.d(TAG, "Add to favourites selected");
-        addToFavourites(current_stop);
-        return true;
       case R.id.info:
         Log.d(TAG, "Info selected");
         String message = "Road Name: " + current_stop.roadName +
@@ -126,6 +122,7 @@ public class PlatformActivity extends ListActivity
           .setNeutralButton("Ok", null);
         builder.show();
         return true;
+
       case R.id.map:
         Log.d(TAG, "Map selected");
         Intent intent = new Intent();
@@ -134,6 +131,11 @@ public class PlatformActivity extends ListActivity
         intent.setClassName("nz.co.wholemeal.christchurchmetro",
             "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
         startActivity(intent);
+        return true;
+
+      case R.id.refresh:
+        Log.d(TAG, "Refresh selected");
+        new AsyncLoadArrivals().execute(current_stop);
         return true;
 
       default:
@@ -318,7 +320,7 @@ public class PlatformActivity extends ListActivity
             Toast.LENGTH_LONG).show();
 
       } else if (stopArrivals.size() > 0) {
-        Log.d(TAG, "arrivals.size() = " + arrivals.size());
+        arrivals.clear();
         arrivals.addAll(stopArrivals);
       } else {
         Log.d(TAG, "No arrivals");
