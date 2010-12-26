@@ -343,20 +343,29 @@ public class MetroMapActivity extends MapActivity {
     }
 
     public boolean checkStopWithinTapRange(Stop stop, GeoPoint point) {
-      int stopLatitude = stop.getGeoPoint().getLatitudeE6();
-      int stopLongitude = stop.getGeoPoint().getLongitudeE6();
-      int left = point.getLongitudeE6() - 100;
-      int right = point.getLongitudeE6() + 100;
-      int top = point.getLatitudeE6() + 100;
-      int bottom = point.getLatitudeE6() - 100;
-      Log.d(TAG, "left = " + left);
-      Log.d(TAG, "right = " + right);
-      Log.d(TAG, "top = " + top);
-      Log.d(TAG, "bottom = " + bottom);
-      Log.d(TAG, "stop lat = " + stopLatitude);
-      Log.d(TAG, "stop lon = " + stopLongitude);
-      return (left < stopLongitude && right > stopLongitude &&
-              top > stopLatitude && bottom < stopLatitude);
+      Bitmap bitmap = ((BitmapDrawable)marker).getBitmap();
+
+      // Convert the clicked point to a pixel location on the MapView
+      Projection projection = mapView.getProjection();
+      Point comparePoint = new Point();
+      projection.toPixels(point, comparePoint);
+
+      /**
+       * Get a rectangle describing the map marker boundaries in screen pixels.
+       * The anchor point of the map marker is bottom center.
+       */
+      Point stopPoint = new Point();
+      projection.toPixels(stop.getGeoPoint(), stopPoint);
+      Rect markerRect = new Rect(
+          stopPoint.x - (bitmap.getWidth() / 2),
+          stopPoint.y - bitmap.getHeight(),
+          stopPoint.x + (bitmap.getWidth() / 2),
+          stopPoint.y);
+
+      Log.d(TAG, "tap point (x/y) = " + comparePoint.x + "/" + comparePoint.y);
+      Log.d(TAG, "marker rect (l/t/r/b) = " + markerRect.left + "/" +
+          markerRect.top + "/" + markerRect.right + "/" + markerRect.bottom);
+      return markerRect.contains(comparePoint.x, comparePoint.y);
     }
   }
 }
