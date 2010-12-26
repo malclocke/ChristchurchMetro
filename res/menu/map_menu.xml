@@ -4,6 +4,7 @@
           android:icon="@drawable/ic_menu_mylocation"
           android:title="My Location" />
     <item android:id="@+id/exchange"
+          android:icon="@drawable/ic_menu_exchange"
           android:title="Bus Exchange" />
     <item android:id="@+id/favourite_stops"
           android:icon="@drawable/ic_menu_favourites"
