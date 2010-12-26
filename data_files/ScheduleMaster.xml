@@ -1,0 +1,1102 @@
+<?xml version="1.0"?>
+<ScheduleMaster xmlns="urn:connexionz-co-nz">
+  <Content Expires="2010-12-26T03:32:00" />
+  <Project ProjectID="CHCMETRO" Name="Metro Christchurch">
+    <Schedule ValidFrom="2010-11-01T00:00:00">
+      <Route RouteNo="3" Name="Airport/Sumner via Avonhead">
+        <DestinationGroup Name="Airport &amp; Avonhead to Sumner" ID="1">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Sumner to Avonhead &amp; Airport" ID="2">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="5" Name="Hornby/Southshore">
+        <DestinationGroup Name="Hornby to Southshore" ID="3">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Southshore to Hornby" ID="4">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="7" Name="Halswell/Queenspark">
+        <DestinationGroup Name="Halswell to Queenspark" ID="5">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Queenspark to Halswell" ID="6">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="8" Name="Casebrook/Hoon Hay">
+        <DestinationGroup Name="Casebrook to Hoon Hay" ID="7">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Hoon Hay to Casebrook" ID="8">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="9" Name="Wairakei">
+        <DestinationGroup Name="Burnside to City" ID="9">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="City to Burnside" ID="10">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="10" Name="Airport/Cashmere">
+        <DestinationGroup Name="Airport to Cashmere" ID="11">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Cashmere to Airport" ID="12">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="11" Name="Styx Mill/Westmorland">
+        <DestinationGroup Name="Styx Mill to Westmorland" ID="13">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Westmorland to Styx Mill" ID="14">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="12" Name="Northwood/Murray Aynsley">
+        <DestinationGroup Name="Murray Aynsley to Northwood" ID="15">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Northwood to Murray Aynsley" ID="16">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="14" Name="Harewood/Dyers Pass">
+        <DestinationGroup Name="Dyers Pass to Harewood" ID="17">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Harewood to Dyers Pass" ID="18">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="15" Name="Bishopdale/Beckenham">
+        <DestinationGroup Name="Beckenham to Bishopdale" ID="19">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Bishopdale to Beckenham" ID="20">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="16" Name="Belfast">
+        <DestinationGroup Name="Belfast to City" ID="21">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="City to Belfast" ID="22">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="18" Name="St Albans/Huntsbury">
+        <DestinationGroup Name="Huntsbury to St Albans" ID="23">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="St Albans to Huntsbury" ID="24">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="20" Name="Burnside/Barrington">
+        <DestinationGroup Name="Barrington to Burnside" ID="25">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Burnside to Barrington" ID="26">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="21" Name="Ilam/Mt Pleasant">
+        <DestinationGroup Name="Ilam to Mt Pleasant" ID="27">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Mt Pleasant to Ilam" ID="28">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="22" Name="Redwood/Spreydon">
+        <DestinationGroup Name="Redwood to Spreydon" ID="29">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Spreydon to Redwood" ID="30">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="23" Name="Hyde Park/Woolston">
+        <DestinationGroup Name="Hyde Park to Woolston" ID="31">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Woolston to Hyde Park" ID="32">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="28" Name="Lyttelton/Rapaki">
+        <DestinationGroup Name="City to Lyttelton and Rapaki" ID="33">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Rapaki and Lyttelton to City" ID="34">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="29" Name="Airport-City via Fendalton">
+        <DestinationGroup Name="Airport to City" ID="35">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="City to Airport" ID="36">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="35" Name="Riccarton/Heathcote">
+        <DestinationGroup Name="Lyttelton to Riccarton via Heathcote" ID="37">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Riccarton to Lyttelton via Heathcote" ID="38">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="40" Name="Wainoni">
+        <DestinationGroup Name="City to New Brighton via Wainoni" ID="39">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="New Brighton to City via Wainoni" ID="40">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="45" Name="North Shore">
+        <DestinationGroup Name="City to North Shore via QEII Park" ID="41">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="North Shore to City via QEII Park" ID="42">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="46" Name="Marshland">
+        <DestinationGroup Name="City to Marshland via Shirley &amp; The Palms" ID="43">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Marshland to City via The Palms &amp; Shirley" ID="44">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="51" Name="Tower Junction/Aranui">
+        <DestinationGroup Name="New Brighton to Tower Junction" ID="45">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Tower Junction to New Brighton" ID="46">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="60" Name="Parklands">
+        <DestinationGroup Name="City to Parklands" ID="47">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Parklands to City" ID="48">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="77" Name="Kennedys Bush">
+        <DestinationGroup Name="City to Kennedys Bush" ID="49">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Kennedys Bush to City" ID="50">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="81" Name="Lincoln">
+        <DestinationGroup Name="City to Lincoln" ID="51">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Lincoln to City" ID="52">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="83" Name="Hei Hei/Burwood">
+        <DestinationGroup Name="Burwood to Hei Hei" ID="53">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Hei Hei to Burwood" ID="54">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="84" Name="Russley/Avondale">
+        <DestinationGroup Name="Avondale to Russley" ID="55">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Russley to Avondale" ID="56">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="88" Name="Rolleston">
+        <DestinationGroup Name="City to Rolleston" ID="57">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Rolleston to City" ID="58">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="90" Name="Rangiora Direct">
+        <DestinationGroup Name="City to Rangiora" ID="59">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Rangiora to City" ID="60">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="92" Name="Rangiora via Woodend and Waikuku">
+        <DestinationGroup Name="City to Rangiora" ID="61">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Rangiora to City" ID="62">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="480" Name="Kainga">
+        <DestinationGroup Name="Kainga to The Palms" ID="63">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+        </DestinationGroup>
+        <DestinationGroup Name="The Palms to Kainga" ID="64">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="820" Name="Burnham/Lincoln via Rolleston">
+        <DestinationGroup Name="Burnham to Lincoln" ID="65">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Lincoln to Burnham" ID="66">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="912" Name="Woodend Shuttle">
+        <DestinationGroup Name="Kaiapoi to Rangiora" ID="67">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Rangiora to Kaiapoi" ID="68">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="913" Name="Woodend Shuttle via Waikuku">
+        <DestinationGroup Name="Kaiapoi to Rangiora via Waikuku" ID="69">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Rangiora to Kaiapoi via Waikuku" ID="70">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="F" Name="Ferry">
+        <DestinationGroup Name="Diamond Harbour to Lyttelton" ID="71">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Lyttelton to Diamond Harbour" ID="72">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="M" Name="Metrostar">
+        <DestinationGroup Name="Halswell to New Brighton" ID="73">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="New Brighton to Halswell" ID="74">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="Oa" Name="Orbiter">
+        <DestinationGroup Name="Orbiter Anti-clock" ID="75">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="Oc" Name="Orbiter">
+        <DestinationGroup Name="Orbiter Clockwise" ID="76">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+    </Schedule>
+    <Schedule ValidFrom="2011-01-17T00:00:00">
+      <Route RouteNo="3" Name="Airport/Sumner via Avonhead">
+        <DestinationGroup Name="Airport &amp; Avonhead to Sumner" ID="77">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Sumner to Avonhead &amp; Airport" ID="78">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="5" Name="Hornby/Southshore">
+        <DestinationGroup Name="Hornby to Southshore" ID="79">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Southshore to Hornby" ID="80">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="7" Name="Halswell/Queenspark">
+        <DestinationGroup Name="Halswell to Queenspark" ID="81">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Queenspark to Halswell" ID="82">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="8" Name="Casebrook/Hoon Hay">
+        <DestinationGroup Name="Casebrook to Hoon Hay" ID="83">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Hoon Hay to Casebrook" ID="84">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="9" Name="Wairakei">
+        <DestinationGroup Name="Burnside to City" ID="85">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="City to Burnside" ID="86">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="10" Name="Airport/Cashmere">
+        <DestinationGroup Name="Airport to Cashmere" ID="87">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Cashmere to Airport" ID="88">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="11" Name="Styx Mill/Westmorland">
+        <DestinationGroup Name="Styx Mill to Westmorland" ID="89">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Westmorland to Styx Mill" ID="90">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="12" Name="Northwood/Murray Aynsley">
+        <DestinationGroup Name="Murray Aynsley to Northwood" ID="91">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Northwood to Murray Aynsley" ID="92">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="14" Name="Harewood/Dyers Pass">
+        <DestinationGroup Name="Dyers Pass to Harewood" ID="93">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Harewood to Dyers Pass" ID="94">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="15" Name="Bishopdale/Beckenham">
+        <DestinationGroup Name="Beckenham to Bishopdale" ID="95">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Bishopdale to Beckenham" ID="96">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="16" Name="Belfast">
+        <DestinationGroup Name="Belfast to City" ID="97">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="City to Belfast" ID="98">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="18" Name="St Albans/Huntsbury">
+        <DestinationGroup Name="Huntsbury to St Albans" ID="99">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="St Albans to Huntsbury" ID="100">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="20" Name="Burnside/Barrington">
+        <DestinationGroup Name="Barrington to Burnside" ID="101">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Burnside to Barrington" ID="102">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="21" Name="Ilam/Mt Pleasant">
+        <DestinationGroup Name="Ilam to Mt Pleasant" ID="103">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Mt Pleasant to Ilam" ID="104">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="22" Name="Redwood/Spreydon">
+        <DestinationGroup Name="Redwood to Spreydon" ID="105">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Spreydon to Redwood" ID="106">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="23" Name="Hyde Park/Woolston">
+        <DestinationGroup Name="Hyde Park to Woolston" ID="107">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Woolston to Hyde Park" ID="108">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="28" Name="Lyttelton/Rapaki">
+        <DestinationGroup Name="City to Lyttelton and Rapaki" ID="109">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Rapaki and Lyttelton to City" ID="110">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="29" Name="Airport-City via Fendalton">
+        <DestinationGroup Name="Airport to City" ID="111">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="City to Airport" ID="112">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="35" Name="Riccarton/Heathcote">
+        <DestinationGroup Name="Lyttelton to Riccarton via Heathcote" ID="113">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Riccarton to Lyttelton via Heathcote" ID="114">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="40" Name="Wainoni">
+        <DestinationGroup Name="City to New Brighton via Wainoni" ID="115">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="New Brighton to City via Wainoni" ID="116">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="45" Name="North Shore">
+        <DestinationGroup Name="City to North Shore via QEII Park" ID="117">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="North Shore to City via QEII Park" ID="118">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="46" Name="Marshland">
+        <DestinationGroup Name="City to Marshland via Shirley &amp; The Palms" ID="119">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Marshland to City via The Palms &amp; Shirley" ID="120">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="51" Name="Tower Junction/Aranui">
+        <DestinationGroup Name="New Brighton to Tower Junction" ID="121">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Tower Junction to New Brighton" ID="122">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="60" Name="Parklands">
+        <DestinationGroup Name="City to Parklands" ID="123">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Parklands to City" ID="124">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="77" Name="Kennedys Bush">
+        <DestinationGroup Name="City to Kennedys Bush" ID="125">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Kennedys Bush to City" ID="126">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="81" Name="Lincoln">
+        <DestinationGroup Name="City to Lincoln" ID="127">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Lincoln to City" ID="128">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="83" Name="Hei Hei/Burwood">
+        <DestinationGroup Name="Burwood to Hei Hei" ID="129">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Hei Hei to Burwood" ID="130">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="84" Name="Russley/Avondale">
+        <DestinationGroup Name="Avondale to Russley" ID="131">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Russley to Avondale" ID="132">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="88" Name="Rolleston">
+        <DestinationGroup Name="City to Rolleston" ID="133">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Rolleston to City" ID="134">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="90" Name="Rangiora Direct">
+        <DestinationGroup Name="City to Rangiora" ID="135">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Rangiora to City" ID="136">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="92" Name="Rangiora via Woodend and Waikuku">
+        <DestinationGroup Name="City to Rangiora" ID="137">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Rangiora to City" ID="138">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="480" Name="Kainga">
+        <DestinationGroup Name="Kainga to The Palms" ID="139">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+        </DestinationGroup>
+        <DestinationGroup Name="The Palms to Kainga" ID="140">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="740" Name="Governors Bay">
+        <DestinationGroup Name="Cashmere Road to Governors Bay" ID="141">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Governors Bay to Cashmere Road" ID="142">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="820" Name="Burnham/Lincoln via Rolleston">
+        <DestinationGroup Name="Burnham to Lincoln" ID="143">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Lincoln to Burnham" ID="144">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="912" Name="Woodend Shuttle">
+        <DestinationGroup Name="Kaiapoi to Rangiora" ID="145">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Rangiora to Kaiapoi" ID="146">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="913" Name="Woodend Shuttle via Waikuku">
+        <DestinationGroup Name="Kaiapoi to Rangiora via Waikuku" ID="147">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Rangiora to Kaiapoi via Waikuku" ID="148">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="F" Name="Ferry">
+        <DestinationGroup Name="Diamond Harbour to Lyttelton" ID="149">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="Lyttelton to Diamond Harbour" ID="150">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="M" Name="Metrostar">
+        <DestinationGroup Name="Halswell to New Brighton" ID="151">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+        <DestinationGroup Name="New Brighton to Halswell" ID="152">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="Oa" Name="Orbiter">
+        <DestinationGroup Name="Orbiter Anti-clock" ID="153">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="Oc" Name="Orbiter">
+        <DestinationGroup Name="Orbiter Clockwise" ID="154">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+          <Service Name="Sunday" />
+        </DestinationGroup>
+      </Route>
+    </Schedule>
+  </Project>
+  <Project ProjectID="TIUMETRO" Name="Metro Timaru">
+    <Schedule ValidFrom="2010-06-28T00:00:00">
+      <Route RouteNo="1" Name="Gleniti">
+        <DestinationGroup Name="Gleniti" ID="155">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="2" Name="Grantlea">
+        <DestinationGroup Name="Grantlea" ID="156">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="3" Name="Marchwiel">
+        <DestinationGroup Name="Marchwiel" ID="157">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+        </DestinationGroup>
+      </Route>
+      <Route RouteNo="4" Name="South End">
+        <DestinationGroup Name="South End" ID="158">
+          <Service Name="Monday to Thursday" />
+          <Service Name="Friday" />
+          <Service Name="Saturday" />
+        </DestinationGroup>
+      </Route>
+    </Schedule>
+  </Project>
+</ScheduleMaster>

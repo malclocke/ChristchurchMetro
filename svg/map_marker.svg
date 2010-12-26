@@ -14,7 +14,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.0 r9654"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="map_marker.svg"
+   inkscape:export-filename="/home/malc/wholemeal/projects/ChristchurchMetro/res/drawable-mdpi/stop_marker.png"
+   inkscape:export-xdpi="4.0600905"
+   inkscape:export-ydpi="4.0600905">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="25.12611"
+     inkscape:cx="23.12611"
      inkscape:cy="415.79442"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
