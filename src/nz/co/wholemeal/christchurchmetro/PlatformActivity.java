@@ -22,6 +22,7 @@ import java.util.Iterator;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.Intent;
@@ -312,6 +313,16 @@ public class PlatformActivity extends ListActivity
   /* Loads the arrival information in a background thread. */
   public class AsyncLoadArrivals extends AsyncTask<Stop, Void, ArrayList> {
 
+    ProgressDialog progressDialog;
+
+    protected void onPreExecute() {
+      progressDialog = new ProgressDialog(PlatformActivity.this);
+      progressDialog.setMessage("Loading arrivals ...");
+      progressDialog.setIndeterminate(true);
+      progressDialog.setCancelable(false);
+      progressDialog.show();
+    }
+
     protected void onPostExecute(ArrayList stopArrivals) {
       Log.d(TAG, "onPostExecute()");
       if (stopArrivals == null) {
@@ -328,6 +339,7 @@ public class PlatformActivity extends ListActivity
             "No arrivals for this stop in the next 30 minutes",
             Toast.LENGTH_LONG).show();
       }
+      progressDialog.dismiss();
       arrival_adapter.notifyDataSetChanged();
     }
 
