@@ -287,10 +287,12 @@ public class MetroMapActivity extends MapActivity {
         }
         ((TextView)popUp.findViewById(R.id.map_popup_platform_number)).setText(selectedStop.platformNumber);
         ((TextView)popUp.findViewById(R.id.map_popup_platform_name)).setText(selectedStop.name);
+        Bitmap bitmap = ((BitmapDrawable)marker).getBitmap();
         MapView.LayoutParams layoutParams = new MapView.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             selectedStop.getGeoPoint(),
+            0, -(bitmap.getHeight()),
             MapView.LayoutParams.BOTTOM_CENTER);
         Button goButton = (Button)popUp.findViewById(R.id.map_popup_go);
         goButton.setOnClickListener(new OnClickListener() {
