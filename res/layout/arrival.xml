@@ -8,6 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:textSize="12pt"
+        android:ems="1"
         android:layout_marginRight="6dip" />
     <LinearLayout
         android:orientation="vertical"

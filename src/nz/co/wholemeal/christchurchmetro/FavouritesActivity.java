@@ -294,7 +294,7 @@ public class FavouritesActivity extends ListActivity {
       if (arrivals != null) {
         if (!arrivals.isEmpty()) {
           arrival = (Arrival)arrivals.get(0);
-          arrivalText = "Next bus: " + arrival.eta + " mins: " +
+          arrivalText = arrival.eta + " mins: " +
             arrival.routeNumber + " - " + arrival.destination;
         } else {
           arrivalText = "No buses due in the next 30 minutes";
