@@ -109,8 +109,10 @@ class Stop {
       this.roadName = cursor.getString(3);
       this.latitude = cursor.getDouble(4);
       this.longitude = cursor.getDouble(5);
+      cursor.close();
       database.close();
     } else {
+      cursor.close();
       database.close();
       throw new InvalidPlatformNumberException("Invalid platform");
     }
