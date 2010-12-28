@@ -248,9 +248,7 @@ class Stop {
 
     public void startElement(String uri, String localName, String qName,
         Attributes attributes) throws SAXException {
-      Log.d(TAG, "Got start element <" + localName + ">");
       if (localName.equals("Route")) {
-        Log.d(TAG, "Arrivals for RouteNo " + attributes.getValue("RouteNo"));
         routeNumber = attributes.getValue("RouteNo");
         routeName = attributes.getValue("Name");
       } else if (localName.equals("Destination")) {
@@ -272,9 +270,7 @@ class Stop {
 
     public void endElement(String uri, String localName, String qName)
       throws SAXException {
-      Log.d(TAG, "Got end element </" + localName + ">");
       if (localName.equals("Route")) {
-        Log.d(TAG, "Arrival finished ");
         routeNumber = null;
         routeName = null;
       } else if (localName.equals("Destination")) {
