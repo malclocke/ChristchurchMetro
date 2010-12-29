@@ -298,7 +298,6 @@ public class MetroMapActivity extends MapActivity {
         goButton.setOnClickListener(new OnClickListener() {
           public void onClick(View v) {
             Intent intent = new Intent();
-            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("platformTag", selectedStop.platformTag);
             intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.PlatformActivity");
             startActivity(intent);

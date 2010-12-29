@@ -26,6 +26,7 @@ import org.json.JSONArray;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.res.Resources;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -110,7 +111,7 @@ public class FavouritesActivity extends ListActivity {
   public void onCreateContextMenu(ContextMenu menu, View v,
                                   ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
-    menu.setHeaderTitle("Options");
+    menu.setHeaderTitle(R.string.options);
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.favourite_context_menu, menu);
   }
@@ -267,7 +268,7 @@ public class FavouritesActivity extends ListActivity {
         platformNumber.setText(stop.platformNumber);
         platformName.setText(stop.name);
         nextBus.setTag(stop);
-        nextBus.setText("Next bus: Loading ...");
+        nextBus.setText(R.string.next_bus_loading);
         new AsyncNextArrival().execute(nextBus);
       }
       return v;
@@ -288,16 +289,16 @@ public class FavouritesActivity extends ListActivity {
       try {
         arrivals = stop.getArrivals();
       } catch (Exception e) {
-        arrivalText = "Unable to retrieve information";
+        arrivalText = getString(R.string.unable_to_retrieve_information);
       }
 
       if (arrivals != null) {
         if (!arrivals.isEmpty()) {
           arrival = (Arrival)arrivals.get(0);
-          arrivalText = arrival.eta + " mins: " +
-            arrival.routeNumber + " - " + arrival.destination;
+          arrivalText = getResources().getQuantityString(R.plurals.mins, arrival.eta, arrival.eta) +
+            ": " + arrival.routeNumber + " - " + arrival.destination;
         } else {
-          arrivalText = "No buses due in the next 30 minutes";
+          arrivalText = getString(R.string.no_buses_due);
         }
       }
       return textView;

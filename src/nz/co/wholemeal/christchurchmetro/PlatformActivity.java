@@ -112,15 +112,15 @@ public class PlatformActivity extends ListActivity
     switch (item.getItemId()) {
       case R.id.info:
         Log.d(TAG, "Info selected");
-        String message = "Road Name: " + current_stop.roadName +
-          "\nPlatform Number: " + current_stop.platformNumber +
-          "\nPlatform Tag: " + current_stop.platformTag +
-          "\nLatitude: " + current_stop.latitude +
-          "\nLongitude: " + current_stop.longitude;
+        String message = String.format(
+          getResources().getString(R.string.platform_info),
+          current_stop.roadName, current_stop.platformNumber,
+          current_stop.platformTag, current_stop.latitude,
+          current_stop.longitude);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(current_stop.name)
           .setMessage(message)
-          .setNeutralButton("Ok", null);
+          .setNeutralButton(R.string.ok, null);
         builder.show();
         return true;
 
@@ -171,10 +171,6 @@ public class PlatformActivity extends ListActivity
     new AsyncLoadArrivals().execute(stop);
   }
 
-  public void loadStopByPlatformNumber(String platformNumber) {
-    new AsyncLoadStopByPlatformNumber().execute(platformNumber);
-  }
-
   public void loadStopByPlatformTag(String platformTag) {
     Log.d(TAG, "Running loadStopByPlatformTag.doInBackground()");
     Stop stop = null;
@@ -184,7 +180,7 @@ public class PlatformActivity extends ListActivity
       Log.d(TAG, "InvalidPlatformNumberException: " + e.getMessage());
     }
     if (stop == null) {
-      Toast.makeText(getApplicationContext(), "Unable to find stop",
+      Toast.makeText(getApplicationContext(), R.string.unable_to_find_stop,
           Toast.LENGTH_LONG).show();
     } else {
       loadStop(stop);
@@ -224,8 +220,9 @@ public class PlatformActivity extends ListActivity
       SharedPreferences favourites = getSharedPreferences(PREFERENCES_FILE, 0);
       FavouritesActivity.stops.add(stop);
       FavouritesActivity.saveFavourites(favourites);
-      Toast.makeText(getApplicationContext(), "Added '" + stop.name +
-          "' to favourites", Toast.LENGTH_LONG).show();
+      Toast.makeText(getApplicationContext(),
+        String.format(getResources().getString(R.string.added_to_favourites), stop.name),
+        Toast.LENGTH_LONG).show();
     }
   }
 
@@ -243,8 +240,9 @@ public class PlatformActivity extends ListActivity
         if (favouriteStop.platformTag.equals(stop.platformTag)) {
           FavouritesActivity.stops.remove(favouriteStop);
           FavouritesActivity.saveFavourites(favourites);
-          Toast.makeText(getApplicationContext(), "Removed '" + stop.name +
-              "' from favourites", Toast.LENGTH_LONG).show();
+          Toast.makeText(getApplicationContext(),
+            String.format(getResources().getString(R.string.removed_from_favourites), stop.name),
+            Toast.LENGTH_LONG).show();
           break;
         }
       }
@@ -279,34 +277,10 @@ public class PlatformActivity extends ListActivity
           destination.setText(arrival.destination);
         }
         if (eta != null) {
-          eta.setText(arrival.eta + " minutes");
+          eta.setText(getResources().getQuantityString(R.plurals.minutes, arrival.eta, arrival.eta));
         }
       }
       return v;
-    }
-  }
-
-  public class AsyncLoadStopByPlatformNumber extends AsyncTask<String, Void, Stop> {
-    protected Stop doInBackground(String... platformNumbers) {
-      String platformNumber = platformNumbers[0];
-      Log.d(TAG, "Running AsyncLoadStopByPlatformNumber.doInBackground() platformNumber = " + platformNumber);
-      Stop stop = null;
-      try {
-        stop = new Stop(null, platformNumber, getApplicationContext());
-      } catch (Stop.InvalidPlatformNumberException e) {
-        Log.d(TAG, "InvalidPlatformNumberException: " + e.getMessage());
-      }
-      return stop;
-    }
-
-    protected void onPostExecute(Stop stop) {
-      Log.d(TAG, "AsyncLoadStopByPlatformNumber.onPostExecute()");
-      if (stop == null) {
-        Toast.makeText(getApplicationContext(), "Unable to find stop",
-            Toast.LENGTH_LONG).show();
-      } else {
-        loadStop(stop);
-      }
     }
   }
 
@@ -317,7 +291,7 @@ public class PlatformActivity extends ListActivity
 
     protected void onPreExecute() {
       progressDialog = new ProgressDialog(PlatformActivity.this);
-      progressDialog.setMessage("Loading arrivals ...");
+      progressDialog.setMessage(getString(R.string.loading_arrivals));
       progressDialog.setIndeterminate(true);
       progressDialog.setCancelable(false);
       progressDialog.show();
@@ -327,7 +301,7 @@ public class PlatformActivity extends ListActivity
       Log.d(TAG, "onPostExecute()");
       if (stopArrivals == null) {
         Toast.makeText(getApplicationContext(),
-            "Unable to retrieve arrival information.",
+            R.string.unable_to_retrieve_arrival_information,
             Toast.LENGTH_LONG).show();
 
       } else if (stopArrivals.size() > 0) {
@@ -336,7 +310,7 @@ public class PlatformActivity extends ListActivity
       } else {
         Log.d(TAG, "No arrivals");
         Toast.makeText(getApplicationContext(),
-            "No arrivals for this stop in the next 30 minutes",
+            R.string.no_arrivals_in_the_next_thirty_minutes,
             Toast.LENGTH_LONG).show();
       }
       progressDialog.dismiss();

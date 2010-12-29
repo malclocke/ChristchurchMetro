@@ -3,11 +3,39 @@
     <string name="app_name">Christchurch Metro</string>
     <string name="short_app_name">Chch Metro</string>
 
+    <string name="options">Options</string>
+
     <string name="search_hint">Search stops or streets</string>
     <string name="no_results">No matches</string>
     <string name="no_results_description">Unable to find any matches to your search.</string>
 
+    <!-- FavouritesActivity -->
     <string name="favourites_window_title">Chch Metro - Favourite stops</string>
     <string name="no_favourites">No Favourites</string>
     <string name="no_favourites_help">You don\'t have any favourite stops saved yet.  Select \'Search\' or \'Map\' from the menu to find stops and add them to your favourites list</string>
+    <string name="next_bus_loading">Next bus: Loading ...</string>
+    <string name="unable_to_retrieve_information">Unable to retrieve information</string>
+    <string name="no_buses_due">No buses due in the next 30 minutes</string>
+
+    <!-- PlatformActivity -->
+    <string name="platform_info">Road Name: %1$s\nPlatform Number: %2$s\nPlatform Tag: %3$s\nLatitude: %4$f\nLongitude: %5$f</string>
+    <string name="unable_to_find_stop">Unable to find stop</string>
+    <string name="added_to_favourites">Added \'%1$s\' to favourites</string>
+    <string name="removed_from_favourites">Removed \'%1$s\' from favourites</string>
+    <string name="loading_arrivals">Loading arrivals ...</string>
+    <string name="unable_to_retrieve_arrival_information">Unable to retrieve arrival information.</string>
+    <string name="no_arrivals_in_the_next_thirty_minutes">No arrivals for this stop in the next 30 minutes</string>
+
+    <string name="ok">Ok</string>
+    <string name="go">Go</string>
+
+    <plurals name="mins">
+      <item quantity="one">1 min</item>
+      <item quantity="other">%d mins</item>
+    </plurals>
+
+    <plurals name="minutes">
+      <item quantity="one">1 minute</item>
+      <item quantity="other">%d minutes</item>
+    </plurals>
 </resources>
