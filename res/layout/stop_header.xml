@@ -14,7 +14,7 @@
         android:layout_marginRight="6dip" />
     <TextView
         android:id="@+id/platform_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:textSize="8pt"
         android:layout_weight="1"
