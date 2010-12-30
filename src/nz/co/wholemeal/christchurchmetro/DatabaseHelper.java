@@ -31,11 +31,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
   public static String TAG = "DatabaseHelper";
 
-  public static final int DATABASE_VERSION = 1;
+  public static final int DATABASE_VERSION = 2;
   private static String DATABASE_NAME = "metroinfo.sqlite3";
   private static String CREATE_PLATFORMS = " CREATE TABLE platforms " +
     "(platform_tag INT, platform_number INT, name VARCHAR, road_name VARCHAR," +
     "latitude DOUBLE, longitude DOUBLE)";
+  private static String CREATE_PATTERNS = "CREATE TABLE patterns " +
+    "(route_number varchar, route_name varchar, destination varchar, " +
+    "route_tag varchar, pattern_name varchar, direction varchar, " +
+    "length integer, active boolean)";
+  private static String CREATE_PATTERNS_PLATFORMS = "CREATE TABLE patterns_platforms " +
+    "(route_tag varchar, platform_tag varchar, " +
+    "schedule_adherance_timepoint boolean)";
 
   private Context context;
 
@@ -57,13 +64,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
   @Override
   public void onCreate(SQLiteDatabase db) {
     try {
-      String sql = getSQLFileContent(context.getResources(), R.raw.database_sql);
       db.execSQL(CREATE_PLATFORMS);
+      db.execSQL(CREATE_PATTERNS);
+      db.execSQL(CREATE_PATTERNS_PLATFORMS);
       db.beginTransaction();
       try {
-        for (String statement : sql.split(";")) {
-          db.execSQL(statement);
-        }
+        // The stops data
+        loadSqlFromResource(db, R.raw.platforms_sql);
+        // The routes data
+        loadSqlFromResource(db, R.raw.patterns_sql);
         db.setTransactionSuccessful();
       } finally {
         db.endTransaction();
@@ -80,5 +89,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    if (oldVersion == 1) {
+      try {
+        db.execSQL(CREATE_PATTERNS);
+        db.execSQL(CREATE_PATTERNS_PLATFORMS);
+        db.beginTransaction();
+        try {
+          loadSqlFromResource(db, R.raw.patterns_sql);
+          db.setTransactionSuccessful();
+        } finally {
+          db.endTransaction();
+        }
+        Log.i(TAG, "Loaded routes tables");
+      } catch (IOException e) {
+        Log.e(TAG, "Error reading SQL file: " + e.getMessage(), e);
+        throw new RuntimeException(e);
+      } catch (SQLiteException e) {
+        Log.e(TAG, "Error parsing SQL: " + e.getMessage(), e);
+        throw new RuntimeException(e);
+      }
+    }
+  }
+
+  private void loadSqlFromResource(SQLiteDatabase db, int resource)
+                throws IOException, SQLiteException {
+    String sql = getSQLFileContent(context.getResources(), resource);
+    for (String statement : sql.split(";")) {
+      db.execSQL(statement);
+    }
   }
 }
