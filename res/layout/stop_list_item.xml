@@ -3,12 +3,6 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="6dip">
-    <TextView
-        android:id="@+id/platform_number"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:textSize="8pt"
-        android:layout_marginRight="6dip" />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dip"
@@ -31,4 +25,10 @@
             android:singleLine="true"
         />
     </LinearLayout>
+    <TextView
+        android:id="@+id/platform_number"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:textStyle="italic"
+        android:layout_marginRight="6dip" />
 </LinearLayout>
