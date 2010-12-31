@@ -150,6 +150,12 @@ public class FavouritesActivity extends ListActivity {
         Log.d(TAG, "Search selected from menu");
         onSearchRequested();
         return true;
+      case R.id.routes:
+        Log.d(TAG, "Routes selected from menu");
+        intent = new Intent();
+        intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.RoutesActivity");
+        startActivity(intent);
+        return true;
       default:
         return super.onOptionsItemSelected(item);
     }

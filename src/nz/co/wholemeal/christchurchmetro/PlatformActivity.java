@@ -100,14 +100,12 @@ public class PlatformActivity extends ListActivity
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.platform_menu, menu);
-    if (FavouritesActivity.isFavourite(current_stop)) {
-      menu.removeItem(R.id.add_to_favourites);
-    }
     return true;
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    Intent intent = new Intent();
     switch (item.getItemId()) {
       case R.id.info:
         Log.d(TAG, "Info selected");
@@ -125,7 +123,6 @@ public class PlatformActivity extends ListActivity
 
       case R.id.map:
         Log.d(TAG, "Map selected");
-        Intent intent = new Intent();
         intent.putExtra("latitude", current_stop.getGeoPoint().getLatitudeE6());
         intent.putExtra("longitude", current_stop.getGeoPoint().getLongitudeE6());
         intent.setClassName("nz.co.wholemeal.christchurchmetro",
@@ -136,6 +133,14 @@ public class PlatformActivity extends ListActivity
       case R.id.refresh:
         Log.d(TAG, "Refresh selected");
         new AsyncLoadArrivals().execute(current_stop);
+        return true;
+
+      case R.id.routes_for_platform:
+        Log.d(TAG, "Routes for platform selected");
+        intent.putExtra("platformTag", current_stop.platformTag);
+        intent.setClassName("nz.co.wholemeal.christchurchmetro",
+            "nz.co.wholemeal.christchurchmetro.RoutesActivity");
+        startActivity(intent);
         return true;
 
       default:

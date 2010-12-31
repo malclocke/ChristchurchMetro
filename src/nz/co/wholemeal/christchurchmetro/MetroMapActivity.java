@@ -65,7 +65,8 @@ public class MetroMapActivity extends MapActivity {
   /* The last location received from the location manager */
   private GeoPoint lastFix = null;
 
-  /* The last recorded center on the map */
+  /* An optional route tag, if set only stops on this route will be displayed */
+  private String routeTag = null;
 
   public static final String TAG = "MetroMapActivity";
   @Override
@@ -100,6 +101,9 @@ public class MetroMapActivity extends MapActivity {
         lastLongitude = longitude;
         lastZoom = 18;
       }
+
+      // If this was not set in the Intent, null is fine
+      routeTag = extras.getString("routeTag");
     }
 
     mapController.setCenter(new GeoPoint(lastLatitude, lastLongitude));
@@ -200,7 +204,8 @@ public class MetroMapActivity extends MapActivity {
 
     public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 
-      if (mapView.getZoomLevel() < 15 || shadow) {
+      int minZoom = (routeTag == null ? 15 : 11);
+      if (mapView.getZoomLevel() < minZoom || shadow) {
         return;
       }
 
@@ -216,7 +221,12 @@ public class MetroMapActivity extends MapActivity {
       Log.d(TAG, "bottomRight coords = " + bottomRight.toString());
 
       if (mapBoundsChanged(mapView)) {
-        stops = Stop.getAllWithinBounds(context, topLeft, bottomRight);
+        if (routeTag == null) {
+          stops = Stop.getAllWithinBounds(context, topLeft, bottomRight);
+        } else {
+          stops = Stop.getAllWithinBounds(context, topLeft, bottomRight,
+              routeTag);
+        }
       }
 
       if (stops != null) {

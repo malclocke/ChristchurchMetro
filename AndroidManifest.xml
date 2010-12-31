@@ -30,6 +30,8 @@
           android:resource="@xml/searchable"/>
       </activity>
 
+      <activity android:name=".RoutesActivity" />
+
       <meta-data android:name="android.app.default_searchable"
         android:value=".PlatformSearchActivity" />
 

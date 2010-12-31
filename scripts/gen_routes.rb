@@ -21,7 +21,7 @@ lines = []
     #puts "INSERT INTO destinations (name) VALUES ('#{destination.attributes['Name']}');"
     (destination/:Pattern).each do |pattern|
       lines << "INSERT INTO patterns (route_number, route_name, destination, route_tag, pattern_name, direction, length, active) VALUES ('#{escape route.attributes['RouteNo']}', '#{escape route.attributes['Name']}', '#{escape destination.attributes['Name']}', '#{escape pattern.attributes['RouteTag']}','#{escape pattern.attributes['Name']}','#{escape pattern.attributes['Direction']}',#{escape pattern.attributes['Length']},'#{pattern.attributes['Schedule'] == "Active" ? 't' : 'f' }')"
-      (destination/:Platform).each do |platform|
+      (pattern/:Platform).each do |platform|
         lines << "INSERT INTO patterns_platforms (route_tag, platform_tag, schedule_adherance_timepoint) VALUES ('#{pattern.attributes['RouteTag']}', '#{platform.attributes['PlatformTag']}', '#{platform.attributes['ScheduleAdheranceTimepoint'] == 'true' ? 't' : 'f'}')"
       end
     end

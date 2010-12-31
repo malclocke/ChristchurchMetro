@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/add_to_favourites"
-          android:icon="@drawable/ic_menu_favourites"
-          android:title="Add to favourites" />
+    <item android:id="@+id/routes_for_platform"
+          android:icon="@drawable/ic_menu_directions"
+          android:title="Routes for stop" />
     <item android:id="@+id/info"
           android:icon="@drawable/ic_menu_info_details"
           android:title="Details" />

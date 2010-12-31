@@ -120,79 +120,53 @@ class Stop {
 
   /**
    * Returns an ArrayList of all the stops within the square bounded by the
-   * two GeoPoints
+   * two GeoPoints.
    */
-  public static ArrayList<Stop> getAllWithinBounds(Context context, GeoPoint topLeft, GeoPoint bottomRight) {
-    ArrayList<Stop> stops = new ArrayList<Stop>();
+  public static ArrayList<Stop> getAllWithinBounds(Context context,
+      GeoPoint topLeft, GeoPoint bottomRight) {
 
     String topLat = Double.toString(topLeft.getLatitudeE6() / 1E6);
     String topLon = Double.toString(topLeft.getLongitudeE6() / 1E6);
     String bottomLat = Double.toString(bottomRight.getLatitudeE6() / 1E6);
     String bottomLon = Double.toString(bottomRight.getLongitudeE6() / 1E6);
 
-    String query = "SELECT platform_tag, platform_number, name, road_name, latitude, longitude FROM platforms " +
-                   "WHERE latitude < " + topLat + " AND longitude > " + topLon +
-                   " AND latitude > " + bottomLat + " AND longitude < " + bottomLon;
-    Log.d(TAG, "query: " + query);
+    String query = "SELECT p.platform_tag, p.platform_number, p.name, " +
+      "p.road_name, p.latitude, p.longitude FROM platforms p" +
+      " WHERE p.latitude < " + topLat + " AND p.longitude > " + topLon +
+      " AND p.latitude > " + bottomLat + " AND p.longitude < " + bottomLon;
 
-    DatabaseHelper databaseHelper = new DatabaseHelper(context);
-    SQLiteDatabase database = databaseHelper.getWritableDatabase();
-    Cursor cursor = database.rawQuery(query, null);
+    return doArrayListQuery(context, query);
+  }
 
-    try {
-      if (cursor.moveToFirst()) {
-        do {
-          Stop stop = new Stop();
-          stop.platformTag = cursor.getString(0);
-          stop.platformNumber = cursor.getString(1);
-          stop.name = cursor.getString(2);
-          stop.roadName = cursor.getString(3);
-          stop.latitude = cursor.getDouble(4);
-          stop.longitude = cursor.getDouble(5);
-          stops.add(stop);
-        } while (cursor.moveToNext());
-      }
-    } finally {
-      cursor.close();
-    }
-    Log.d(TAG, "stops.size() = " + stops.size());
-    database.close();
-    return stops;
+  /**
+   * Returns an ArrayList of all the stops on a given route within the square
+   * bounded by the two GeoPoints.
+   */
+  public static ArrayList<Stop> getAllWithinBounds(Context context,
+      GeoPoint topLeft, GeoPoint bottomRight, String routeTag) {
+
+    String topLat = Double.toString(topLeft.getLatitudeE6() / 1E6);
+    String topLon = Double.toString(topLeft.getLongitudeE6() / 1E6);
+    String bottomLat = Double.toString(bottomRight.getLatitudeE6() / 1E6);
+    String bottomLon = Double.toString(bottomRight.getLongitudeE6() / 1E6);
+
+    String query = "SELECT p.platform_tag, p.platform_number, p.name, " +
+      "p.road_name, p.latitude, p.longitude FROM platforms p" +
+      " WHERE p.platform_tag IN" +
+      "   (SELECT platform_tag FROM patterns_platforms" +
+      "   WHERE route_tag = '" + routeTag + "')" +
+      " AND p.latitude < " + topLat + " AND p.longitude > " + topLon +
+      " AND p.latitude > " + bottomLat + " AND p.longitude < " + bottomLon;
+
+    return doArrayListQuery(context, query);
   }
 
   /* Perform a search query for any stops which match query string */
   public static ArrayList<Stop> searchStops(Context context, String queryString) {
-    ArrayList<Stop> stops = new ArrayList<Stop>();
-
-    String query = "SELECT platform_tag, platform_number, name, road_name, latitude, longitude FROM platforms " +
+    return doArrayListQuery(context, "SELECT platform_tag, platform_number, name, road_name, latitude, longitude FROM platforms " +
                    "WHERE platform_number LIKE '" + queryString + "%' " +
                    "OR name LIKE '%" + queryString +"%' " +
-                   "OR road_name LIKE '%" + queryString + "%'";
-    Log.d(TAG, "query: " + query);
-
-    DatabaseHelper databaseHelper = new DatabaseHelper(context);
-    SQLiteDatabase database = databaseHelper.getWritableDatabase();
-    Cursor cursor = database.rawQuery(query, null);
-
-    try {
-      if (cursor.moveToFirst()) {
-        do {
-          Stop stop = new Stop();
-          stop.platformTag = cursor.getString(0);
-          stop.platformNumber = cursor.getString(1);
-          stop.name = cursor.getString(2);
-          stop.roadName = cursor.getString(3);
-          stop.latitude = cursor.getDouble(4);
-          stop.longitude = cursor.getDouble(5);
-          stops.add(stop);
-        } while (cursor.moveToNext());
-      }
-    } finally {
-      cursor.close();
-    }
-    Log.d(TAG, "stops.size() = " + stops.size());
-    database.close();
-    return stops;
+                   "OR road_name LIKE '%" + queryString + "%'");
   }
 
   public ArrayList getArrivals() throws Exception {
@@ -223,6 +197,36 @@ class Stop {
   /* Returns the GeoPoint for this stop */
   public GeoPoint getGeoPoint() {
     return new GeoPoint((int) (this.latitude * 1E6), (int) (longitude * 1E6));
+  }
+
+  private static ArrayList<Stop> doArrayListQuery(Context context, String query) {
+    ArrayList<Stop> stops = new ArrayList<Stop>();
+
+    Log.d(TAG, "query: " + query);
+
+    DatabaseHelper databaseHelper = new DatabaseHelper(context);
+    SQLiteDatabase database = databaseHelper.getWritableDatabase();
+    Cursor cursor = database.rawQuery(query, null);
+
+    try {
+      if (cursor.moveToFirst()) {
+        do {
+          Stop stop = new Stop();
+          stop.platformTag = cursor.getString(0);
+          stop.platformNumber = cursor.getString(1);
+          stop.name = cursor.getString(2);
+          stop.roadName = cursor.getString(3);
+          stop.latitude = cursor.getDouble(4);
+          stop.longitude = cursor.getDouble(5);
+          stops.add(stop);
+        } while (cursor.moveToNext());
+      }
+    } finally {
+      cursor.close();
+    }
+    Log.d(TAG, "stops.size() = " + stops.size());
+    database.close();
+    return stops;
   }
 
   public class InvalidPlatformNumberException extends Exception {
