@@ -5,11 +5,8 @@
     android:padding="6dip">
     <TextView
         android:id="@+id/route_number"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:textSize="12pt"
-        android:ems="1"
-        android:layout_marginRight="6dip" />
+        style="@style/routeNumber"
+    />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dip"
