@@ -73,8 +73,7 @@ public class PlatformActivity extends ListActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.stop);
 
-    stopHeader = getLayoutInflater().inflate(R.layout.stop_header, null);
-    getListView().addHeaderView(stopHeader);
+    stopHeader = findViewById(R.id.stop_header);
 
     arrival_adapter = new ArrivalAdapter(this, R.layout.arrival, arrivals);
     setListAdapter(arrival_adapter);
