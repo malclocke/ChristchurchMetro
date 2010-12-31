@@ -281,7 +281,7 @@ public class PlatformActivity extends ListActivity
           destination.setText(arrival.destination);
         }
         if (eta != null) {
-          eta.setText(getResources().getQuantityString(R.plurals.minutes, arrival.eta, arrival.eta));
+          eta.setText(Integer.toString(arrival.eta));
         }
       }
       return v;
