@@ -106,8 +106,26 @@ public class MetroMapActivity extends MapActivity {
       routeTag = extras.getString("routeTag");
     }
 
-    mapController.setCenter(new GeoPoint(lastLatitude, lastLongitude));
-    mapController.setZoom(lastZoom);
+    if (routeTag == null) {
+      mapController.setCenter(new GeoPoint(lastLatitude, lastLongitude));
+      mapController.setZoom(lastZoom);
+    } else {
+      // A specific route view was requested.  Try and show the entire route
+      // area.
+      int boundaries[] = Route.getRouteBoundaries(getApplicationContext(),
+          routeTag);
+      int latitudeSpan = boundaries[1] - boundaries[3];
+      int longitudeSpan = boundaries[2] - boundaries[0];
+      Log.d(TAG, "Boundaries = " + boundaries[0] + "," + boundaries[1] +
+          "," + boundaries[2] + "," + boundaries[3]);
+      Log.d(TAG, "Latitude span = " + latitudeSpan +
+          ", Longitude span = " + longitudeSpan);
+      mapController.setCenter(new GeoPoint(
+            boundaries[1] - (latitudeSpan / 2), boundaries[0] + (longitudeSpan / 2)
+            ));
+      mapController.zoomToSpan(latitudeSpan, longitudeSpan);
+    }
+
 
     List<Overlay> mapOverlays = mapView.getOverlays();
 

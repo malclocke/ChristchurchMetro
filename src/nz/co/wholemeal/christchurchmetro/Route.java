@@ -84,4 +84,36 @@ public class Route {
 
     return routes;
   }
+
+  /**
+   * Returns an array of integers representing the route boundaries.
+   * Array values are in the order west, north, east, south.
+   */
+  public static int[] getRouteBoundaries(Context context, String routeTag) {
+    int[] boundaries = new int[4];
+
+    DatabaseHelper databaseHelper = new DatabaseHelper(context);
+    SQLiteDatabase database = databaseHelper.getWritableDatabase();
+
+    String query =
+      "SELECT MIN(longitude), MAX(latitude), MAX(longitude), MIN(latitude)" +
+      " FROM platforms WHERE platform_tag IN" +
+      " (SELECT platform_tag FROM patterns_platforms WHERE route_tag = ?)";
+
+    Log.d(TAG, "Running query: " + query);
+    Cursor cursor = database.rawQuery(query, new String[] { routeTag });
+
+    try {
+      if (cursor.moveToFirst()) {
+        boundaries[0] = (int)(cursor.getDouble(0) * 1E6);
+        boundaries[1] = (int)(cursor.getDouble(1) * 1E6);
+        boundaries[2] = (int)(cursor.getDouble(2) * 1E6);
+        boundaries[3] = (int)(cursor.getDouble(3) * 1E6);
+      }
+    } finally {
+      cursor.close();
+    }
+    database.close();
+    return boundaries;
+  }
 }
