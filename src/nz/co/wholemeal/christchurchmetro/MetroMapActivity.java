@@ -23,8 +23,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.KeyEvent;
@@ -67,6 +69,9 @@ public class MetroMapActivity extends MapActivity {
 
   /* An optional route tag, if set only stops on this route will be displayed */
   private String routeTag = null;
+
+  /* Paint style for the platform name text */
+  protected Paint platformTextPaint = null;
 
   public static final String TAG = "MetroMapActivity";
   @Override
@@ -137,6 +142,13 @@ public class MetroMapActivity extends MapActivity {
         lastFix = myLocationOverlay.getMyLocation();
       }
     });
+
+    // The paint style for the stop name text
+    platformTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    platformTextPaint.setARGB(255,64,64,64);
+    platformTextPaint.setTextAlign(Paint.Align.CENTER);
+    platformTextPaint.setTextSize(10);
+    platformTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
 
     Drawable drawable = this.getResources().getDrawable(R.drawable.stop_marker);
     MetroMapOverlay overlay = new MetroMapOverlay(drawable, getApplicationContext());
@@ -256,6 +268,12 @@ public class MetroMapActivity extends MapActivity {
           Bitmap bitmap = ((BitmapDrawable)marker).getBitmap();
           canvas.drawBitmap(bitmap, point.x - (bitmap.getWidth() / 2),
               point.y - bitmap.getHeight(), null);
+
+          // If zoomed in enough, draw the stop names above the icons
+          if (mapView.getZoomLevel() > 16) {
+            canvas.drawText(stop.name, point.x, point.y - bitmap.getHeight(),
+                platformTextPaint);
+          }
         }
       }
     }
