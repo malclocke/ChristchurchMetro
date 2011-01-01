@@ -63,7 +63,6 @@ public class PlatformSearchActivity extends ListActivity {
         intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.PlatformActivity");
 
         startActivity(intent);
-        finish();
       }
     });
 
