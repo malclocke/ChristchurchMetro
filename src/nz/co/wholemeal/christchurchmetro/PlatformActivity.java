@@ -297,25 +297,22 @@ public class PlatformActivity extends ListActivity
       progressDialog = new ProgressDialog(PlatformActivity.this);
       progressDialog.setMessage(getString(R.string.loading_arrivals));
       progressDialog.setIndeterminate(true);
-      progressDialog.setCancelable(false);
+      progressDialog.setCancelable(true);
       progressDialog.show();
     }
 
     protected void onPostExecute(ArrayList stopArrivals) {
       Log.d(TAG, "onPostExecute()");
       if (stopArrivals == null) {
-        Toast.makeText(getApplicationContext(),
-            R.string.unable_to_retrieve_arrival_information,
-            Toast.LENGTH_LONG).show();
-
+        ((TextView)findViewById(android.R.id.empty))
+          .setText(R.string.unable_to_retrieve_arrival_information);
       } else if (stopArrivals.size() > 0) {
         arrivals.clear();
         arrivals.addAll(stopArrivals);
       } else {
         Log.d(TAG, "No arrivals");
-        Toast.makeText(getApplicationContext(),
-            R.string.no_arrivals_in_the_next_thirty_minutes,
-            Toast.LENGTH_LONG).show();
+        arrivals.clear();
+        ((TextView)findViewById(android.R.id.empty)).setText(R.string.no_arrivals_in_the_next_thirty_minutes);
       }
       progressDialog.dismiss();
       arrival_adapter.notifyDataSetChanged();
