@@ -10,8 +10,9 @@
     <TextView
         android:id="@+id/destination"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_weight="1"
+        android:textSize="8pt"
         android:gravity="center_vertical"
     />
   <LinearLayout

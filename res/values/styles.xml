@@ -4,9 +4,8 @@
     <item name="android:textSize">14pt</item>
     <item name="android:textStyle">bold</item>
     <item name="android:gravity">center</item>
-    <item name="android:background">@drawable/route_number</item>
-    <item name="android:layout_width">50dip</item>
-    <item name="android:layout_height">50dip</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">fill_parent</item>
     <item name="android:layout_marginRight">6dip</item>
   </style>
 </resources>
