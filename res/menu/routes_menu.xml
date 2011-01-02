@@ -3,10 +3,10 @@
     <item android:id="@+id/search"
           android:icon="@drawable/ic_menu_search"
           android:title="Search" />
+    <item android:id="@+id/favourite_stops"
+          android:icon="@drawable/ic_menu_favourites"
+          android:title="Favourite stops" />
     <item android:id="@+id/map"
           android:icon="@drawable/ic_menu_mapmode"
           android:title="Map" />
-    <item android:id="@+id/routes"
-          android:icon="@drawable/ic_menu_directions"
-          android:title="Routes" />
 </menu>

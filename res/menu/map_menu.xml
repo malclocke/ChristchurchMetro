@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/search"
+          android:icon="@drawable/ic_menu_search"
+          android:title="Search" />
+    <item android:id="@+id/favourite_stops"
+          android:icon="@drawable/ic_menu_favourites"
+          android:title="Favourite stops" />
+    <item android:id="@+id/routes"
+          android:icon="@drawable/ic_menu_directions"
+          android:title="Routes" />
     <item android:id="@+id/my_location"
           android:icon="@drawable/ic_menu_mylocation"
           android:title="My Location" />
     <item android:id="@+id/exchange"
           android:icon="@drawable/ic_menu_exchange"
           android:title="Bus Exchange" />
-    <item android:id="@+id/favourite_stops"
-          android:icon="@drawable/ic_menu_favourites"
-          android:title="Favourite stops" />
-    <item android:id="@+id/search"
-          android:icon="@drawable/ic_menu_search"
-          android:title="Search" />
 </menu>

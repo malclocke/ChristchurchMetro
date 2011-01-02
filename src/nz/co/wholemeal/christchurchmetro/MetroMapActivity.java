@@ -206,7 +206,15 @@ public class MetroMapActivity extends MapActivity {
       case R.id.favourite_stops:
         Log.d(TAG, "Favourite stops selected");
         intent = new Intent();
-        intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.FavouritesActivity");
+        intent.setClassName("nz.co.wholemeal.christchurchmetro",
+            "nz.co.wholemeal.christchurchmetro.FavouritesActivity");
+        startActivity(intent);
+        return true;
+      case R.id.routes:
+        Log.d(TAG, "Routes selected");
+        intent = new Intent();
+        intent.setClassName("nz.co.wholemeal.christchurchmetro",
+            "nz.co.wholemeal.christchurchmetro.RoutesActivity");
         startActivity(intent);
         return true;
       case R.id.search:
