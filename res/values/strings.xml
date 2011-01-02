@@ -28,6 +28,8 @@
 
     <string name="ok">Ok</string>
     <string name="go">Go</string>
+    <string name="min">min</string>
+    <string name="mins">mins</string>
 
     <plurals name="mins">
       <item quantity="one">1 min</item>

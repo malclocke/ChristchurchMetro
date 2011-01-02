@@ -282,6 +282,10 @@ public class PlatformActivity extends ListActivity
         }
         if (eta != null) {
           eta.setText(Integer.toString(arrival.eta));
+          if (arrival.eta == 1) {
+            TextView mins = (TextView) v.findViewById(R.id.mins);
+            mins.setText(R.string.min);
+          }
         }
       }
       return v;
