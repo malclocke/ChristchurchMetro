@@ -21,7 +21,7 @@
       <activity android:name=".MetroMapActivity"
         android:theme="@android:style/Theme.NoTitleBar" />
 
-      <activity android:name=".PlatformSearchActivity">
+      <activity android:name=".SearchActivity">
         <intent-filter>
           <action android:name="android.intent.action.SEARCH" />
           <category android:name="android.intent.category.DEFAULT" />
@@ -33,7 +33,7 @@
       <activity android:name=".RoutesActivity" />
 
       <meta-data android:name="android.app.default_searchable"
-        android:value=".PlatformSearchActivity" />
+        android:value=".SearchActivity" />
 
       <uses-library android:name="com.google.android.maps" />
 

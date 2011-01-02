@@ -52,6 +52,17 @@ public class Route {
       " ORDER BY patterns.route_number");
   }
 
+  /* Perform a search query for any routes which match query string */
+  public static ArrayList<Route> searchRoutes(Context context, String queryString) {
+    return doArrayListQuery(context, "SELECT route_number, route_name, " +
+      "destination, route_tag, pattern_name, direction, length, active " +
+      " FROM patterns" +
+      " WHERE route_number LIKE '" + queryString + "%'" +
+      " OR route_name LIKE '%" + queryString + "%'" +
+      " OR destination LIKE '%" + queryString + "%'" +
+      " ORDER BY route_number");
+  }
+
   private static ArrayList<Route> doArrayListQuery(Context context, String query) {
     ArrayList<Route> routes = new ArrayList<Route>();
 
