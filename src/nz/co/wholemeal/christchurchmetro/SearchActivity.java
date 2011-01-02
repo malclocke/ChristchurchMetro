@@ -151,22 +151,17 @@ public class SearchActivity extends ListActivity {
         LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         switch (type) {
           case TYPE_PLATFORM:
-            Log.d(TAG, "Inflating view for Stop");
             v = vi.inflate(R.layout.search_list_item, null);
             break;
 
           case TYPE_ROUTE:
-            Log.d(TAG, "Inflating view for Route");
             v = vi.inflate(R.layout.route_list_item, null);
             break;
 
           case TYPE_SEPARATOR:
-            Log.d(TAG, "Inflating view for separator");
             v = vi.inflate(R.layout.search_list_separator, null);
             break;
         }
-      } else {
-        Log.d(TAG, "Recycling view for item type " + type);
       }
 
       switch (type) {
@@ -184,8 +179,10 @@ public class SearchActivity extends ListActivity {
           Route route = (Route)items.get(position);
           TextView routeNumber = (TextView) v.findViewById(R.id.route_number);
           TextView destination = (TextView) v.findViewById(R.id.destination);
+          TextView direction = (TextView) v.findViewById(R.id.direction);
           routeNumber.setText(route.routeNumber);
           destination.setText(route.destination);
+          direction.setText(route.direction);
           break;
 
         case TYPE_SEPARATOR:
