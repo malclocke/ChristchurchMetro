@@ -69,6 +69,7 @@ public class MetroMapActivity extends MapActivity {
 
   /* An optional route tag, if set only stops on this route will be displayed */
   private String routeTag = null;
+  private String routeName = null;
 
   /* Paint style for the platform name text */
   protected Paint platformTextPaint = null;
@@ -109,6 +110,7 @@ public class MetroMapActivity extends MapActivity {
 
       // If this was not set in the Intent, null is fine
       routeTag = extras.getString("routeTag");
+      routeName = extras.getString("routeName");
     }
 
     if (routeTag == null) {
@@ -226,6 +228,7 @@ public class MetroMapActivity extends MapActivity {
     private ArrayList<Stop> stops;
     private Stop selectedStop;
     private View popUp;
+    private View routeInfoBox;
 
     public MetroMapOverlay(Drawable defaultMarker, Context lcontext) {
       marker = defaultMarker;
@@ -274,6 +277,25 @@ public class MetroMapActivity extends MapActivity {
             canvas.drawText(stop.name, point.x, point.y - bitmap.getHeight(),
                 platformTextPaint);
           }
+        }
+      }
+
+      if (routeName != null) {
+        if (routeInfoBox == null) {
+          LayoutInflater inflater = (LayoutInflater)context.getSystemService(
+              Context.LAYOUT_INFLATER_SERVICE
+          );
+
+          routeInfoBox = inflater.inflate(R.layout.map_route_info_box,null);
+          mapView.addView(routeInfoBox);
+          MapView.LayoutParams layoutParams = new MapView.LayoutParams(
+              ViewGroup.LayoutParams.WRAP_CONTENT,
+              ViewGroup.LayoutParams.WRAP_CONTENT,
+              10, 10,
+              MapView.LayoutParams.TOP_LEFT);
+
+          mapView.updateViewLayout(routeInfoBox, layoutParams);
+          ((TextView)routeInfoBox).setText(routeName);
         }
       }
     }
