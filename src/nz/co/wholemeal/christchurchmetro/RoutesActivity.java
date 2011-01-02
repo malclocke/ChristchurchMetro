@@ -72,7 +72,8 @@ public class RoutesActivity extends ListActivity {
           finish();
         }
         intent.putExtra("routeTag", route.routeTag);
-        intent.putExtra("routeName", route.routeNumber + " " + route.destination);
+        intent.putExtra("routeName", route.routeNumber + " " +
+          route.destination + " (" + route.direction + ")");
         intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
 
         startActivity(intent);

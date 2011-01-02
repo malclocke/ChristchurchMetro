@@ -299,8 +299,8 @@ public class MetroMapActivity extends MapActivity {
           MapView.LayoutParams layoutParams = new MapView.LayoutParams(
               ViewGroup.LayoutParams.WRAP_CONTENT,
               ViewGroup.LayoutParams.WRAP_CONTENT,
-              10, 10,
-              MapView.LayoutParams.TOP_LEFT);
+              mapView.getWidth() / 2, 10,
+              MapView.LayoutParams.TOP | MapView.LayoutParams.CENTER_HORIZONTAL);
 
           mapView.updateViewLayout(routeInfoBox, layoutParams);
           ((TextView)routeInfoBox).setText(routeName);
