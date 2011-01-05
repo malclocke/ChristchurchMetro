@@ -23,6 +23,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -51,17 +52,25 @@ public class ArrivalNotificationReceiver extends BroadcastReceiver {
       int icon = R.drawable.stat_bus_alarm;
       long when = System.currentTimeMillis();
 
+      Resources res = context.getResources();
+      // The text that appears in the status bar
+      String tickerText = res.getString(R.string.route_number_to_destination,
+          routeNumber, destination);
+      // Text for the notification details
+      String dueMinutes = String.format(res.getQuantityString(
+            R.plurals.due_in_n_minutes, minutes), minutes);
+
       Notification notification = new Notification(icon,
-        routeNumber + " to " + destination, when);
+          tickerText + " " + dueMinutes, when);
       notification.defaults |= Notification.DEFAULT_SOUND;
+      notification.defaults |= Notification.DEFAULT_VIBRATE;
       notification.flags |= Notification.FLAG_AUTO_CANCEL;
       Intent notificationIntent = new Intent(context, PlatformActivity.class);
       notificationIntent.putExtra("platformTag", platformTag);
       PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
         notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-      notification.setLatestEventInfo(context,
-        routeNumber + " to " + destination,
-        "Due in " + minutes + " minutes", contentIntent);
+      notification.setLatestEventInfo(context, tickerText, dueMinutes,
+          contentIntent);
 
       notificationManager.notify(1, notification);
     }

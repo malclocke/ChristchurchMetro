@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Christchurch Metro</string>
     <string name="short_app_name">Chch Metro</string>
 
@@ -30,6 +30,9 @@
     <string name="set_alarm">Set alarm</string>
     <string name="alarm_dialog_text">Send a notification when the bus is this many minutes from this stop</string>
 
+    <!-- ArrivalNotificationReceiver -->
+    <string name="route_number_to_destination">%1$s to %2$s</string>
+
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="go">Go</string>
@@ -45,5 +48,10 @@
     <plurals name="minutes">
       <item quantity="one">1 minute</item>
       <item quantity="other">%d minutes</item>
+    </plurals>
+
+    <plurals name="due_in_n_minutes">
+      <item quantity="one">Due in 1 minute</item>
+      <item quantity="other">Due in <xliff:g id="number">%d</xliff:g> minutes</item>
     </plurals>
 </resources>
