@@ -23,6 +23,7 @@ class Arrival {
   public String routeNumber;
   public String routeName;
   public String destination;
+  public String tripNumber;
   public int eta;
   public boolean wheelchairAccess;
 }

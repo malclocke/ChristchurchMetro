@@ -270,6 +270,7 @@ class Stop {
         arrival.destination = destination;
         try {
           arrival.eta = Integer.parseInt(attributes.getValue("ETA"));
+          arrival.tripNumber = attributes.getValue("TripNo");
         } catch (NumberFormatException e) {
           Log.e(TAG, "NumberFormatException: " + e.getMessage());
         }
