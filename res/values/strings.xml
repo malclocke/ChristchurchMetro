@@ -3,7 +3,19 @@
     <string name="app_name">Christchurch Metro</string>
     <string name="short_app_name">Chch Metro</string>
 
+    <!-- Menu strings -->
+    <string name="bus_exchange">Bus Exchange</string>
+    <string name="details">Details</string>
+    <string name="favourite_stops">Favourite stops</string>
+    <string name="map">Map</string>
+    <string name="my_location">My Location</string>
     <string name="options">Options</string>
+    <string name="remove_from_favourites">Remove from favourites</string>
+    <string name="refresh">Refresh</string>
+    <string name="routes">Routes</string>
+    <string name="routes_for_stop">Routes for stop</string>
+    <string name="search">Search</string>
+    <string name="show_on_map">Show on map</string>
 
     <string name="search_hint">Search stops or streets</string>
     <string name="no_results">No matches</string>

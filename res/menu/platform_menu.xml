@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/routes_for_platform"
           android:icon="@drawable/ic_menu_directions"
-          android:title="Routes for stop" />
+          android:title="@string/routes_for_stop" />
     <item android:id="@+id/info"
           android:icon="@drawable/ic_menu_info_details"
-          android:title="Details" />
+          android:title="@string/details" />
     <item android:id="@+id/map"
           android:icon="@drawable/ic_menu_mapmode"
-          android:title="Show on map" />
+          android:title="@string/show_on_map" />
     <item android:id="@+id/refresh"
           android:icon="@drawable/ic_menu_refresh"
-          android:title="Refresh" />
+          android:title="@string/refresh" />
 </menu>

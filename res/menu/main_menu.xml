@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/search"
           android:icon="@drawable/ic_menu_search"
-          android:title="Search" />
+          android:title="@string/search" />
     <item android:id="@+id/map"
           android:icon="@drawable/ic_menu_mapmode"
-          android:title="Map" />
+          android:title="@string/map" />
     <item android:id="@+id/routes"
           android:icon="@drawable/ic_menu_directions"
-          android:title="Routes" />
+          android:title="@string/routes" />
 </menu>
