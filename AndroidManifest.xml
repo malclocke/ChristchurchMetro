@@ -32,6 +32,9 @@
 
       <activity android:name=".RoutesActivity" />
 
+      <receiver android:name=".ArrivalNotificationReceiver"
+        android:process=":remote" />
+
       <meta-data android:name="android.app.default_searchable"
         android:value=".SearchActivity" />
 

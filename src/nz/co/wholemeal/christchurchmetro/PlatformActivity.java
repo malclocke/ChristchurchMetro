@@ -17,13 +17,20 @@
 
 package nz.co.wholemeal.christchurchmetro;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -49,7 +56,10 @@ import android.view.MenuInflater;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.util.Log;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import nz.co.wholemeal.christchurchmetro.R;
 import nz.co.wholemeal.christchurchmetro.Stop;
@@ -82,6 +92,32 @@ public class PlatformActivity extends ListActivity
 
     /* Load the requested stop information */
     Bundle extras = getIntent().getExtras();
+    if (extras != null) {
+      String platformTag = extras.getString("platformTag");
+      if (platformTag != null) {
+        loadStopByPlatformTag(platformTag);
+      }
+    } else {
+      Log.e(TAG, "No extras in intent");
+    }
+
+    ListView listView = getListView();
+    listView.setOnItemClickListener(new OnItemClickListener() {
+      public void onItemClick(AdapterView<?> parent, View view,
+          int position, long id) {
+
+        Arrival arrival = (Arrival)arrivals.get(position);
+        Log.d(TAG, "Got click on arrival " + arrival.destination);
+
+        createAlarmDialog(arrival);
+      }
+    });
+  }
+
+  @Override
+  public void onNewIntent(Intent intent) {
+    Log.d(TAG, "onNewIntent() called");
+    Bundle extras = intent.getExtras();
     if (extras != null) {
       String platformTag = extras.getString("platformTag");
       if (platformTag != null) {
@@ -162,6 +198,73 @@ public class PlatformActivity extends ListActivity
 
       default:
         break;
+    }
+  }
+
+  /**
+   * Creates a dialog box that allows a user to set an alarm for a
+   * particular eta for an arrival.
+   */
+  private void createAlarmDialog(final Arrival arrival) {
+    AlertDialog.Builder builder;
+
+    Context context = getApplicationContext();
+    LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+    final View layout = inflater.inflate(R.layout.alarm_dialog, null);
+    final NumberPicker numberPicker =
+                  (NumberPicker) layout.findViewById(R.id.number_picker);
+    int start = (arrival.eta > 10 ? 10 : arrival.eta - 1);
+    numberPicker.setRange(1, arrival.eta);
+    numberPicker.setCurrent(start);
+
+    builder = new AlertDialog.Builder(this);
+    builder.setTitle(R.string.set_alarm)
+            .setMessage(R.string.alarm_dialog_text)
+            .setView(layout)
+            .setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int id) {
+                int delay = numberPicker.getCurrent();
+                createNotificationForArrival(arrival, delay);
+              }
+            })
+            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+              }
+            })
+            .show();
+  }
+
+  /**
+   * Fires a notification when the arrival is the given number of minutes
+   * away from arriving.
+   */
+  protected void createNotificationForArrival(Arrival arrival, int minutes) {
+    Intent intent = new Intent(this, ArrivalNotificationReceiver.class);
+    intent.putExtra("routeNumber", arrival.routeNumber);
+    intent.putExtra("destination", arrival.destination);
+    intent.putExtra("platformTag", current_stop.platformTag);
+    intent.putExtra("minutes", minutes);
+    PendingIntent sender = PendingIntent.getBroadcast(this, 0, intent,
+        PendingIntent.FLAG_UPDATE_CURRENT);
+
+    // Calculate the time delay for this alarm
+    int delay = arrival.eta - minutes;
+
+    if (delay > 0) {
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTimeInMillis(System.currentTimeMillis());
+      calendar.add(Calendar.MINUTE, delay);
+
+      AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+      alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+          sender);
+      Toast.makeText(this, String.format(getResources().getString(
+              R.string.set_alarm_for_time), DateFormat.getTimeInstance().format(calendar.getTime())), Toast.LENGTH_LONG).show();
+      Log.d(TAG, "Set alarm for " + minutes + " minutes");
+    } else {
+      Toast.makeText(this, String.format(getResources().getString(
+              R.string.arrival_already_n_minutes_or_less_away), minutes, arrival.eta), Toast.LENGTH_LONG).show();
     }
   }
 
