@@ -12,13 +12,6 @@
       android:background="#ddd"
       android:padding="6dip">
       <TextView
-          android:id="@+id/platform_number"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:textSize="8pt"
-          android:textColor="#000"
-          android:layout_marginRight="6dip" />
-      <TextView
           android:id="@+id/platform_name"
           android:layout_width="0dip"
           android:layout_height="wrap_content"
@@ -26,6 +19,13 @@
           android:layout_weight="1"
           android:textColor="#000"
       />
+      <TextView
+          android:id="@+id/platform_number"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textStyle="italic"
+          android:textColor="#000"
+          android:layout_marginRight="6dip" />
       <ImageView
           android:id="@+id/favourite_icon"
           android:layout_width="wrap_content"

@@ -237,7 +237,10 @@ public class PlatformActivity extends ListActivity
 
   /**
    * Fires a notification when the arrival is the given number of minutes
-   * away from arriving.
+   * away from arriving at this stop.
+   *
+   * @param arrival The arrival that this alarm is set for
+   * @param minutes The number of minutes before arrival the alert should be raised
    */
   protected void createNotificationForArrival(Arrival arrival, int minutes) {
     Intent intent = new Intent(this, ArrivalNotificationReceiver.class);
@@ -253,7 +256,20 @@ public class PlatformActivity extends ListActivity
 
     if (delay > 0) {
       Calendar calendar = Calendar.getInstance();
-      calendar.setTimeInMillis(System.currentTimeMillis());
+
+      /**
+       * Set the time for comparison from the time the arrival was fetched,
+       * not the current time.  The user may have had the screen loaded
+       * for some time without refresh, so the arrival eta may no longer be
+       * accurate.
+       */
+      long timestamp = current_stop.lastArrivalFetch;
+      // Safety net
+      if (timestamp == 0) {
+        timestamp = System.currentTimeMillis();
+      }
+
+      calendar.setTimeInMillis(timestamp);
       calendar.add(Calendar.MINUTE, delay);
 
       AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);

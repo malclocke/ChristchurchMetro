@@ -78,6 +78,9 @@ class Stop {
   public double latitude;
   public double longitude;
 
+  // The time of the last call to getArrivals()
+  public long lastArrivalFetch = 0;
+
   public Stop() {
   }
 
@@ -180,6 +183,7 @@ class Stop {
       EtaHandler handler = new EtaHandler();
       xr.setContentHandler(handler);
       xr.parse(new InputSource(source.openStream()));
+      lastArrivalFetch = System.currentTimeMillis();
     } catch (Exception e) {
       throw e;
     }
