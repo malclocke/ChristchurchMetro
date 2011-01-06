@@ -246,13 +246,20 @@ public class PlatformActivity extends ListActivity
     Intent intent = new Intent(this, ArrivalNotificationReceiver.class);
     intent.putExtra("routeNumber", arrival.routeNumber);
     intent.putExtra("destination", arrival.destination);
+    intent.putExtra("tripNumber", arrival.tripNumber);
     intent.putExtra("platformTag", current_stop.platformTag);
     intent.putExtra("minutes", minutes);
     PendingIntent sender = PendingIntent.getBroadcast(this, 0, intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
 
-    // Calculate the time delay for this alarm
-    int delay = arrival.eta - minutes;
+    /**
+     * Calculate the time delay for this alarm.  We add 2 minutes to the
+     * requested time in case the bus makes up time on it's journey from
+     * when the user set the alarm.  In that case, the
+     * ArrivalNotificationReceiver will take care of resetting itself if the
+     * bus ETA is still greater than the requested number of minutes.
+     */
+    int delay = arrival.eta - (minutes + 2);
 
     if (delay > 0) {
       Calendar calendar = Calendar.getInstance();
@@ -275,9 +282,10 @@ public class PlatformActivity extends ListActivity
       AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
       alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
           sender);
+      String alarmTime = DateFormat.getTimeInstance().format(calendar.getTime());
       Toast.makeText(this, String.format(getResources().getString(
-              R.string.set_alarm_for_time), DateFormat.getTimeInstance().format(calendar.getTime())), Toast.LENGTH_LONG).show();
-      Log.d(TAG, "Set alarm for " + minutes + " minutes");
+              R.string.set_alarm_for_eta), minutes), Toast.LENGTH_LONG).show();
+      Log.d(TAG, "Set alarm for " + minutes + " minutes - " + alarmTime);
     } else {
       Toast.makeText(this, String.format(getResources().getString(
               R.string.arrival_already_n_minutes_or_less_away), minutes, arrival.eta), Toast.LENGTH_LONG).show();
