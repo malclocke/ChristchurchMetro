@@ -261,35 +261,30 @@ public class PlatformActivity extends ListActivity
      */
     int delay = arrival.eta - (minutes + 2);
 
-    if (delay > 0) {
-      Calendar calendar = Calendar.getInstance();
+    Calendar calendar = Calendar.getInstance();
 
-      /**
-       * Set the time for comparison from the time the arrival was fetched,
-       * not the current time.  The user may have had the screen loaded
-       * for some time without refresh, so the arrival eta may no longer be
-       * accurate.
-       */
-      long timestamp = current_stop.lastArrivalFetch;
-      // Safety net
-      if (timestamp == 0) {
-        timestamp = System.currentTimeMillis();
-      }
-
-      calendar.setTimeInMillis(timestamp);
-      calendar.add(Calendar.MINUTE, delay);
-
-      AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-      alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-          sender);
-      String alarmTime = DateFormat.getTimeInstance().format(calendar.getTime());
-      Toast.makeText(this, String.format(getResources().getString(
-              R.string.set_alarm_for_eta), minutes), Toast.LENGTH_LONG).show();
-      Log.d(TAG, "Set alarm for " + minutes + " minutes - " + alarmTime);
-    } else {
-      Toast.makeText(this, String.format(getResources().getString(
-              R.string.arrival_already_n_minutes_or_less_away), minutes, arrival.eta), Toast.LENGTH_LONG).show();
+    /**
+     * Set the time for comparison from the time the arrival was fetched,
+     * not the current time.  The user may have had the screen loaded
+     * for some time without refresh, so the arrival eta may no longer be
+     * accurate.
+     */
+    long timestamp = current_stop.lastArrivalFetch;
+    // Safety net
+    if (timestamp == 0) {
+      timestamp = System.currentTimeMillis();
     }
+
+    calendar.setTimeInMillis(timestamp);
+    calendar.add(Calendar.MINUTE, delay);
+
+    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        sender);
+    String alarmTime = DateFormat.getTimeInstance().format(calendar.getTime());
+    Toast.makeText(this, String.format(getResources().getString(
+            R.string.set_alarm_for_eta), minutes), Toast.LENGTH_LONG).show();
+    Log.d(TAG, "Set alarm for " + minutes + " minutes - " + alarmTime);
   }
 
   public void loadStop(Stop stop) {
