@@ -28,8 +28,10 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -237,10 +239,19 @@ public class MetroMapActivity extends MapActivity {
     private Stop selectedStop;
     private View popUp;
     private View routeInfoBox;
+    private GestureDetector gestureDetector;
 
     public MetroMapOverlay(Drawable defaultMarker, Context lcontext) {
       marker = defaultMarker;
       context = lcontext;
+
+      //gestureDetector = new GestureDetector(new MetroMapGestureDetector());
+      gestureDetector = new GestureDetector(new SimpleOnGestureListener() {
+        @Override
+        public boolean onDoubleTapEvent(MotionEvent event) {
+          return true;
+        }
+      });
     }
 
     public void draw(Canvas canvas, MapView mapView, boolean shadow) {
@@ -395,6 +406,15 @@ public class MetroMapActivity extends MapActivity {
       return selectedStop != null;
     }
 
+    public boolean onTouchEvent(MotionEvent event, MapView mapView) {
+      if (gestureDetector.onTouchEvent(event)) {
+        Log.d(TAG, "Got doubletap");
+        mapController.zoomInFixing((int)event.getX(), (int)event.getY());
+        return true;
+      }
+      return false;
+    }
+
     public Stop getHitLocation(GeoPoint point) {
       Stop hitStop = null;
 
@@ -441,6 +461,14 @@ public class MetroMapActivity extends MapActivity {
       Log.d(TAG, "marker rect (l/t/r/b) = " + markerRect.left + "/" +
           markerRect.top + "/" + markerRect.right + "/" + markerRect.bottom);
       return markerRect.contains(comparePoint.x, comparePoint.y);
+    }
+  }
+
+  private class MetroMapGestureDetector extends SimpleOnGestureListener {
+    private static final String TAG = "MetroMapGestureDetector";
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent event) {
+      return true;
     }
   }
 }
