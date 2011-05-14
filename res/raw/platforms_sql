@@ -961,7 +961,7 @@ INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude,
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
                 VALUES (543,25768,"Springs Rd & Henry Wigram Pl","Springs Rd",-43.544726,172.544161);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
-                VALUES (544,24559,"Springs Rd & Garvins Rd","Springs Rd",-43.546621,172.542463);
+                VALUES (544,24559,"Springs Rd & Garvins Rd","Springs Rd",-43.546834,172.542273);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
                 VALUES (545,24879,"Springs Rd & Caudron Rd","Springs Rd",-43.546947,172.541913);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
@@ -2799,7 +2799,7 @@ INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude,
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
                 VALUES (1647,11473,"Barrington St & Hammond Pl","Barrington St",-43.550471,172.611105);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
-                VALUES (1648,28560,"Bealey Ave ","Bealey Ave",-43.520731,172.628728);
+                VALUES (1648,28560,"Bealey Ave","Bealey Ave",-43.520731,172.628728);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
                 VALUES (1649,28040,"Bealey Ave & Montreal St","Bealey Ave",-43.520748,172.631260);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
@@ -4005,7 +4005,7 @@ INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude,
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
                 VALUES (2380,23131,"Hackthorne Rd & Lady Polson Ln","Hackthorne Rd",-43.575956,172.624398);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
-                VALUES (2381,23154,"Hackthorne Rd & Cashmere Rd","Hackthorne Rd",-43.571210,172.624176);
+                VALUES (2381,23154,"Hackthorne Rd & Cashmere Rd","Hackthorne Rd",-43.571846,172.624372);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
                 VALUES (2382,22380,"Rose St & Beechworth Ave","Rose St",-43.564062,172.623512);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
@@ -4959,7 +4959,7 @@ INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude,
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
                 VALUES (2912,46259,"Claridges Rd & Gardiners Rd","Claridges Rd",-43.472747,172.592403);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
-                VALUES (2913,47907,"Claridges Rd & Gardiners Rd","Claridges Rd",-43.472849,172.592888);
+                VALUES (2913,47907,"Claridges Rd & Gardiners Rd","Claridges Rd",-43.471972,172.590766);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
                 VALUES (2914,47866,"Claridges Rd & Highsted Rd","Claridges Rd",-43.473922,172.595465);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
@@ -5091,7 +5091,7 @@ INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude,
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
                 VALUES (2978,NULL,"Heberden Ave & Edwin Mouldey Trk","Heberden Ave",-43.573712,172.770089);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
-                VALUES (2979,NULL,"Governors Bay","Governors Bay Teddington Rd",-43.634421,172.644637);
+                VALUES (2979,50461,"Governors Bay","Governors Bay Teddington Rd",-43.634421,172.644637);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
                 VALUES (2980,47280,"AGHS","Avonside Dr",-43.524479,172.661167);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
@@ -5195,8 +5195,24 @@ INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude,
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
                 VALUES (3030,NULL,"Aranui HS","Shortland St",-43.515633,172.694122);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
-                VALUES (3031,NULL,"Dyers Pass Rd - Sign of the Takahe","Dyers Pass Rd",-43.581608,172.634952);
+                VALUES (3031,50419,"Dyers Pass Rd - Sign of the Takahe","Dyers Pass Rd",-43.581456,172.634698);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
                 VALUES (3032,50403,"Rolleston Dr & Main South Rd (Sh 1)","Rolleston Dr",-43.589763,172.384065);
 INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
-                VALUES (3033,45075,"Rolleston Dr & Main South Rd (Sh 1)","Rolleston Dr",-43.589664,172.384170)
+                VALUES (3033,45075,"Rolleston Dr & Main South Rd (Sh 1)","Rolleston Dr",-43.589664,172.384170);
+INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
+                VALUES (3034,33428,"Cashmere Rd - Francis Res","Cashmere Rd",-43.575210,172.604826);
+INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
+                VALUES (3035,50457,"Main Rd & Zephyr Tce","Main Rd",-43.620107,172.649341);
+INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
+                VALUES (3036,50426,"Main Rd & Zephyr Tce","Main Rd",-43.620024,172.649497);
+INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
+                VALUES (3037,50442,"Main Rd & Chrystalwood Ln","Chrystalwood Ln",-43.623190,172.648141);
+INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
+                VALUES (3038,50435,"Main Rd & Jetty Rd","Main Rd",-43.623495,172.648442);
+INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
+                VALUES (3039,50488,"Heaton St - St Georges","Heaton St",-43.510328,172.616960);
+INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
+                VALUES (3040,50474,"Heaton Intermediate","Heaton St",-43.510459,172.616386);
+INSERT INTO platforms (platform_tag, platform_number, name, road_name, latitude, longitude)
+                VALUES (3041,NULL,"Bealey Ave Terminus","Bealey Ave",-43.520991,172.630691)

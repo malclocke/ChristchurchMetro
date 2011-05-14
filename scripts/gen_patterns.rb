@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# Send the output of this script to res/raw/patterns_sql
+
 require 'rubygems'
 require 'hpricot'
 

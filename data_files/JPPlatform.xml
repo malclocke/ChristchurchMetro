@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <JPPlatforms xmlns="urn:connexionz-co-nz:jp" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:connexionz-co-nz:jp JourneyPlanner.xsd">
-  <Content Expires="2010-12-14T03:32:00" />
+  <Content Expires="2011-05-15T03:32:00" />
   <Platform PlatformTag="1" Name="City Exchange (A)">
     <Position Lat="-4.353379800000000e+001" Long="1.726375730000000e+002" />
   </Platform>
@@ -1444,8 +1444,8 @@
   <Platform PlatformTag="543" PlatformNo="25768" Name="Springs Rd &amp; Henry Wigram Pl" BearingToRoad="1.2361169e+002" RoadName="Springs Rd">
     <Position Lat="-4.354472556000000e+001" Long="1.725441611000000e+002" />
   </Platform>
-  <Platform PlatformTag="544" PlatformNo="24559" Name="Springs Rd &amp; Garvins Rd" BearingToRoad="3.0788519e+002" RoadName="Springs Rd">
-    <Position Lat="-4.354662109000000e+001" Long="1.725424626000000e+002" />
+  <Platform PlatformTag="544" PlatformNo="24559" Name="Springs Rd &amp; Garvins Rd" BearingToRoad="3.0753500e+002" RoadName="Springs Rd">
+    <Position Lat="-4.354683400000000e+001" Long="1.725422730000000e+002" />
   </Platform>
   <Platform PlatformTag="545" PlatformNo="24879" Name="Springs Rd &amp; Caudron Rd" BearingToRoad="1.2788519e+002" RoadName="Springs Rd">
     <Position Lat="-4.354694696000000e+001" Long="1.725419133000000e+002" />
@@ -4201,7 +4201,7 @@
   <Platform PlatformTag="1647" PlatformNo="11473" Name="Barrington St &amp; Hammond Pl" BearingToRoad="5.2137653e+001" RoadName="Barrington St">
     <Position Lat="-4.355047131000000e+001" Long="1.726111048000000e+002" />
   </Platform>
-  <Platform PlatformTag="1648" PlatformNo="28560" Name="Bealey Ave " BearingToRoad="1.8050531e+002" RoadName="Bealey Ave">
+  <Platform PlatformTag="1648" PlatformNo="28560" Name="Bealey Ave" BearingToRoad="1.8050531e+002" RoadName="Bealey Ave">
     <Position Lat="-4.352073068000000e+001" Long="1.726287281000000e+002" />
   </Platform>
   <Platform PlatformTag="1649" PlatformNo="28040" Name="Bealey Ave &amp; Montreal St" BearingToRoad="1.8100179e+002" RoadName="Bealey Ave">
@@ -6010,8 +6010,8 @@
   <Platform PlatformTag="2380" PlatformNo="23131" Name="Hackthorne Rd &amp; Lady Polson Ln" BearingToRoad="2.9632437e+002" RoadName="Hackthorne Rd">
     <Position Lat="-4.357595637000000e+001" Long="1.726243977000000e+002" />
   </Platform>
-  <Platform PlatformTag="2381" PlatformNo="23154" Name="Hackthorne Rd &amp; Cashmere Rd" BearingToRoad="2.5834274e+002" RoadName="Hackthorne Rd">
-    <Position Lat="-4.357121045000000e+001" Long="1.726241756000000e+002" />
+  <Platform PlatformTag="2381" PlatformNo="23154" Name="Hackthorne Rd &amp; Cashmere Rd" BearingToRoad="2.5858762e+002" RoadName="Hackthorne Rd">
+    <Position Lat="-4.357184600000000e+001" Long="1.726243720000000e+002" />
   </Platform>
   <Platform PlatformTag="2382" PlatformNo="22380" Name="Rose St &amp; Beechworth Ave" BearingToRoad="1.4176968e+002" RoadName="Rose St">
     <Position Lat="-4.356406159000000e+001" Long="1.726235116000000e+002" />
@@ -7441,8 +7441,8 @@
   <Platform PlatformTag="2912" PlatformNo="46259" Name="Claridges Rd &amp; Gardiners Rd" BearingToRoad="2.1006984e+002" RoadName="Claridges Rd">
     <Position Lat="-4.347274675000000e+001" Long="1.725924027000000e+002" />
   </Platform>
-  <Platform PlatformTag="2913" PlatformNo="47907" Name="Claridges Rd &amp; Gardiners Rd" BearingToRoad="2.1006224e+002" RoadName="Claridges Rd">
-    <Position Lat="-4.347284881000000e+001" Long="1.725928879000000e+002" />
+  <Platform PlatformTag="2913" PlatformNo="47907" Name="Claridges Rd &amp; Gardiners Rd" BearingToRoad="2.1006984e+002" RoadName="Claridges Rd">
+    <Position Lat="-4.347197200000000e+001" Long="1.725907660000000e+002" />
   </Platform>
   <Platform PlatformTag="2914" PlatformNo="47866" Name="Claridges Rd &amp; Highsted Rd" BearingToRoad="2.1006114e+002" RoadName="Claridges Rd">
     <Position Lat="-4.347392246000000e+001" Long="1.725954647000000e+002" />
@@ -7639,7 +7639,7 @@
   <Platform PlatformTag="2978" Name="Heberden Ave &amp; Edwin Mouldey Trk" BearingToRoad="3.0048224e+002" RoadName="Heberden Ave">
     <Position Lat="-4.357371216130775e+001" Long="1.727700892545979e+002" />
   </Platform>
-  <Platform PlatformTag="2979" Name="Governors Bay" BearingToRoad="1.1173007e+002" RoadName="Governors Bay Teddington Rd">
+  <Platform PlatformTag="2979" PlatformNo="50461" Name="Governors Bay" BearingToRoad="1.1173007e+002" RoadName="Governors Bay Teddington Rd">
     <Position Lat="-4.363442100000000e+001" Long="1.726446370000000e+002" />
   </Platform>
   <Platform PlatformTag="2980" PlatformNo="47280" Name="AGHS" BearingToRoad="2.6606268e+002" RoadName="Avonside Dr">
@@ -7795,13 +7795,37 @@
   <Platform PlatformTag="3030" Name="Aranui HS" BearingToRoad="2.2875960e+002" RoadName="Shortland St">
     <Position Lat="-4.351563300000000e+001" Long="1.726941220000000e+002" />
   </Platform>
-  <Platform PlatformTag="3031" Name="Dyers Pass Rd - Sign of the Takahe" BearingToRoad="3.9276745e+001" RoadName="Dyers Pass Rd">
-    <Position Lat="-4.358160800000000e+001" Long="1.726349520000000e+002" />
+  <Platform PlatformTag="3031" PlatformNo="50419" Name="Dyers Pass Rd - Sign of the Takahe" BearingToRoad="3.9276745e+001" RoadName="Dyers Pass Rd">
+    <Position Lat="-4.358145600000000e+001" Long="1.726346980000000e+002" />
   </Platform>
   <Platform PlatformTag="3032" PlatformNo="50403" Name="Rolleston Dr &amp; Main South Rd (Sh 1)" BearingToRoad="7.3299873e+001" RoadName="Rolleston Dr">
     <Position Lat="-4.358976300000000e+001" Long="1.723840650000000e+002" />
   </Platform>
   <Platform PlatformTag="3033" PlatformNo="45075" Name="Rolleston Dr &amp; Main South Rd (Sh 1)" BearingToRoad="2.5329988e+002" RoadName="Rolleston Dr">
     <Position Lat="-4.358966400000000e+001" Long="1.723841700000000e+002" />
+  </Platform>
+  <Platform PlatformTag="3034" PlatformNo="33428" Name="Cashmere Rd - Francis Res" BearingToRoad="3.5308987e+002" RoadName="Cashmere Rd">
+    <Position Lat="-4.357521000000000e+001" Long="1.726048260000000e+002" />
+  </Platform>
+  <Platform PlatformTag="3035" PlatformNo="50457" Name="Main Rd &amp; Zephyr Tce" BearingToRoad="1.0631992e+002" RoadName="Main Rd">
+    <Position Lat="-4.362010700000000e+001" Long="1.726493410000000e+002" />
+  </Platform>
+  <Platform PlatformTag="3036" PlatformNo="50426" Name="Main Rd &amp; Zephyr Tce" BearingToRoad="2.8631992e+002" RoadName="Main Rd">
+    <Position Lat="-4.362002400000000e+001" Long="1.726494970000000e+002" />
+  </Platform>
+  <Platform PlatformTag="3037" PlatformNo="50442" Name="Main Rd &amp; Chrystalwood Ln" BearingToRoad="3.4556510e+000" RoadName="Chrystalwood Ln">
+    <Position Lat="-4.362319000000000e+001" Long="1.726481410000000e+002" />
+  </Platform>
+  <Platform PlatformTag="3038" PlatformNo="50435" Name="Main Rd &amp; Jetty Rd" BearingToRoad="2.5104208e+002" RoadName="Main Rd">
+    <Position Lat="-4.362349500000000e+001" Long="1.726484420000000e+002" />
+  </Platform>
+  <Platform PlatformTag="3039" PlatformNo="50488" Name="Heaton St - St Georges" BearingToRoad="3.2740613e+002" RoadName="Heaton St">
+    <Position Lat="-4.351032800000000e+001" Long="1.726169600000000e+002" />
+  </Platform>
+  <Platform PlatformTag="3040" PlatformNo="50474" Name="Heaton Intermediate" BearingToRoad="1.4739015e+002" RoadName="Heaton St">
+    <Position Lat="-4.351045900000000e+001" Long="1.726163860000000e+002" />
+  </Platform>
+  <Platform PlatformTag="3041" Name="Bealey Ave Terminus" BearingToRoad="1.0018569e+000" RoadName="Bealey Ave">
+    <Position Lat="-4.352099077414542e+001" Long="1.726306911786832e+002" />
   </Platform>
 </JPPlatforms>

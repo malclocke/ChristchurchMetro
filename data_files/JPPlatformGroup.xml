@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <JPPlatformGroups xmlns="urn:connexionz-co-nz:jp" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:connexionz-co-nz:jp JourneyPlanner.xsd">
-  <Content Expires="2010-12-14T03:32:00" />
+  <Content Expires="2011-05-15T03:32:00" />
   <PlatformGroup Name="Airport">
     <Platform PlatformTag="2868" PlatformNo="47222" Name="Christchurch International Airport" />
   </PlatformGroup>
@@ -26,9 +26,16 @@
     <Platform PlatformTag="1640" PlatformNo="11384" Name="Barrington Mall" />
     <Platform PlatformTag="1641" PlatformNo="11378" Name="Barrington Mall" />
   </PlatformGroup>
+  <PlatformGroup Name="Bealey Avenue">
+    <Platform PlatformTag="900" PlatformNo="40616" Name="Bealey Ave" />
+    <Platform PlatformTag="1648" PlatformNo="28560" Name="Bealey Ave" />
+    <Platform PlatformTag="1655" PlatformNo="28797" Name="Bealey Ave &amp; Madras St" />
+    <Platform PlatformTag="3041" Name="Bealey Ave Terminus" />
+  </PlatformGroup>
   <PlatformGroup Name="Beckenham">
     <Platform PlatformTag="695" PlatformNo="32146" Name="St Martins Shops" />
     <Platform PlatformTag="696" PlatformNo="37001" Name="St Martins Shops" />
+    <Platform PlatformTag="1664" PlatformNo="22852" Name="Birdwood Ave &amp; Castle Wy" />
     <Platform PlatformTag="1665" PlatformNo="22125" Name="Birdwood Ave &amp; Malcolm Ave" />
     <Platform PlatformTag="1666" PlatformNo="22997" Name="Birdwood Ave &amp; Malcolm Ave" />
   </PlatformGroup>
@@ -77,6 +84,7 @@
     <Platform PlatformTag="1347" PlatformNo="17351" Name="Memorial Ave &amp; Roydvale Ave" />
   </PlatformGroup>
   <PlatformGroup Name="Burwood">
+    <Platform PlatformTag="206" PlatformNo="18371" Name="Burwood Hospital" />
     <Platform PlatformTag="300" PlatformNo="39536" Name="New Brighton Rd &amp; Lake Terrace Rd" />
     <Platform PlatformTag="511" PlatformNo="39061" Name="Travis Rd &amp; Travis Country Dr" />
     <Platform PlatformTag="885" PlatformNo="13732" Name="Burwood Rd" />
@@ -96,6 +104,10 @@
   <PlatformGroup Name="Casino">
     <Platform PlatformTag="2184" PlatformNo="30846" Name="Casino" />
     <Platform PlatformTag="2185" PlatformNo="32394" Name="Durham St N, Kilmore St &amp; Victoria St" />
+  </PlatformGroup>
+  <PlatformGroup Name="Caspian St">
+    <Platform PlatformTag="888" PlatformNo="26311" Name="Caspian St, Pine Ave &amp; Rocking Horse Rd" />
+    <Platform PlatformTag="986" PlatformNo="26395" Name="Estuary Rd &amp; Ebbtide St" />
   </PlatformGroup>
   <PlatformGroup Name="City">
     <Platform PlatformTag="1" Name="City Exchange (A)" />
@@ -154,12 +166,16 @@
     <Platform PlatformTag="990" PlatformNo="15181" Name="Ferry Rd &amp; Manning Pl" />
     <Platform PlatformTag="995" PlatformNo="32105" Name="Ferry Rd, Hargood St &amp; Radley St" />
   </PlatformGroup>
+  <PlatformGroup Name="Ferrymead">
+    <Platform PlatformTag="1011" PlatformNo="15511" Name="Ferry Rd Countdown" />
+    <Platform PlatformTag="1013" PlatformNo="40967" Name="Ferry Rd &amp; Settlers Cres" />
+  </PlatformGroup>
   <PlatformGroup Name="Gleniti">
     <Platform PlatformTag="2759" PlatformNo="41094" Name="Waitaki St &amp; Benmore St" />
     <Platform PlatformTag="2817" PlatformNo="41883" Name="Station St &amp; George St" />
   </PlatformGroup>
   <PlatformGroup Name="Governors Bay">
-    <Platform PlatformTag="2979" Name="Governors Bay" />
+    <Platform PlatformTag="2979" PlatformNo="50461" Name="Governors Bay" />
   </PlatformGroup>
   <PlatformGroup Name="Grantlea">
     <Platform PlatformTag="2807" PlatformNo="44964" Name="Bouverie St &amp; Tay St" />
@@ -205,8 +221,6 @@
   <PlatformGroup Name="Huntsbury">
     <Platform PlatformTag="1115" PlatformNo="32919" Name="Huntsbury Ave &amp; Vista Pl" />
     <Platform PlatformTag="1116" PlatformNo="32893" Name="Huntsbury Ave &amp; Major Aitken Dve" />
-    <Platform PlatformTag="1815" PlatformNo="23634" Name="Centaurus Rd &amp; Vernon Tce" />
-    <Platform PlatformTag="1816" PlatformNo="45514" Name="Centaurus Rd &amp; Aynsley Tce" />
   </PlatformGroup>
   <PlatformGroup Name="Hyde Park">
     <Platform PlatformTag="1606" PlatformNo="10171" Name="Hyde Park" />
@@ -337,6 +351,7 @@
     <Platform PlatformTag="802" PlatformNo="18261" Name="Beach Rd &amp; Pinewood Ave" />
   </PlatformGroup>
   <PlatformGroup Name="Parkside">
+    <Platform PlatformTag="2063" PlatformNo="14581" Name="Hagley Ave, Selwyn St &amp; Waller Tce" />
     <Platform PlatformTag="2182" PlatformNo="14575" Name="Parkside Terminus" />
   </PlatformGroup>
   <PlatformGroup Name="Pegasus">
@@ -414,6 +429,7 @@
   </PlatformGroup>
   <PlatformGroup Name="Southshore">
     <Platform PlatformTag="432" PlatformNo="26213" Name="Southshore" />
+    <Platform PlatformTag="986" PlatformNo="26395" Name="Estuary Rd &amp; Ebbtide St" />
   </PlatformGroup>
   <PlatformGroup Name="Sparks Rd">
     <Platform PlatformTag="540" PlatformNo="33503" Name="Sparks Rd" />
@@ -432,6 +448,8 @@
   <PlatformGroup Name="St Martins">
     <Platform PlatformTag="695" PlatformNo="32146" Name="St Martins Shops" />
     <Platform PlatformTag="696" PlatformNo="37001" Name="St Martins Shops" />
+    <Platform PlatformTag="2356" PlatformNo="23430" Name="Wilsons Rd" />
+    <Platform PlatformTag="2357" PlatformNo="23699" Name="Wilsons Rd" />
   </PlatformGroup>
   <PlatformGroup Name="Styx Mill">
     <Platform PlatformTag="2418" PlatformNo="29256" Name="Styx Mill" />
@@ -441,6 +459,7 @@
     <Platform PlatformTag="287" PlatformNo="42651" Name="Nayland St &amp; Head St" />
     <Platform PlatformTag="898" PlatformNo="42772" Name="Colenso St &amp; Menzies St" />
     <Platform PlatformTag="899" PlatformNo="42698" Name="Colenso St &amp; Menzies St" />
+    <Platform PlatformTag="1011" PlatformNo="15511" Name="Ferry Rd Countdown" />
     <Platform PlatformTag="2113" PlatformNo="42680" Name="Sumner" />
   </PlatformGroup>
   <PlatformGroup Name="Supa Centa">
