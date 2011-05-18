@@ -95,7 +95,8 @@ public class RoutesActivity extends ListActivity {
       case R.id.map:
         Log.d(TAG, "Map selected from menu");
         intent = new Intent();
-        intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
+        intent.setClassName("nz.co.wholemeal.christchurchmetro",
+            "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
         startActivity(intent);
         return true;
       case R.id.search:
@@ -105,7 +106,15 @@ public class RoutesActivity extends ListActivity {
       case R.id.favourite_stops:
         Log.d(TAG, "Favourite stops selected");
         intent = new Intent();
-        intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.FavouritesActivity");
+        intent.setClassName("nz.co.wholemeal.christchurchmetro",
+            "nz.co.wholemeal.christchurchmetro.FavouritesActivity");
+        startActivity(intent);
+        return true;
+      case R.id.preferences:
+        Log.d(TAG, "Preferences selected from menu");
+        intent = new Intent();
+        intent.setClassName("nz.co.wholemeal.christchurchmetro",
+            "nz.co.wholemeal.christchurchmetro.PreferencesActivity");
         startActivity(intent);
         return true;
       default:

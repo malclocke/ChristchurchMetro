@@ -223,6 +223,13 @@ public class MetroMapActivity extends MapActivity {
         Log.d(TAG, "Search selected from menu");
         onSearchRequested();
         return true;
+      case R.id.preferences:
+        Log.d(TAG, "Preferences selected from menu");
+        intent = new Intent();
+        intent.setClassName("nz.co.wholemeal.christchurchmetro",
+            "nz.co.wholemeal.christchurchmetro.PreferencesActivity");
+        startActivity(intent);
+        return true;
       default:
         return super.onOptionsItemSelected(item);
     }

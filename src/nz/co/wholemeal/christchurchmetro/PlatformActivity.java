@@ -179,6 +179,14 @@ public class PlatformActivity extends ListActivity
         startActivity(intent);
         return true;
 
+      case R.id.preferences:
+        Log.d(TAG, "Preferences selected from menu");
+        intent = new Intent();
+        intent.setClassName("nz.co.wholemeal.christchurchmetro",
+            "nz.co.wholemeal.christchurchmetro.PreferencesActivity");
+        startActivity(intent);
+        return true;
+
       default:
         return super.onOptionsItemSelected(item);
     }
