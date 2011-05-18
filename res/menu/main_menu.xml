@@ -9,4 +9,7 @@
     <item android:id="@+id/routes"
           android:icon="@drawable/ic_menu_directions"
           android:title="@string/routes" />
+    <item android:id="@+id/preferences"
+          android:icon="@drawable/ic_menu_preferences"
+          android:title="@string/preferences" />
 </menu>

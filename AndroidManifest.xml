@@ -32,6 +32,8 @@
 
       <activity android:name=".RoutesActivity" />
 
+      <activity android:name=".PreferencesActivity" />
+
       <receiver android:name=".ArrivalNotificationReceiver"
         android:process=":remote" />
 

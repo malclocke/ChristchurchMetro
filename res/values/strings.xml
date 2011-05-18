@@ -65,4 +65,14 @@
       <item quantity="one">Due in 1 minute</item>
       <item quantity="other">Due in <xliff:g id="number">%d</xliff:g> minutes</item>
     </plurals>
+
+    <!-- Preferences screen -->
+    <string name="preferences">Preferences</string>
+    <string name="update_routes">Update routes</string>
+    <string name="update_routes_summary">Fetch the latest route information from the MetroInfo system</string>
+    <string name="loading_routes">Loading routes</string>
+    <string name="loading_platforms">Loading platforms</string>
+    <string name="loaded_route_information">Loaded route information</string>
+    <string name="error_loading_bus_routes">Error loading bus routes, please try again later</string>
+    
 </resources>

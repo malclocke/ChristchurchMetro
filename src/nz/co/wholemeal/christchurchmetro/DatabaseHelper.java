@@ -67,20 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
       db.execSQL(CREATE_PLATFORMS);
       db.execSQL(CREATE_PATTERNS);
       db.execSQL(CREATE_PATTERNS_PLATFORMS);
-      db.beginTransaction();
-      try {
-        // The stops data
-        loadSqlFromResource(db, R.raw.platforms_sql);
-        // The routes data
-        loadSqlFromResource(db, R.raw.patterns_sql);
-        db.setTransactionSuccessful();
-      } finally {
-        db.endTransaction();
-      }
       Log.i(TAG, "Database load complete");
-    } catch (IOException e) {
-      Log.e(TAG, "Error reading SQL file: " + e.getMessage(), e);
-      throw new RuntimeException(e);
     } catch (SQLiteException e) {
       Log.e(TAG, "Error parsing SQL: " + e.getMessage(), e);
       throw new RuntimeException(e);
@@ -93,17 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
       try {
         db.execSQL(CREATE_PATTERNS);
         db.execSQL(CREATE_PATTERNS_PLATFORMS);
-        db.beginTransaction();
-        try {
-          loadSqlFromResource(db, R.raw.patterns_sql);
-          db.setTransactionSuccessful();
-        } finally {
-          db.endTransaction();
-        }
         Log.i(TAG, "Loaded routes tables");
-      } catch (IOException e) {
-        Log.e(TAG, "Error reading SQL file: " + e.getMessage(), e);
-        throw new RuntimeException(e);
       } catch (SQLiteException e) {
         Log.e(TAG, "Error parsing SQL: " + e.getMessage(), e);
         throw new RuntimeException(e);

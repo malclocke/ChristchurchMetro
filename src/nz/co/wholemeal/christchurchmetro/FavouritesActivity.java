@@ -25,7 +25,10 @@ import org.json.JSONException;
 import org.json.JSONArray;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -61,6 +64,8 @@ public class FavouritesActivity extends ListActivity {
   public static ArrayList stops = new ArrayList<Stop>();
   private StopAdapter stopAdapter;
 
+  static final int DIALOG_LOAD_DATA = 0;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -95,6 +100,11 @@ public class FavouritesActivity extends ListActivity {
         startActivity(intent);
       }
     });
+
+    SharedPreferences preferences = getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
+    if (preferences.getLong("lastDataLoad", -1) == -1) {
+      showDialog(DIALOG_LOAD_DATA);
+    }
   }
 
   @Override
@@ -154,6 +164,12 @@ public class FavouritesActivity extends ListActivity {
         Log.d(TAG, "Routes selected from menu");
         intent = new Intent();
         intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.RoutesActivity");
+        startActivity(intent);
+        return true;
+      case R.id.preferences:
+        Log.d(TAG, "Preferences selected from menu");
+        intent = new Intent();
+        intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.PreferencesActivity");
         startActivity(intent);
         return true;
       default:
@@ -248,6 +264,27 @@ public class FavouritesActivity extends ListActivity {
       Log.e(TAG, "Remove requested for stop " + stop.platformNumber +
           " but it's not present in favourites");
     }
+  }
+
+  protected Dialog onCreateDialog(int id) {
+    Dialog dialog;
+    switch(id) {
+      case DIALOG_LOAD_DATA:
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true)
+          .setTitle("Data load required")
+          .setMessage("You have not yet loaded the bus stop and route data.")
+          .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+              dialog.cancel();
+            }
+          });
+        dialog = builder.create();
+        break;
+      default:
+        dialog = null;
+    }
+    return dialog;
   }
 
   private class StopAdapter extends ArrayAdapter<Stop> {
