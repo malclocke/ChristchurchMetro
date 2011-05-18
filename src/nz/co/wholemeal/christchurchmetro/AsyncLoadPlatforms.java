@@ -17,7 +17,6 @@
 package nz.co.wholemeal.christchurchmetro;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -43,56 +42,45 @@ public class AsyncLoadPlatforms extends AsyncTask<Void, Integer, String> {
 
   public static String TAG = "AsyncLoadPlatforms";
 
-  // Values for maximum in the progress dialog.  Hopefully will not fluctuate
-  // much over time.
-  private static int MAX_PLATFORMS = 2600;
-  private static int MAX_ROUTES = 125;
+  public static String PLATFORMS_URL = "http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?ContentType=SQLXML&Name=JPPlatform.xml";
+  public static String ROUTE_PATTERN_URL = "http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?ContentType=SQLXML&Name=JPRoutePattern.xml";
+  //public static String PLATFORMS_URL = "http://10.0.2.2/~malc/JPPlatform.xml";
+  //public static String ROUTE_PATTERN_URL = "http://10.0.2.2/~malc/JPRoutePattern.xml";
 
-  //public static String PLATFORMS_URL = "http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?ContentType=SQLXML&Name=JPPlatform.xml";
-  //public static String ROUTE_PATTERN_URL = "http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?ContentType=SQLXML&Name=JPRoutePattern.xml";
-  public static String PLATFORMS_URL = "http://10.0.2.2/~malc/JPPlatform.xml";
-  public static String ROUTE_PATTERN_URL = "http://10.0.2.2/~malc/JPRoutePattern.xml";
+  LoadRoutesActivity activity = null;
 
-  ProgressDialog progressDialog;
-  Activity activity = null;
-
-  AsyncLoadPlatforms(Activity activity) {
+  AsyncLoadPlatforms(LoadRoutesActivity activity) {
     attach(activity);
   }
 
-  public void attach(Activity activity) {
+  public void attach(LoadRoutesActivity activity) {
     this.activity = activity;
+  }
+
+  public void detach() {
+    activity = null;
   }
 
   @Override
   protected void onPreExecute() {
-    progressDialog = new ProgressDialog(activity);
-    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-    progressDialog.setCancelable(false);
-
-    progressDialog.setMax(MAX_PLATFORMS);
-    progressDialog.setMessage(activity.getString(R.string.loading_platforms));
-    progressDialog.show();
+    if (activity != null) {
+      activity.showLoadingRoutesProgressDialog();
+    }
   }
 
   @Override
   protected void onPostExecute(String message) {
-    progressDialog.dismiss();
-    Toast.makeText(activity.getBaseContext(), message,
-        Toast.LENGTH_SHORT).show();
+    if (activity != null) {
+      activity.loadingRoutesComplete(message);
+    }
   }
 
   @Override
   protected void onProgressUpdate(Integer... progress) {
     super.onProgressUpdate(progress);
 
-    // This is a special value, and means the import mode has
-    // progressed from platforms to patterns
-    if (progress[0] == -1) {
-      progressDialog.setMax(MAX_ROUTES);
-      progressDialog.setMessage(activity.getString(R.string.loading_routes));
-    } else {
-      progressDialog.setProgress(progress[0]);
+    if (activity != null) {
+      activity.updateLoadingRoutesProgressDialog(progress[0]);
     }
   }
 
@@ -102,7 +90,7 @@ public class AsyncLoadPlatforms extends AsyncTask<Void, Integer, String> {
 
     PlatformHandler platformHandler = null;
     PatternHandler patternHandler = null;
-    DatabaseHelper databaseHelper = new DatabaseHelper(activity);
+    DatabaseHelper databaseHelper = new DatabaseHelper((Activity)activity);
     SQLiteDatabase database = databaseHelper.getWritableDatabase();
 
 
@@ -148,20 +136,25 @@ public class AsyncLoadPlatforms extends AsyncTask<Void, Integer, String> {
       Log.e(TAG, "Exception", e);
     } finally {
       database.endTransaction();
+      database.close();
     }
 
-    if (platformHandler != null && patternHandler != null) {
+    if (activity != null && platformHandler != null && patternHandler != null) {
 
       SharedPreferences preferences =
-        activity.getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
+        ((Activity)activity).getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
       SharedPreferences.Editor editor = preferences.edit();
       editor.putLong("lastDataLoad", System.currentTimeMillis());
       editor.commit();
 
-      return activity.getString(R.string.loaded_route_information);
+      return ((Activity)activity).getString(R.string.loaded_route_information);
 
+    } else if (activity != null) {
+      return ((Activity)activity).getString(R.string.error_loading_bus_routes);
     } else {
-      return activity.getString(R.string.error_loading_bus_routes);
+      // If we get to this point, we have no context available to get
+      // the string resources from
+      return "Error loading bus routes";
     }
   }
 
