@@ -28,6 +28,10 @@
     <string name="next_bus_loading">Next bus: Loading ...</string>
     <string name="unable_to_retrieve_information">Unable to retrieve information</string>
     <string name="no_buses_due">No buses due in the next 30 minutes</string>
+    <string name="route_update_required">Route update required</string>
+    <string name="do_you_want_to_load_bus_stop_and_route_data">Do you want to load bus stop and route data?  You can do it later from <i>Menu &gt; Preferences</i>.</string>
+    <string name="load_now">Load now</string>
+    <string name="do_it_later">Do it later</string>
 
     <!-- PlatformActivity -->
     <string name="platform_info">Road Name: %1$s\nPlatform Number: %2$s\nPlatform Tag: %3$s\nLatitude: %4$f\nLongitude: %5$f</string>

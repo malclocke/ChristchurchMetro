@@ -272,13 +272,20 @@ public class FavouritesActivity extends ListActivity {
       case DIALOG_LOAD_DATA:
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true)
-          .setTitle("Data load required")
-          .setMessage("You have not yet loaded the bus stop and route data.")
-          .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+          .setTitle(R.string.route_update_required)
+          .setMessage(R.string.do_you_want_to_load_bus_stop_and_route_data)
+          .setPositiveButton(R.string.load_now, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+              dialog.cancel();
+              new AsyncLoadPlatforms(FavouritesActivity.this).execute();
+            }
+          })
+          .setNegativeButton(R.string.do_it_later, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
               dialog.cancel();
             }
-          });
+          })
+        ;
         dialog = builder.create();
         break;
       default:
