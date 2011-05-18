@@ -12,9 +12,12 @@
     <item android:id="@+id/my_location"
           android:icon="@drawable/ic_menu_mylocation"
           android:title="@string/my_location" />
-    <item android:id="@+id/exchange"
+    <item android:id="@+id/bealey_ave_terminus"
           android:icon="@drawable/ic_menu_exchange"
-          android:title="@string/bus_exchange" />
+          android:title="@string/bealey_ave_terminus" />
+    <item android:id="@+id/parkside_terminus"
+          android:icon="@drawable/ic_menu_exchange"
+          android:title="@string/parkside_terminus" />
     <item android:id="@+id/preferences"
           android:icon="@drawable/ic_menu_preferences"
           android:title="@string/preferences" />

@@ -5,6 +5,8 @@
 
     <!-- Menu strings -->
     <string name="bus_exchange">Bus Exchange</string>
+    <string name="bealey_ave_terminus">Bealey Ave Terminus</string>
+    <string name="parkside_terminus">Parkside Terminus</string>
     <string name="details">Details</string>
     <string name="favourite_stops">Favourite stops</string>
     <string name="map">Map</string>

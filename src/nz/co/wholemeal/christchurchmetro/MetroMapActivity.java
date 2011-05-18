@@ -63,8 +63,10 @@ public class MetroMapActivity extends MapActivity {
   private MapController mapController;
   private MyLocationOverlay myLocationOverlay;
 
-  /* The location used for the 'Bus Exchange' menu item */
+  /* The location used for the 'Bus Exchange' menu items */
   private GeoPoint exchangeGeoPoint = new GeoPoint(-43533798,172637573);
+  private GeoPoint bealeyAveTerminusGeoPoint = new GeoPoint(-43520991,172630691);
+  private GeoPoint parksideTerminusGeoPoint = new GeoPoint(-43535237,172625807);
 
   /* The last location received from the location manager */
   private GeoPoint lastFix = null;
@@ -201,9 +203,20 @@ public class MetroMapActivity extends MapActivity {
           mapController.animateTo(lastFix);
         }
         return true;
+      /*
+       * Out of action due to earthquake
       case R.id.exchange:
         Log.d(TAG, "Bus exchange selected");
         mapController.animateTo(exchangeGeoPoint);
+        return true;
+      */
+      case R.id.bealey_ave_terminus:
+        Log.d(TAG, "Bealey Ave terminus selected");
+        mapController.animateTo(bealeyAveTerminusGeoPoint);
+        return true;
+      case R.id.parkside_terminus:
+        Log.d(TAG, "Parkside terminus selected");
+        mapController.animateTo(parksideTerminusGeoPoint);
         return true;
       case R.id.favourite_stops:
         Log.d(TAG, "Favourite stops selected");
