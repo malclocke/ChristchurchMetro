@@ -24,11 +24,11 @@ import java.util.Iterator;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -45,6 +45,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
@@ -74,6 +75,7 @@ public class PlatformActivity extends ListActivity
   private View stopHeader;
 
   static final int CHOOSE_FAVOURITE = 0;
+  static final int DIALOG_PLATFORM_INFO = 0;
   static final String TAG = "PlatformActivity";
   static final String PREFERENCES_FILE = "Preferences";
 
@@ -81,6 +83,9 @@ public class PlatformActivity extends ListActivity
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
     setContentView(R.layout.stop);
 
     stopHeader = findViewById(R.id.stop_header);
@@ -145,16 +150,7 @@ public class PlatformActivity extends ListActivity
     switch (item.getItemId()) {
       case R.id.info:
         Log.d(TAG, "Info selected");
-        String message = String.format(
-          getResources().getString(R.string.platform_info),
-          current_stop.roadName, current_stop.platformNumber,
-          current_stop.platformTag, current_stop.latitude,
-          current_stop.longitude);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(current_stop.name)
-          .setMessage(message)
-          .setNeutralButton(R.string.ok, null);
-        builder.show();
+        showDialog(DIALOG_PLATFORM_INFO);
         return true;
 
       case R.id.map:
@@ -190,6 +186,28 @@ public class PlatformActivity extends ListActivity
       default:
         return super.onOptionsItemSelected(item);
     }
+  }
+
+  protected Dialog onCreateDialog(int id) {
+    Dialog dialog;
+    switch(id) {
+      case DIALOG_PLATFORM_INFO:
+        String message = String.format(
+          getResources().getString(R.string.platform_info),
+          current_stop.roadName, current_stop.platformNumber,
+          current_stop.platformTag, current_stop.latitude,
+          current_stop.longitude);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(current_stop.name)
+          .setMessage(message)
+          .setNeutralButton(R.string.ok, null);
+        dialog = builder.create();
+        break;
+      default:
+        dialog = null;
+        break;
+    }
+    return dialog;
   }
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -425,14 +443,8 @@ public class PlatformActivity extends ListActivity
   /* Loads the arrival information in a background thread. */
   public class AsyncLoadArrivals extends AsyncTask<Stop, Void, ArrayList> {
 
-    ProgressDialog progressDialog;
-
     protected void onPreExecute() {
-      progressDialog = new ProgressDialog(PlatformActivity.this);
-      progressDialog.setMessage(getString(R.string.loading_arrivals));
-      progressDialog.setIndeterminate(true);
-      progressDialog.setCancelable(true);
-      progressDialog.show();
+      setProgressBarIndeterminateVisibility(true);
     }
 
     protected void onPostExecute(ArrayList stopArrivals) {
@@ -448,7 +460,7 @@ public class PlatformActivity extends ListActivity
         arrivals.clear();
         ((TextView)findViewById(android.R.id.empty)).setText(R.string.no_arrivals_in_the_next_thirty_minutes);
       }
-      progressDialog.dismiss();
+      setProgressBarIndeterminateVisibility(false);
       arrival_adapter.notifyDataSetChanged();
     }
 
