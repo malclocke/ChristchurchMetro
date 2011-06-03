@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- release api key is 0BtnyWO59zQw01TtwXOHh6SZwtHkvwukoglw-jQ -->
+<!-- debug api key is 0BtnyWO59zQy3_b8JOvo1Zuc8YSbE2TgVOS7rsw -->
 <com.google.android.maps.MapView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/metro_map"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:clickable="true"
-    android:apiKey="0BtnyWO59zQy3_b8JOvo1Zuc8YSbE2TgVOS7rsw"
+    android:apiKey="0BtnyWO59zQw01TtwXOHh6SZwtHkvwukoglw-jQ"
 />
