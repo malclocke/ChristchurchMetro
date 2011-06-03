@@ -106,6 +106,7 @@ public class PreferencesActivity extends PreferenceActivity implements LoadRoute
 
   public void loadingRoutesComplete(String message) {
     loadingRoutesProgressDialog.dismiss();
+    asyncLoadPlatforms = null;
     Toast.makeText(getBaseContext(), message,
         Toast.LENGTH_SHORT).show();
   }
