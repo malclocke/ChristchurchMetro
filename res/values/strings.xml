@@ -19,6 +19,7 @@
     <string name="routes_for_stop">Routes for stop</string>
     <string name="search">Search</string>
     <string name="show_on_map">Show on map</string>
+    <string name="timetable">Timetable</string>
 
     <string name="search_hint">Search stops or streets</string>
     <string name="no_results">No matches</string>

@@ -19,6 +19,7 @@ package nz.co.wholemeal.christchurchmetro;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -145,6 +146,12 @@ public class RoutesActivity extends ListActivity {
       case R.id.show_on_map:
         Log.d(TAG, "Show on map selected for route " + route.routeNumber);
         intent = getIntentForRouteMap(route);
+        startActivity(intent);
+        return true;
+      case R.id.timetable:
+        Log.d(TAG, "Timetable selected for route " + route.routeNumber);
+        Uri uri = Uri.parse("http://rtt.metroinfo.org.nz/rtt/public/Schedule.aspx?RouteNo=" + route.routeNumber);
+        intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
         return true;
       default:
