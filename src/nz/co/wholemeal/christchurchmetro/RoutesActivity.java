@@ -21,6 +21,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +30,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -61,21 +64,21 @@ public class RoutesActivity extends ListActivity {
 
     ListView listView = getListView();
 
+    /* Enables the long click in the ListView to be handled in this Activity */
+    registerForContextMenu(listView);
+
     listView.setOnItemClickListener(new OnItemClickListener() {
       public void onItemClick(AdapterView<?> parent, View view,
           int position, long id) {
-        Intent intent = new Intent();
         Route route = routes.get(position);
+        Intent intent;
 
         if (route == null) {
           Log.e(TAG, "Didn't get a route");
           finish();
         }
-        intent.putExtra("routeTag", route.routeTag);
-        intent.putExtra("routeName", route.routeNumber + " " +
-          route.destination + " (" + route.direction + ")");
-        intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
 
+        intent = getIntentForRouteMap(route);
         startActivity(intent);
       }
     });
@@ -120,6 +123,42 @@ public class RoutesActivity extends ListActivity {
       default:
         return super.onOptionsItemSelected(item);
     }
+  }
+
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v,
+                                  ContextMenuInfo menuInfo) {
+    super.onCreateContextMenu(menu, v, menuInfo);
+    menu.setHeaderTitle(R.string.options);
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.route_context_menu, menu);
+  }
+
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+
+    Route route = routes.get((int)info.id);
+    Intent intent;
+
+    switch (item.getItemId()) {
+      case R.id.show_on_map:
+        Log.d(TAG, "Show on map selected for route " + route.routeNumber);
+        intent = getIntentForRouteMap(route);
+        startActivity(intent);
+        return true;
+      default:
+        return super.onContextItemSelected(item);
+    }
+  }
+
+  private Intent getIntentForRouteMap(Route route) {
+    Intent intent = new Intent();
+    intent.putExtra("routeTag", route.routeTag);
+    intent.putExtra("routeName", route.routeNumber + " " +
+      route.destination + " (" + route.direction + ")");
+    intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
+    return intent;
   }
 
   private class RouteAdapter extends ArrayAdapter<Route> {
