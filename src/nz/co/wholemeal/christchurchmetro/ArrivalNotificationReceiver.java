@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -136,9 +137,14 @@ public class ArrivalNotificationReceiver extends BroadcastReceiver {
       // Text for the notification details
       String dueMinutes = String.format(res.getQuantityString(
             R.plurals.due_in_n_minutes, minutes), minutes);
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTimeInMillis(System.currentTimeMillis());
+      calendar.add(Calendar.MINUTE, minutes);
+      String dueTime = new SimpleDateFormat("HH:mm").format(calendar.getTime());
+      String dueText = dueMinutes + " (" + dueTime + ")";
 
       Notification notification = new Notification(icon,
-          tickerText + " " + dueMinutes, when);
+          tickerText + " " + dueText, when);
       notification.defaults |= Notification.DEFAULT_SOUND;
       notification.defaults |= Notification.DEFAULT_VIBRATE;
       notification.flags |= Notification.FLAG_AUTO_CANCEL;
@@ -146,7 +152,7 @@ public class ArrivalNotificationReceiver extends BroadcastReceiver {
       notificationIntent.putExtra("platformTag", platformTag);
       PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
         notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-      notification.setLatestEventInfo(context, tickerText, dueMinutes,
+      notification.setLatestEventInfo(context, tickerText, dueText,
           contentIntent);
 
       notificationManager.notify(1, notification);
