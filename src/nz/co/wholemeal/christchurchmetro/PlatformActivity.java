@@ -33,30 +33,34 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
+import android.text.Editable;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
-import android.text.Editable;
-import android.text.Html;
-import android.text.Spanned;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.util.Log;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
@@ -107,6 +111,10 @@ public class PlatformActivity extends ListActivity
     }
 
     ListView listView = getListView();
+
+    /* Enables the long click in the ListView to be handled in this Activity */
+    registerForContextMenu(listView);
+
     listView.setOnItemClickListener(new OnItemClickListener() {
       public void onItemClick(AdapterView<?> parent, View view,
           int position, long id) {
@@ -185,6 +193,37 @@ public class PlatformActivity extends ListActivity
 
       default:
         return super.onOptionsItemSelected(item);
+    }
+  }
+
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v,
+                                  ContextMenuInfo menuInfo) {
+    super.onCreateContextMenu(menu, v, menuInfo);
+    menu.setHeaderTitle(R.string.options);
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.arrival_context_menu, menu);
+  }
+
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    Arrival arrival = (Arrival)arrivals.get((int)info.id);
+    Intent intent;
+
+    switch (item.getItemId()) {
+      case R.id.set_alarm:
+        Log.d(TAG, "Set alarm selected");
+        createAlarmDialog(arrival);
+        return true;
+      case R.id.timetable:
+        Log.d(TAG, "Timetable selected for route " + arrival.routeNumber);
+        Uri uri = Uri.parse("http://rtt.metroinfo.org.nz/rtt/public/Schedule.aspx?RouteNo=" + arrival.routeNumber);
+        intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+        return true;
+      default:
+        return super.onContextItemSelected(item);
     }
   }
 
