@@ -463,6 +463,7 @@ public class PlatformActivity extends ListActivity
         TextView destination = (TextView) v.findViewById(R.id.destination);
         TextView eta = (TextView) v.findViewById(R.id.eta);
         TextView mins = (TextView) v.findViewById(R.id.mins);
+        ImageView wheelchairAccess = (ImageView) v.findViewById(R.id.wheelchair_access);
         if (routeNumber != null) {
           routeNumber.setText(arrival.routeNumber);
         }
@@ -472,6 +473,11 @@ public class PlatformActivity extends ListActivity
         if (eta != null) {
           eta.setText(Integer.toString(arrival.eta));
           mins.setText(new SimpleDateFormat("HH:mm").format(arrival.getEstimatedArrivalTime()));
+        }
+        if(wheelchairAccess != null) {
+          int drawable = arrival.wheelchairAccess ? R.drawable.wheelchair_access :
+                                                    R.drawable.no_wheelchair_access;
+          wheelchairAccess.setImageResource(drawable);
         }
       }
       return v;
@@ -508,7 +514,7 @@ public class PlatformActivity extends ListActivity
       try {
         arrivals = stops[0].getArrivals();
       } catch (Exception e) {
-        Log.e(TAG, "getArrivals(): " + e.getMessage());
+        Log.e(TAG, "getArrivals(): ", e);
       }
 
       return arrivals;

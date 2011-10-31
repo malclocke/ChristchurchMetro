@@ -255,6 +255,7 @@ class Stop {
     private String routeNumber = null;
     private String routeName = null;
     private String destination = null;
+    private String wheelchairAccess = null;
 
     public void startElement(String uri, String localName, String qName,
         Attributes attributes) throws SAXException {
@@ -271,6 +272,9 @@ class Stop {
         try {
           arrival.eta = Integer.parseInt(attributes.getValue("ETA"));
           arrival.tripNumber = attributes.getValue("TripNo");
+          if (attributes.getValue("WheelchairAccess") != null) {
+            arrival.wheelchairAccess = attributes.getValue("WheelchairAccess").equals("true");
+          }
         } catch (NumberFormatException e) {
           Log.e(TAG, "NumberFormatException: " + e.getMessage());
         }
