@@ -18,6 +18,7 @@
 package nz.co.wholemeal.christchurchmetro;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -461,6 +462,7 @@ public class PlatformActivity extends ListActivity
         TextView routeNumber = (TextView) v.findViewById(R.id.route_number);
         TextView destination = (TextView) v.findViewById(R.id.destination);
         TextView eta = (TextView) v.findViewById(R.id.eta);
+        TextView mins = (TextView) v.findViewById(R.id.mins);
         if (routeNumber != null) {
           routeNumber.setText(arrival.routeNumber);
         }
@@ -469,10 +471,7 @@ public class PlatformActivity extends ListActivity
         }
         if (eta != null) {
           eta.setText(Integer.toString(arrival.eta));
-          if (arrival.eta == 1) {
-            TextView mins = (TextView) v.findViewById(R.id.mins);
-            mins.setText(R.string.min);
-          }
+          mins.setText(new SimpleDateFormat("HH:mm").format(arrival.getEstimatedArrivalTime()));
         }
       }
       return v;

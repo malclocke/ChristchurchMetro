@@ -16,6 +16,9 @@
 */
 package nz.co.wholemeal.christchurchmetro;
 
+import java.util.Calendar;
+import java.util.Date;
+
 class Arrival {
 
   public static final String TAG = "Arrival";
@@ -26,4 +29,12 @@ class Arrival {
   public String tripNumber;
   public int eta;
   public boolean wheelchairAccess;
+
+  public Date getEstimatedArrivalTime() {
+    Date now = new Date();
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(now);
+    cal.add(Calendar.MINUTE, this.eta);
+    return cal.getTime();
+  }
 }
