@@ -16,6 +16,7 @@
 
 package nz.co.wholemeal.christchurchmetro;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.text.InputFilter;
@@ -327,7 +328,7 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
     private NumberPickerButton mDecrementButton;
 
     private class NumberPickerInputFilter implements InputFilter {
-        public CharSequence filter(CharSequence source, int start, int end,
+        @SuppressLint("DefaultLocale") public CharSequence filter(CharSequence source, int start, int end,
                 Spanned dest, int dstart, int dend) {
             if (mDisplayedValues == null) {
                 return mNumberInputFilter.filter(source, start, end, dest, dstart, dend);
@@ -391,7 +392,7 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
         }
     }
 
-    private int getSelectedPos(String str) {
+    @SuppressLint("DefaultLocale") private int getSelectedPos(String str) {
         if (mDisplayedValues == null) {
             return Integer.parseInt(str);
         } else {
