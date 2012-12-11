@@ -61,7 +61,7 @@ import nz.co.wholemeal.christchurchmetro.Stop;
 public class PlatformActivity extends ListActivity
 {
   private Stop current_stop;
-  private ArrayList arrivals = new ArrayList<Arrival>();
+  private ArrayList<Arrival> arrivals = new ArrayList<Arrival>();
   private ArrivalAdapter arrival_adapter;
   private View stopHeader;
 
@@ -106,7 +106,7 @@ public class PlatformActivity extends ListActivity
       public void onItemClick(AdapterView<?> parent, View view,
           int position, long id) {
 
-        Arrival arrival = (Arrival)arrivals.get(position);
+        Arrival arrival = arrivals.get(position);
         Log.d(TAG, "Got click on arrival " + arrival.destination);
 
         createAlarmDialog(arrival);
@@ -195,7 +195,7 @@ public class PlatformActivity extends ListActivity
   @Override
   public boolean onContextItemSelected(MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    Arrival arrival = (Arrival)arrivals.get((int)info.id);
+    Arrival arrival = arrivals.get((int)info.id);
     Intent intent;
 
     switch (item.getItemId()) {
@@ -471,13 +471,13 @@ public class PlatformActivity extends ListActivity
   }
 
   /* Loads the arrival information in a background thread. */
-  public class AsyncLoadArrivals extends AsyncTask<Stop, Void, ArrayList> {
+  public class AsyncLoadArrivals extends AsyncTask<Stop, Void, ArrayList<Arrival>> {
 
     protected void onPreExecute() {
       setProgressBarIndeterminateVisibility(true);
     }
 
-    protected void onPostExecute(ArrayList stopArrivals) {
+    protected void onPostExecute(ArrayList<Arrival> stopArrivals) {
       Log.d(TAG, "onPostExecute()");
       if (stopArrivals == null) {
         ((TextView)findViewById(android.R.id.empty))
@@ -494,9 +494,9 @@ public class PlatformActivity extends ListActivity
       arrival_adapter.notifyDataSetChanged();
     }
 
-    protected ArrayList doInBackground(Stop... stops) {
+    protected ArrayList<Arrival> doInBackground(Stop... stops) {
       Log.d(TAG, "Running doInBackground()");
-      ArrayList arrivals = null;
+      ArrayList<Arrival> arrivals = null;
       try {
         arrivals = stops[0].getArrivals();
       } catch (Exception e) {

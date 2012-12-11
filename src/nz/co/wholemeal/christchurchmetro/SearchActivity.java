@@ -90,8 +90,8 @@ public class SearchActivity extends ListActivity {
 
     if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
       String query = intent.getStringExtra(SearchManager.QUERY);
-      ArrayList routes = Route.searchRoutes(getApplicationContext(), query);
-      ArrayList stops = Stop.searchStops(getApplicationContext(), query);
+      ArrayList<Route> routes = Route.searchRoutes(getApplicationContext(), query);
+      ArrayList<Stop> stops = Stop.searchStops(getApplicationContext(), query);
       if (routes.size() > 0) {
         results.add("Routes");
         results.addAll(routes);
@@ -115,7 +115,7 @@ public class SearchActivity extends ListActivity {
     public static final int TYPE_SEPARATOR = 2;
     public static final int TYPE_COUNT = TYPE_SEPARATOR + 1;
 
-    public SearchAdapter(Context context, int textViewResourceId, ArrayList<Stop> items) {
+    public SearchAdapter(Context context, int textViewResourceId, ArrayList items) {
       super(context, textViewResourceId, items);
       this.items = items;
     }

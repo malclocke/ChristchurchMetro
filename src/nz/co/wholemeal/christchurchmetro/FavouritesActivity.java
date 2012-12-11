@@ -64,7 +64,7 @@ public class FavouritesActivity extends ListActivity implements LoadRoutesActivi
   private static int MAX_ROUTES = 125;
 
 
-  public static ArrayList stops = new ArrayList<Stop>();
+  public static ArrayList<Stop> stops = new ArrayList<Stop>();
   private StopAdapter stopAdapter;
   private AsyncLoadPlatforms asyncLoadPlatforms = null;
   private ProgressDialog loadingRoutesProgressDialog = null;
@@ -249,7 +249,7 @@ public class FavouritesActivity extends ListActivity implements LoadRoutesActivi
     if (stops_json != null) {
       Log.d(TAG, "initFavourites(): stops_json = " + stops_json);
       try {
-        ArrayList favouriteStops = new ArrayList<Stop>();
+        ArrayList<Stop> favouriteStops = new ArrayList<Stop>();
         JSONArray stopsArray = (JSONArray) new JSONTokener(stops_json).nextValue();
 
         for (int i = 0;i < stopsArray.length();i++) {
@@ -284,9 +284,9 @@ public class FavouritesActivity extends ListActivity implements LoadRoutesActivi
   public static void saveFavourites(SharedPreferences favourites) {
     SharedPreferences.Editor editor = favourites.edit();
     JSONArray stopArray = new JSONArray();
-    Iterator iterator = stops.iterator();
+    Iterator<Stop> iterator = stops.iterator();
     while (iterator.hasNext()) {
-      Stop stop = (Stop)iterator.next();
+      Stop stop = iterator.next();
       stopArray.put(stop.platformTag);
     }
     editor.putString("favouriteStops", stopArray.toString());
@@ -296,11 +296,11 @@ public class FavouritesActivity extends ListActivity implements LoadRoutesActivi
   }
 
   public static boolean isFavourite(Stop stop) {
-    Iterator iterator = stops.iterator();
+    Iterator<Stop> iterator = stops.iterator();
 
     /* Check the Stop is not already present in favourites */
     while (iterator.hasNext()) {
-      Stop favourite = (Stop)iterator.next();
+      Stop favourite = iterator.next();
       if (favourite.platformTag.equals(stop.platformTag)) {
         return true;
       }
@@ -400,7 +400,7 @@ public class FavouritesActivity extends ListActivity implements LoadRoutesActivi
       TextView textView = textViews[0];
       Stop stop = (Stop)textView.getTag();
       Arrival arrival = null;
-      ArrayList arrivals = null;
+      ArrayList<Arrival> arrivals = null;
       Log.d(TAG, "Running AsyncNextArrival.doInBackground() for stop " + stop.platformNumber);
       try {
         arrivals = stop.getArrivals();

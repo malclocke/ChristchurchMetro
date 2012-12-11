@@ -287,10 +287,10 @@ public class MetroMapActivity extends MapActivity {
       }
 
       if (stops != null) {
-        Iterator iterator = stops.iterator();
+        Iterator<Stop> iterator = stops.iterator();
 
         while (iterator.hasNext()) {
-          Stop stop = (Stop)iterator.next();
+          Stop stop = iterator.next();
           Point point = projection.toPixels(stop.getGeoPoint(), null);
           Bitmap bitmap = ((BitmapDrawable)marker).getBitmap();
           canvas.drawBitmap(bitmap, point.x - (bitmap.getWidth() / 2),

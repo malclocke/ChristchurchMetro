@@ -152,7 +152,7 @@ class Stop {
                    "OR road_name LIKE '%" + queryString + "%'");
   }
 
-  public ArrayList getArrivals() throws Exception {
+  public ArrayList<Arrival> getArrivals() throws Exception {
     arrivals.clear();
 
     try {
@@ -223,9 +223,9 @@ class Stop {
     }
   }
 
-  private class ComparatorByEta implements Comparator {
-    public int compare(Object one, Object two) {
-      return ((Arrival)one).eta - ((Arrival)two).eta;
+  private class ComparatorByEta implements Comparator<Arrival> {
+    public int compare(Arrival one, Arrival two) {
+      return one.eta - two.eta;
     }
   }
 
