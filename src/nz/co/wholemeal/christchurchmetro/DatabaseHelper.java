@@ -25,7 +25,6 @@ import android.util.Log;
 
 import java.io.InputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 

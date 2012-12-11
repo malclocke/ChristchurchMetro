@@ -19,18 +19,15 @@ package nz.co.wholemeal.christchurchmetro;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.JSONException;
 import org.json.JSONArray;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
