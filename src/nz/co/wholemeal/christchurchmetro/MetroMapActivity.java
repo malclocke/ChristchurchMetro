@@ -62,8 +62,6 @@ public class MetroMapActivity extends MapActivity {
 
   /* The location used for the 'Bus Exchange' menu items */
   private GeoPoint exchangeGeoPoint = new GeoPoint(-43533798,172637573);
-  private GeoPoint bealeyAveTerminusGeoPoint = new GeoPoint(-43520991,172630691);
-  private GeoPoint parksideTerminusGeoPoint = new GeoPoint(-43535237,172625807);
   private GeoPoint centralStationGeoPoint = new GeoPoint(-43535213,172635547);
 
   /* The last location received from the location manager */
@@ -468,14 +466,6 @@ public class MetroMapActivity extends MapActivity {
       Log.d(TAG, "marker rect (l/t/r/b) = " + markerRect.left + "/" +
           markerRect.top + "/" + markerRect.right + "/" + markerRect.bottom);
       return markerRect.contains(comparePoint.x, comparePoint.y);
-    }
-  }
-
-  private class MetroMapGestureDetector extends SimpleOnGestureListener {
-    private static final String TAG = "MetroMapGestureDetector";
-    @Override
-    public boolean onDoubleTapEvent(MotionEvent event) {
-      return true;
     }
   }
 }

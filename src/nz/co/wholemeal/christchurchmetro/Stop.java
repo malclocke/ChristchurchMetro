@@ -235,7 +235,6 @@ class Stop {
     private String routeNumber = null;
     private String routeName = null;
     private String destination = null;
-    private String wheelchairAccess = null;
 
     public void startElement(String uri, String localName, String qName,
         Attributes attributes) throws SAXException {

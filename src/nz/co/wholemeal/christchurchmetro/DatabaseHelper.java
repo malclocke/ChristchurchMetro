@@ -17,14 +17,10 @@
 package nz.co.wholemeal.christchurchmetro;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
-import java.io.InputStream;
-import java.io.IOException;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -43,21 +39,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     "(route_tag varchar, platform_tag varchar, " +
     "schedule_adherance_timepoint boolean)";
 
-  private Context context;
-
   public DatabaseHelper(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    this.context = context;
-  }
-
-  private String getSQLFileContent(Resources resources, int resourceId)
-      throws IOException {
-    InputStream inputStream = resources.openRawResource(resourceId);
-    int size = inputStream.available();
-    byte[] buffer = new byte[size];
-    inputStream.read(buffer);
-    inputStream.close();
-    return new String(buffer);
   }
 
   @Override
@@ -84,14 +67,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.e(TAG, "Error parsing SQL: " + e.getMessage(), e);
         throw new RuntimeException(e);
       }
-    }
-  }
-
-  private void loadSqlFromResource(SQLiteDatabase db, int resource)
-                throws IOException, SQLiteException {
-    String sql = getSQLFileContent(context.getResources(), resource);
-    for (String statement : sql.split(";")) {
-      db.execSQL(statement);
     }
   }
 }

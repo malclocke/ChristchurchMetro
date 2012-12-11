@@ -110,8 +110,6 @@ public class SearchActivity extends ListActivity {
 
     private ArrayList items;
 
-    public static final String TAG = "SearchAdapter";
-
     public static final int TYPE_PLATFORM = 0;
     public static final int TYPE_ROUTE = 1;
     public static final int TYPE_SEPARATOR = 2;

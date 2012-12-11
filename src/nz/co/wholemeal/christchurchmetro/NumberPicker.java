@@ -45,7 +45,6 @@ import nz.co.wholemeal.christchurchmetro.R;
 public class NumberPicker extends LinearLayout implements OnClickListener,
         OnFocusChangeListener, OnLongClickListener {
 
-    private static final String TAG = "NumberPicker";
     private static final int DEFAULT_MAX = 20;
     private static final int DEFAULT_MIN = 5;
 
