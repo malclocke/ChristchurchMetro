@@ -16,18 +16,10 @@
 */
 package nz.co.wholemeal.christchurchmetro;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.OverlayItem;
-
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.ArrayList;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -37,6 +29,14 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.OverlayItem;
 
 /*
  * Represents a bus stop
@@ -48,7 +48,7 @@ class Stop {
 
   public static String arrivalURL = "http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?Name=JPRoutePositionET.xml&ContentType=SQLXML&PlatformTag=";
 
-  private ArrayList <Arrival> arrivals = new ArrayList<Arrival>();
+  private final ArrayList <Arrival> arrivals = new ArrayList<Arrival>();
 
   public String name;
   public String platformTag;
@@ -215,6 +215,7 @@ class Stop {
 
   public class InvalidPlatformNumberException extends Exception {
 
+    private static final long serialVersionUID = 1L;
     public String platformNumber;
 
     public InvalidPlatformNumberException(String platformNumber) {
@@ -224,6 +225,7 @@ class Stop {
   }
 
   private class ComparatorByEta implements Comparator<Arrival> {
+    @Override
     public int compare(Arrival one, Arrival two) {
       return one.eta - two.eta;
     }
@@ -236,6 +238,7 @@ class Stop {
     private String routeName = null;
     private String destination = null;
 
+    @Override
     public void startElement(String uri, String localName, String qName,
         Attributes attributes) throws SAXException {
       if (localName.equals("Route")) {
@@ -262,6 +265,7 @@ class Stop {
       }
     }
 
+    @Override
     public void endElement(String uri, String localName, String qName)
       throws SAXException {
       if (localName.equals("Route")) {
