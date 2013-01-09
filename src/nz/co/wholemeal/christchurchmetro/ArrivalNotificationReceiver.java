@@ -17,8 +17,13 @@
 
 package nz.co.wholemeal.christchurchmetro;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
+
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -26,13 +31,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
 
 /**
  * This class receives the broadcast alarms for arrivals, and creates a status
@@ -143,19 +144,42 @@ public class ArrivalNotificationReceiver extends BroadcastReceiver {
       String dueTime = new SimpleDateFormat("HH:mm").format(calendar.getTime());
       String dueText = dueMinutes + " (" + dueTime + ")";
 
-      Notification notification = new Notification(icon,
-          tickerText + " " + dueText, when);
-      notification.defaults |= Notification.DEFAULT_SOUND;
-      notification.defaults |= Notification.DEFAULT_VIBRATE;
-      notification.flags |= Notification.FLAG_AUTO_CANCEL;
-      Intent notificationIntent = new Intent(context, PlatformActivity.class);
-      notificationIntent.putExtra("platformTag", platformTag);
-      PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-        notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-      notification.setLatestEventInfo(context, tickerText, dueText,
-          contentIntent);
-
-      notificationManager.notify(1, notification);
+      sendNotification(context, platformTag, notificationManager, icon, when,
+            tickerText, dueText);
     }
   }
+
+private void sendNotification(Context context, String platformTag,
+            NotificationManager notificationManager, int icon, long when,
+            String tickerText, String dueText) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+            .setSmallIcon(icon)
+            .setContentTitle(tickerText + " " + dueText);
+        /**
+         * Create the Intent that will fire when the user clicks on the
+         * notification.  This will take the user to display the relevant
+         * platform that they set the alarm for.
+         */
+        Intent notificationIntent = new Intent(context, PlatformActivity.class);
+        notificationIntent.putExtra("platformTag", platformTag);
+
+        /**
+         * Create a dummy task stack that will take the user back to the home
+         * screen if they click back after clicking the notification.
+         */
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(PlatformActivity.class);
+        stackBuilder.addNextIntent(notificationIntent);
+
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(
+            0, PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        mBuilder.setContentIntent(pendingIntent);
+
+        NotificationManager mNotificationManager
+            = (NotificationManager) context.getSystemService(
+                    Context.NOTIFICATION_SERVICE
+              );
+        mNotificationManager.notify(1 , mBuilder.build());
+    }
 }
