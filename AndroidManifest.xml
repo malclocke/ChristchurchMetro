@@ -28,7 +28,7 @@
       <activity android:name=".MetroMapActivity"
         android:theme="@android:style/Theme.NoTitleBar" />
 
-      <activity android:name=".SearchActivity">
+      <activity android:name=".SearchActivity" android:exported="false">
         <intent-filter>
           <action android:name="android.intent.action.SEARCH" />
           <category android:name="android.intent.category.DEFAULT" />
