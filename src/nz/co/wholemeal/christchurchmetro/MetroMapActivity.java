@@ -16,18 +16,23 @@
 */
 package nz.co.wholemeal.christchurchmetro;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
@@ -38,7 +43,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -50,10 +54,6 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 public class MetroMapActivity extends MapActivity {
 
   private MapView mapView;
@@ -61,8 +61,8 @@ public class MetroMapActivity extends MapActivity {
   private MyLocationOverlay myLocationOverlay;
 
   /* The location used for the 'Bus Exchange' menu items */
-  private GeoPoint exchangeGeoPoint = new GeoPoint(-43533798,172637573);
-  private GeoPoint centralStationGeoPoint = new GeoPoint(-43535213,172635547);
+  private final GeoPoint exchangeGeoPoint = new GeoPoint(-43533798,172637573);
+  private final GeoPoint centralStationGeoPoint = new GeoPoint(-43535213,172635547);
 
   /* The last location received from the location manager */
   private GeoPoint lastFix = null;
@@ -139,7 +139,8 @@ public class MetroMapActivity extends MapActivity {
     myLocationOverlay = new MyLocationOverlay(this, mapView);
     mapOverlays.add(myLocationOverlay);
     myLocationOverlay.runOnFirstFix(new Runnable() {
-      public void run() {
+      @Override
+    public void run() {
         // Test with 'geo fix 172.641437 -43.534675' = Twisted Hop
         lastFix = myLocationOverlay.getMyLocation();
       }
@@ -251,7 +252,7 @@ public class MetroMapActivity extends MapActivity {
       context = lcontext;
 
       //gestureDetector = new GestureDetector(new MetroMapGestureDetector());
-      gestureDetector = new GestureDetector(new SimpleOnGestureListener() {
+      gestureDetector = new GestureDetector(lcontext, new SimpleOnGestureListener() {
         @Override
         public boolean onDoubleTapEvent(MotionEvent event) {
           return true;
@@ -259,6 +260,7 @@ public class MetroMapActivity extends MapActivity {
       });
     }
 
+    @Override
     public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 
       int minZoom = (routeTag == null ? 15 : 11);
@@ -358,6 +360,7 @@ public class MetroMapActivity extends MapActivity {
       }
     }
 
+    @Override
     public boolean onTap(GeoPoint point, MapView mapView) {
       boolean removePriorPopup = selectedStop != null;
 
@@ -388,7 +391,8 @@ public class MetroMapActivity extends MapActivity {
             MapView.LayoutParams.BOTTOM_CENTER);
         Button goButton = (Button)popUp.findViewById(R.id.map_popup_go);
         goButton.setOnClickListener(new OnClickListener() {
-          public void onClick(View v) {
+          @Override
+        public void onClick(View v) {
             Intent intent = new Intent();
             intent.putExtra("platformTag", selectedStop.platformTag);
             intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.PlatformActivity");
@@ -411,6 +415,7 @@ public class MetroMapActivity extends MapActivity {
       return selectedStop != null;
     }
 
+    @Override
     public boolean onTouchEvent(MotionEvent event, MapView mapView) {
       if (gestureDetector.onTouchEvent(event)) {
         Log.d(TAG, "Got doubletap");
