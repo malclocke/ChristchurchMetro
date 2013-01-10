@@ -18,7 +18,6 @@
 package nz.co.wholemeal.christchurchmetro;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -141,8 +140,9 @@ public class ArrivalNotificationReceiver extends BroadcastReceiver {
       Calendar calendar = Calendar.getInstance();
       calendar.setTimeInMillis(System.currentTimeMillis());
       calendar.add(Calendar.MINUTE, minutes);
-      String dueTime = new SimpleDateFormat("HH:mm").format(calendar.getTime());
+      String dueTime = DateFormat.getTimeInstance().format(calendar.getTime());
       String dueText = dueMinutes + " (" + dueTime + ")";
+
 
       sendNotification(context, platformTag, notificationManager, icon, when,
             tickerText, dueText);
@@ -153,8 +153,10 @@ private void sendNotification(Context context, String platformTag,
             NotificationManager notificationManager, int icon, long when,
             String tickerText, String dueText) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+            .setAutoCancel(true)
             .setSmallIcon(icon)
-            .setContentTitle(tickerText + " " + dueText);
+            .setContentTitle(tickerText)
+            .setContentText(dueText);
         /**
          * Create the Intent that will fire when the user clicks on the
          * notification.  This will take the user to display the relevant
