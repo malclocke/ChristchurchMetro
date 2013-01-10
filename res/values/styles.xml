@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+  <style name="AppBaseTheme" parent="android:Theme.Holo">
+  </style>
+
+  <style name="AppTheme" parent="AppBaseTheme">
+  </style>
+
   <style name="routeNumber">
     <item name="android:textSize">14pt</item>
     <item name="android:textStyle">bold</item>
