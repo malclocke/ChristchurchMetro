@@ -19,59 +19,46 @@ package nz.co.wholemeal.christchurchmetro;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.json.JSONTokener;
-import org.json.JSONException;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONTokener;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.TextView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.LayoutInflater;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 /*
  * Some of the authors favourites:
  * "40188", "20763", "21450", "37375", "37334", "14864", "21957"
  */
 
-public class FavouritesActivity extends ListActivity implements LoadRoutesActivity {
+public class FavouritesActivity extends ListActivity {
 
   public final static String TAG = "FavouritesActivity";
-  // Values for maximum in the progress dialog.  Hopefully will not fluctuate
-  // much over time.
-  private static int MAX_PLATFORMS = 2600;
-  private static int MAX_ROUTES = 125;
-
-
   public static ArrayList<Stop> stops = new ArrayList<Stop>();
   private StopAdapter stopAdapter;
-  private AsyncLoadPlatforms asyncLoadPlatforms = null;
-  private ProgressDialog loadingRoutesProgressDialog = null;
-
   static final int DIALOG_LOAD_DATA = 0;
-
-  private boolean loadDataDialogShown = false;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -108,21 +95,19 @@ public class FavouritesActivity extends ListActivity implements LoadRoutesActivi
       }
     });
 
-    /*
-     * This will contain return non null if we received an orientation change
-     */
-    asyncLoadPlatforms = (AsyncLoadPlatforms)getLastNonConfigurationInstance();
-    if (asyncLoadPlatforms != null) {
-      loadDataDialogShown = true;
-      initProgressDialog();
-      asyncLoadPlatforms.attach(this);
-    }
-
+    promptToLoadPlatforms();
+  }
+/**
+ * If this is the first time the user has loaded the application, and the list of
+ * routes and platforms has not been loaded into the database yet, ask the user
+ * if they want to.
+ */
+private void promptToLoadPlatforms() {
     SharedPreferences preferences = getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
-    if (preferences.getLong("lastDataLoad", -1) == -1 && !loadDataDialogShown) {
+    if (preferences.getLong("lastDataLoad", -1) == -1) {
       showDialog(DIALOG_LOAD_DATA);
     }
-  }
+}
 
   @Override
   public void onResume() {
@@ -133,54 +118,6 @@ public class FavouritesActivity extends ListActivity implements LoadRoutesActivi
      */
     stopAdapter.notifyDataSetChanged();
   }
-
-  /*
-   * This is used to handle rotation while the 'loading routes' dialog
-   * is being displayed.
-   */
-  @Override
-  public Object onRetainNonConfigurationInstance() {
-    if (asyncLoadPlatforms != null) {
-      asyncLoadPlatforms.detach();
-    }
-    if (loadingRoutesProgressDialog != null) {
-      loadingRoutesProgressDialog.dismiss();
-    }
-    return asyncLoadPlatforms;
-  }
-
-  public void showLoadingRoutesProgressDialog() {
-    initProgressDialog();
-  }
-
-  private void initProgressDialog() {
-    loadingRoutesProgressDialog = new ProgressDialog(this);
-    loadingRoutesProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-    loadingRoutesProgressDialog.setCancelable(false);
-
-    loadingRoutesProgressDialog.setMax(MAX_PLATFORMS);
-    loadingRoutesProgressDialog.setMessage(getString(R.string.loading_platforms));
-    loadingRoutesProgressDialog.show();
-  }
-
-  public void updateLoadingRoutesProgressDialog(int progress) {
-    // This is a special value, and means the import mode has
-    // progressed from platforms to patterns
-    if (progress == -1) {
-      loadingRoutesProgressDialog.setMax(MAX_ROUTES);
-      loadingRoutesProgressDialog.setMessage(getString(R.string.loading_routes));
-    } else {
-      loadingRoutesProgressDialog.setProgress(progress);
-    }
-  }
-
-  public void loadingRoutesComplete(String message) {
-    loadingRoutesProgressDialog.dismiss();
-    asyncLoadPlatforms = null;
-    Toast.makeText(getBaseContext(), message,
-        Toast.LENGTH_SHORT).show();
-  }
-
 
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
@@ -331,7 +268,8 @@ public class FavouritesActivity extends ListActivity implements LoadRoutesActivi
     }
   }
 
-  protected Dialog onCreateDialog(int id) {
+  @Override
+protected Dialog onCreateDialog(int id) {
     Dialog dialog;
     switch(id) {
       case DIALOG_LOAD_DATA:
@@ -340,13 +278,15 @@ public class FavouritesActivity extends ListActivity implements LoadRoutesActivi
           .setTitle(R.string.route_update_required)
           .setMessage(R.string.do_you_want_to_load_bus_stop_and_route_data)
           .setPositiveButton(R.string.load_now, new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int id) {
+              Intent intent = new Intent(getBaseContext(), LoadPlatformsService.class);
+              startService(intent);
               dialog.cancel();
-              asyncLoadPlatforms = new AsyncLoadPlatforms((LoadRoutesActivity)FavouritesActivity.this);
-              asyncLoadPlatforms.execute();
             }
           })
           .setNegativeButton(R.string.do_it_later, new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int id) {
               dialog.cancel();
             }
