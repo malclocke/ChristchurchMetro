@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/routes_for_platform"
+    <item android:id="@+id/refresh" android:icon="@drawable/ic_menu_refresh" android:showAsAction="ifRoom" android:title="@string/refresh" /><item android:id="@+id/routes_for_platform"
           android:icon="@drawable/ic_menu_directions"
+          android:showAsAction="ifRoom"
           android:title="@string/routes_for_stop" />
-    <item android:id="@+id/info"
+    <item android:id="@+id/map" android:icon="@drawable/ic_menu_mapmode" android:showAsAction="ifRoom" android:title="@string/show_on_map" /><item android:id="@+id/info"
           android:icon="@drawable/ic_menu_info_details"
+          android:showAsAction="ifRoom"
           android:title="@string/details" />
-    <item android:id="@+id/map"
-          android:icon="@drawable/ic_menu_mapmode"
-          android:title="@string/show_on_map" />
-    <item android:id="@+id/refresh"
-          android:icon="@drawable/ic_menu_refresh"
-          android:title="@string/refresh" />
+    
+    
     <item android:id="@+id/preferences"
           android:icon="@drawable/ic_menu_preferences"
+          android:showAsAction="ifRoom"
           android:title="@string/preferences" />
 </menu>

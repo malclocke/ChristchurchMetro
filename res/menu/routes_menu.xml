@@ -2,14 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/search"
           android:icon="@drawable/ic_menu_search"
+          android:showAsAction="ifRoom"
           android:title="@string/search" />
     <item android:id="@+id/favourite_stops"
           android:icon="@drawable/ic_menu_favourites"
+          android:showAsAction="ifRoom"
           android:title="@string/favourite_stops" />
     <item android:id="@+id/map"
           android:icon="@drawable/ic_menu_mapmode"
+          android:showAsAction="ifRoom"
           android:title="@string/map" />
     <item android:id="@+id/preferences"
           android:icon="@drawable/ic_menu_preferences"
+          android:showAsAction="ifRoom"
           android:title="@string/preferences" />
 </menu>
