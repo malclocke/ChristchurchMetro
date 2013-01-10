@@ -79,10 +79,11 @@ public class FavouritesActivity extends ListActivity {
     registerForContextMenu(lv);
 
     lv.setOnItemClickListener(new OnItemClickListener() {
-      public void onItemClick(AdapterView<?> parent, View view,
+      @Override
+    public void onItemClick(AdapterView<?> parent, View view,
           int position, long id) {
         Intent intent = new Intent();
-        Stop stop = (Stop)stops.get(position);
+        Stop stop = stops.get(position);
 
         if (stop == null) {
           Log.e(TAG, "Didn't get a stop");
@@ -131,7 +132,7 @@ private void promptToLoadPlatforms() {
   @Override
   public boolean onContextItemSelected(MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    Stop stop = (Stop)stops.get((int)info.id);
+    Stop stop = stops.get((int)info.id);
     switch (item.getItemId()) {
       case R.id.remove_favourite:
         removeFavourite(stop);
@@ -302,7 +303,7 @@ protected Dialog onCreateDialog(int id) {
 
   private class StopAdapter extends ArrayAdapter<Stop> {
 
-    private ArrayList<Stop> items;
+    private final ArrayList<Stop> items;
 
     public StopAdapter(Context context, int textViewResourceId, ArrayList<Stop> items) {
       super(context, textViewResourceId, items);
@@ -336,6 +337,7 @@ protected Dialog onCreateDialog(int id) {
 
     private String arrivalText = null;
 
+    @Override
     protected TextView doInBackground(TextView... textViews) {
       TextView textView = textViews[0];
       Stop stop = (Stop)textView.getTag();
@@ -350,7 +352,7 @@ protected Dialog onCreateDialog(int id) {
 
       if (arrivals != null) {
         if (!arrivals.isEmpty()) {
-          arrival = (Arrival)arrivals.get(0);
+          arrival = arrivals.get(0);
           arrivalText = getResources().getQuantityString(R.plurals.mins, arrival.eta, arrival.eta) +
             ": " + arrival.routeNumber + " - " + arrival.destination;
         } else {
@@ -360,6 +362,7 @@ protected Dialog onCreateDialog(int id) {
       return textView;
     }
 
+    @Override
     protected void onPostExecute(TextView textView) {
       textView.setText(arrivalText);
     }
