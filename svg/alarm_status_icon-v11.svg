@@ -15,7 +15,10 @@
    id="svg3033"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="alarm_status_icon-v11.svg">
+   sodipodi:docname="alarm_status_icon-v11.svg"
+   inkscape:export-filename="/home/malc/wholemeal/projects/ChristchurchMetro/res/drawable-ldpi-v11/alarm_status_icon.png"
+   inkscape:export-xdpi="64.800003"
+   inkscape:export-ydpi="64.800003">
   <defs
      id="defs3035">
     <linearGradient
@@ -71,7 +74,7 @@
      pagecolor="#000000"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="1"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="20.4"
      inkscape:cx="3.578431"
