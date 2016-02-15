@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="nz.co.wholemeal.christchurchmetro"
+      android:versionCode="12"
+      android:versionName="0.4">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="23"/>
+
+    <application android:label="@string/app_name" android:icon="@drawable/icon"
+        android:theme="@style/AppTheme" android:allowBackup="true">
+      <activity android:name=".FavouritesActivity"
+        android:launchMode="singleTask"
+        android:label="@string/short_app_name">
+        <intent-filter>
+          <action android:name="android.intent.action.MAIN" />
+          <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        <meta-data android:name="android.app.searchable"
+          android:value="@xml/searchable"/>
+      </activity>
+
+      <activity android:name=".PlatformActivity" />
+
+      <activity android:name=".MetroMapActivity"
+        android:theme="@android:style/Theme.NoTitleBar" />
+
+      <activity android:name=".SearchActivity" android:exported="false">
+        <intent-filter>
+          <action android:name="android.intent.action.SEARCH" />
+          <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+        <meta-data android:name="android.app.searchable"
+          android:resource="@xml/searchable"/>
+      </activity>
+
+      <activity android:name=".RoutesActivity" />
+
+      <activity android:name=".PreferencesActivity" />
+
+      <service android:name=".LoadPlatformsService"
+          android:enabled="true"
+          android:exported="false" />
+
+      <receiver android:name=".ArrivalNotificationReceiver"
+        android:process=":remote" />
+
+      <meta-data android:name="android.app.default_searchable"
+        android:value=".SearchActivity" />
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDQksXO8g66ZCfle50vcjWroQzv1zXmUgU" />
+
+      <uses-library android:name="com.google.android.maps" />
+      <receiver android:exported="false"
+          android:name="LoadPlatformsCompleteReceiver"
+          android:enabled="true">
+          <intent-filter>
+              <action android:name="nz.co.wholemeal.christchurchmetro.load_platforms_complete" />
+          </intent-filter>
+      </receiver>
+
+    </application>
+</manifest>

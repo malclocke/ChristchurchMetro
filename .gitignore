@@ -1,6 +1,8 @@
-bin
-gen
+.gradle
 local.properties
-.classpath
-.project
-.settings
+.idea
+.DS_Store
+build
+*.iml
+*.apk
+*.log
