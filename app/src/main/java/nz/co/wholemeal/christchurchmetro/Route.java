@@ -42,7 +42,7 @@ public class Route {
   public static ArrayList<Route> getAll(Context context) {
     return doArrayListQuery(context, "SELECT route_number, route_name, " +
       "destination, route_tag, pattern_name, direction, length, active " +
-      "FROM patterns ORDER BY route_number");
+      "FROM patterns ORDER BY CAST(route_number AS INTEGER)");
   }
 
   public static ArrayList<Route> getRoutesForPlatform(Context context, String platformTag) {
@@ -52,7 +52,7 @@ public class Route {
       "FROM patterns_platforms JOIN patterns " +
       "ON patterns.route_tag = patterns_platforms.route_tag " +
       "WHERE patterns_platforms.platform_tag = " + platformTag +
-      " ORDER BY patterns.route_number");
+      " ORDER BY CAST(patterns.route_number AS INTEGER)");
   }
 
   /* Perform a search query for any routes which match query string */
@@ -63,7 +63,7 @@ public class Route {
       " WHERE route_number LIKE '" + queryString + "%'" +
       " OR route_name LIKE '%" + queryString + "%'" +
       " OR destination LIKE '%" + queryString + "%'" +
-      " ORDER BY route_number");
+      " ORDER BY CAST(route_number AS INTEGER)");
   }
 
   private static ArrayList<Route> doArrayListQuery(Context context, String query) {
