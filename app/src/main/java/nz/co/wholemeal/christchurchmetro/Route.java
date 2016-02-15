@@ -17,8 +17,6 @@
 
 package nz.co.wholemeal.christchurchmetro;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -26,6 +24,8 @@ import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+
+import java.util.ArrayList;
 
 public class Route {
   public static final String TAG = "Arrival";

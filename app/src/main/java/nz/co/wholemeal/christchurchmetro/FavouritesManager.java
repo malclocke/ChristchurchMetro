@@ -1,15 +1,15 @@
 package nz.co.wholemeal.christchurchmetro;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONTokener;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class FavouritesManager {
 

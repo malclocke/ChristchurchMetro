@@ -16,7 +16,6 @@
 */
 package nz.co.wholemeal.christchurchmetro;
 
-import nz.co.wholemeal.christchurchmetro.FavouritesFragment.FavouriteSelectedListener;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -29,6 +28,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import nz.co.wholemeal.christchurchmetro.FavouritesFragment.FavouriteSelectedListener;
 
 /*
  * Some of the authors favourites:

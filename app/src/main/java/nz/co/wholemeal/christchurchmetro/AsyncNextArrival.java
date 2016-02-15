@@ -1,11 +1,11 @@
 package nz.co.wholemeal.christchurchmetro;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /* Load next arrival for each favourite in the background */
 public class AsyncNextArrival extends AsyncTask<TextView, Void, TextView> {
