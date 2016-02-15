@@ -32,7 +32,10 @@ public class LoadPlatformsService extends IntentService {
 
     private static final String TAG = "LoadPlatformsService";
     private static final int NOTIFICATION_ID = 0;
+    private static final int PLATFORM_MAX = 2500;
+    private static final int PATTERN_MAX = 125;
     private NotificationManager mNotificationManager;
+    private NotificationCompat.Builder mNotificationBuilder;
 
     public LoadPlatformsService() {
         super("LoadPlatformsService");
@@ -71,7 +74,7 @@ public class LoadPlatformsService extends IntentService {
         }
 
         // Tell the progress bar that we're switching from platforms to patterns
-        publishProgress(-1);
+        mNotificationBuilder.setContentTitle(getString(R.string.loading_routes));
 
         try {
           SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -118,19 +121,19 @@ public class LoadPlatformsService extends IntentService {
                 resultIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
-        NotificationCompat.Builder notificationBuilder =
+        mNotificationBuilder =
                 new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.stat_bus_alarm)
-                    .setContentTitle(getString(R.string.loading_routes))
+                    .setContentTitle(getString(R.string.loading_platforms))
                     .setContentIntent(resultPendingIntent);
         mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+        mNotificationManager.notify(NOTIFICATION_ID, mNotificationBuilder.build());
     }
 
-    private void publishProgress(int i) {
-        // TODO Auto-generated method stub
-
+    private void publishProgress(int i, int max) {
+        mNotificationBuilder.setProgress(max, i, false);
+        mNotificationManager.notify(NOTIFICATION_ID, mNotificationBuilder.build());
     }
 
     private void broadcastCompleteMessage(String message) {
@@ -186,7 +189,7 @@ public class LoadPlatformsService extends IntentService {
               values.putNull("longitude");
 
               if ((platformCount % 10) == 0) {
-                publishProgress(platformCount);
+                publishProgress(platformCount, PLATFORM_MAX);
               }
             }
           }
@@ -258,7 +261,7 @@ public class LoadPlatformsService extends IntentService {
               patternValues.putNull("length");
               patternValues.putNull("active");
 
-              publishProgress(patternCount);
+              publishProgress(patternCount, PATTERN_MAX);
             }
           } else if (localName.equals("Route")) {
             if (database != null) {
