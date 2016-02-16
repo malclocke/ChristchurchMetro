@@ -26,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
   public static String TAG = "DatabaseHelper";
 
-  public static final int DATABASE_VERSION = 2;
+  public static final int DATABASE_VERSION = 3;
   private static String DATABASE_NAME = "metroinfo.sqlite3";
   private static String CREATE_PLATFORMS = " CREATE TABLE platforms " +
     "(platform_tag INT, platform_number INT, name VARCHAR, road_name VARCHAR," +
@@ -34,10 +34,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
   private static String CREATE_PATTERNS = "CREATE TABLE patterns " +
     "(route_number varchar, route_name varchar, destination varchar, " +
     "route_tag varchar, pattern_name varchar, direction varchar, " +
-    "length integer, active boolean)";
+    "length integer, active boolean, color varchar, coordinates text)";
   private static String CREATE_PATTERNS_PLATFORMS = "CREATE TABLE patterns_platforms " +
     "(route_tag varchar, platform_tag varchar, " +
     "schedule_adherance_timepoint boolean)";
+  private static String ADD_COLOR_TO_PATTERNS = "ALTER TABLE patterns ADD COLUMN color varchar";
+  private static String ADD_COORDINATES_TO_PATTERNS = "ALTER TABLE patterns ADD COLUMN coordinates text";
 
   public DatabaseHelper(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -63,6 +65,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_PATTERNS);
         db.execSQL(CREATE_PATTERNS_PLATFORMS);
         Log.i(TAG, "Loaded routes tables");
+      } catch (SQLiteException e) {
+        Log.e(TAG, "Error parsing SQL: " + e.getMessage(), e);
+        throw new RuntimeException(e);
+      }
+    }
+
+    if (oldVersion == 2) {
+      try {
+        db.execSQL(ADD_COLOR_TO_PATTERNS);
+        db.execSQL(ADD_COORDINATES_TO_PATTERNS);
+        Log.i(TAG, "Added mid/mif to patterns");
       } catch (SQLiteException e) {
         Log.e(TAG, "Error parsing SQL: " + e.getMessage(), e);
         throw new RuntimeException(e);

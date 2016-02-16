@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.v4.app.NotificationCompat;
+import android.text.Html;
 import android.util.Log;
 
 import org.xml.sax.Attributes;
@@ -19,6 +20,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.net.URL;
+import java.util.HashMap;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -27,6 +29,7 @@ public class LoadPlatformsService extends IntentService {
 
     public static String PLATFORMS_URL = "http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?ContentType=SQLXML&Name=JPPlatform.xml";
     public static String ROUTE_PATTERN_URL = "http://rtt.metroinfo.org.nz/RTT/Public/Utility/File.aspx?ContentType=SQLXML&Name=JPRoutePattern.xml";
+    public static String ROUTE_KML_URL = "http://rtt.metroinfo.org.nz/rtt/public/utility/file.aspx?ContentType=SQLXML&Name=RoutePattern.kml";
     //public static String PLATFORMS_URL = "http://10.0.2.2/~malc/JPPlatform.xml";
     //public static String ROUTE_PATTERN_URL = "http://10.0.2.2/~malc/JPRoutePattern.xml";
 
@@ -34,6 +37,7 @@ public class LoadPlatformsService extends IntentService {
     private static final int NOTIFICATION_ID = 0;
     private static final int PLATFORM_MAX = 2500;
     private static final int PATTERN_MAX = 125;
+    private static final int ROUTE_MAX = 100;
     private NotificationManager mNotificationManager;
     private NotificationCompat.Builder mNotificationBuilder;
 
@@ -49,6 +53,7 @@ public class LoadPlatformsService extends IntentService {
 
         PlatformHandler platformHandler = null;
         PatternHandler patternHandler = null;
+        RouteKmlHandler routeKmlHandler = null;
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
 
@@ -95,10 +100,31 @@ public class LoadPlatformsService extends IntentService {
           Log.e(TAG, "Exception", e);
         } finally {
           database.endTransaction();
-          database.close();
+        }
+        // Tell the progress bar that we're switching from patterns to coordinates
+        mNotificationBuilder.setContentTitle(getString(R.string.loading_coordinates));
+
+        try {
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            SAXParser sp = spf.newSAXParser();
+            XMLReader xr = sp.getXMLReader();
+            URL source = new URL(ROUTE_KML_URL);
+            routeKmlHandler = new RouteKmlHandler();
+            routeKmlHandler.database = database;
+            xr.setContentHandler(routeKmlHandler);
+            database.beginTransaction();
+            xr.parse(new InputSource(source.openStream()));
+            database.setTransactionSuccessful();
+        } catch (SQLiteException e) {
+            Log.e(TAG, "SQLiteException", e);
+        } catch (Exception e) {
+            Log.e(TAG, "Exception", e);
+        } finally {
+            database.endTransaction();
+            database.close();
         }
 
-        if (platformHandler != null && patternHandler != null) {
+        if (platformHandler != null && patternHandler != null  && routeKmlHandler != null) {
 
           SharedPreferences preferences =
             getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
@@ -271,4 +297,76 @@ public class LoadPlatformsService extends IntentService {
           }
         }
       }
+
+    private class RouteKmlHandler extends DefaultHandler {
+
+        public Integer routeCount = 0;
+        public SQLiteDatabase database = null;
+        private ContentValues values = null;
+        private String currentCharacters = "";
+        private String name = "";
+        private boolean recordCharacters = false;
+        private HashMap<String, String> colorMap = new HashMap<String, String>();
+        private String currentStyle = null;
+
+        @Override
+        public void startElement(String uri, String localName, String qName,
+                                 Attributes attributes) throws SAXException {
+            if (localName.equals("Placemark")) {
+                if (values == null) {
+                    values = new ContentValues();
+                }
+            } else if (localName.equals("Style")) {
+                currentStyle = attributes.getValue("id");
+            } else if (localName.equals("name") || localName.equals("coordinates")
+                    || localName.equals("styleUrl") || localName.equals("color")) {
+                recordCharacters = true;
+                currentCharacters = "";
+            }
+        }
+
+        @Override
+        public void endElement(String uri, String localName, String qName)
+                throws SAXException {
+            if (localName.equals("Placemark")) {
+                //if (database != null) {
+                    //database.insert("platforms", null, values);
+                    database.update("patterns", values, "pattern_name = ?", new String[] {name});
+                    Log.d(TAG, "name = " + name);
+                    Log.d(TAG, "color = " + values.getAsString("color"));
+                    Log.d(TAG, "coordinates = " + values.getAsString("coordinates"));
+                    routeCount++;
+
+                    values.putNull("color");
+                    values.putNull("coordinates");
+
+                    publishProgress(routeCount, ROUTE_MAX);
+                //}
+            } else if (localName.equals("name")) {
+                name = Html.fromHtml(currentCharacters).toString();
+                recordCharacters = false;
+            } else if (localName.equals("styleUrl")) {
+                String color = colorMap.get(currentCharacters.substring(1));
+                if (color == null) {
+                    color = "ff000000";
+                }
+                values.put("color", color);
+                recordCharacters = false;
+            } else if (localName.equals("coordinates")) {
+                values.put("coordinates", currentCharacters);
+                recordCharacters = false;
+            } else if (localName.equals("color")) {
+                if (currentStyle != null) {
+                    colorMap.put(currentStyle, currentCharacters);
+                }
+            }
+        }
+
+        @Override
+        public void characters(char[] ch, int start, int length) throws SAXException {
+            if (recordCharacters) {
+                currentCharacters = currentCharacters + new String(ch, start, length);
+            }
+        }
+    }
 }

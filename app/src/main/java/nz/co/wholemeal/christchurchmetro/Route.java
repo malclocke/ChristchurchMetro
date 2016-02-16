@@ -38,17 +38,26 @@ public class Route {
   public String direction;
   public int length;
   public boolean active;
+  public String color;
+
+  public static Route get(Context context, String routeTag) {
+    ArrayList<Route> routes = doArrayListQuery(context,
+            "SELECT route_number, route_name, destination, route_tag, pattern_name, direction, length, active, color " +
+            "FROM patterns WHERE route_tag = " + routeTag
+    );
+    return routes.get(0);
+  }
 
   public static ArrayList<Route> getAll(Context context) {
     return doArrayListQuery(context, "SELECT route_number, route_name, " +
-      "destination, route_tag, pattern_name, direction, length, active " +
+      "destination, route_tag, pattern_name, direction, length, active, color " +
       "FROM patterns ORDER BY CAST(route_number AS INTEGER)");
   }
 
   public static ArrayList<Route> getRoutesForPlatform(Context context, String platformTag) {
     return doArrayListQuery(context, "SELECT patterns.route_number, " +
       "patterns.route_name, patterns.destination, patterns.route_tag, " +
-      "patterns.pattern_name, patterns.direction, patterns.length, patterns.active " +
+      "patterns.pattern_name, patterns.direction, patterns.length, patterns.active, patterns.color " +
       "FROM patterns_platforms JOIN patterns " +
       "ON patterns.route_tag = patterns_platforms.route_tag " +
       "WHERE patterns_platforms.platform_tag = " + platformTag +
@@ -58,7 +67,7 @@ public class Route {
   /* Perform a search query for any routes which match query string */
   public static ArrayList<Route> searchRoutes(Context context, String queryString) {
     return doArrayListQuery(context, "SELECT route_number, route_name, " +
-      "destination, route_tag, pattern_name, direction, length, active " +
+      "destination, route_tag, pattern_name, direction, length, active, color " +
       " FROM patterns" +
       " WHERE route_number LIKE '" + queryString + "%'" +
       " OR route_name LIKE '%" + queryString + "%'" +
@@ -89,6 +98,7 @@ public class Route {
           route.direction = cursor.getString(5);
           route.length = cursor.getInt(6);
           route.active = (cursor.getInt(7) == 0 ? false : true);
+          route.color = cursor.getString(8);
           routes.add(route);
         } while (cursor.moveToNext());
       }
@@ -132,5 +142,32 @@ public class Route {
     database.close();
     latLngBounds = builder.build();
     return latLngBounds;
+  }
+
+  public ArrayList<LatLng> getCoordinates(Context context) {
+    DatabaseHelper databaseHelper = new DatabaseHelper(context);
+    SQLiteDatabase database = databaseHelper.getWritableDatabase();
+    ArrayList<LatLng> coordinates = new ArrayList<LatLng>();
+
+    String query = "SELECT coordinates FROM patterns WHERE route_tag = ?";
+
+    Log.d(TAG, "Running query: " + query);
+    Cursor cursor = database.rawQuery(query, new String[] { routeTag });
+
+    try {
+      if (cursor.moveToFirst()) {
+        String coordinateString = cursor.getString(0);
+        if (coordinateString != null) {
+          for (String coordinatePair : coordinateString.split(" ")) {
+            String[] pair = coordinatePair.split(",");
+            coordinates.add(new LatLng(Double.parseDouble(pair[1]), Double.parseDouble(pair[0])));
+          }
+        }
+      }
+    } finally {
+      cursor.close();
+    }
+    database.close();
+    return coordinates;
   }
 }

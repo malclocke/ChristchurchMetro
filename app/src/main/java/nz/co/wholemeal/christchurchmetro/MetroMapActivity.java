@@ -18,6 +18,7 @@ package nz.co.wholemeal.christchurchmetro;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -37,6 +38,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,6 +64,9 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
   public static final String TAG = "MetroMapActivity";
 
   private HashMap<Marker, Stop> markerStopMap;
+
+  /* Hide stop markers below this zoom level */
+  private int minPlatformZoom = 14;
 
   protected boolean isRouteDisplayed() {
     return false;
@@ -121,6 +126,8 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
     }
     markerStopMap = new HashMap<Marker, Stop>();
 
+    drawRoutes(mMap);
+
     drawStopsForCameraPosition(mMap.getCameraPosition());
     mMap.getUiSettings().setMapToolbarEnabled(false);
     mMap.setMyLocationEnabled(true);
@@ -129,9 +136,37 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
     mMap.setOnMapLoadedCallback(this);
   }
 
+
+  private void drawRoute(GoogleMap map, Route route) {
+    PolylineOptions polylineOptions = new PolylineOptions();
+    ArrayList<LatLng> coordinates = route.getCoordinates(this);
+    int color = Color.BLACK;
+
+    polylineOptions.addAll(coordinates);
+    if (route.color != null) {
+      color = Color.parseColor("#" + route.color);
+    }
+    polylineOptions.color(color);
+    map.addPolyline(polylineOptions);
+  }
+
+  private void drawRoutes(GoogleMap map) {
+    if (routeTag != null) {
+      drawRoute(map, Route.get(this, routeTag));
+    } else {
+      ArrayList<Route> routes = Route.getAll(this);
+      Iterator<Route> iterator = routes.iterator();
+
+      while (iterator.hasNext()) {
+        Route route = iterator.next();
+        drawRoute(map, route);
+      }
+    }
+  }
+
   private void drawStopsForCameraPosition(CameraPosition cameraPosition) {
 
-    if (routeTag == null && cameraPosition.zoom < 14) {
+    if (cameraPosition.zoom < minPlatformZoom) {
       return;
     }
 
@@ -164,6 +199,7 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
       Log.d(TAG, "markerStopMap.size() = " + markerStopMap.size());
     }
   }
+
   @Override
   public void onStop() {
     SharedPreferences preferences = getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
@@ -212,7 +248,7 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
     drawStopsForCameraPosition(cameraPosition);
     Log.d(TAG, "Camera Zoom = " + cameraPosition.zoom);
     for(Marker m : markerStopMap.keySet()) {
-      m.setVisible(routeTag != null || cameraPosition.zoom > 14);
+      m.setVisible(cameraPosition.zoom > minPlatformZoom);
     }
   }
 
