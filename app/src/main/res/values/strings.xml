@@ -48,7 +48,7 @@
     <string name="set_alarm_for_eta">Set alarm for %1$d mins eta from stop</string>
     <string name="set_alarm">Set alarm</string>
     <string name="alarm_dialog_text">Send a notification when the bus is this many minutes from this stop</string>
-
+    <string name="bus_stop">Bus stop</string>
     <!-- ArrivalNotificationReceiver -->
     <string name="route_number_to_destination">%1$s to %2$s</string>
 
