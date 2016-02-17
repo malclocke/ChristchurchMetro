@@ -8,6 +8,7 @@ android {
         applicationId "nz.co.wholemeal.christchurchmetro"
         minSdkVersion 9
         targetSdkVersion 21
+        resConfigs "en"
     }
 
     buildTypes {
