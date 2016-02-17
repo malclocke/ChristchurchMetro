@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ import java.util.Iterator;
 
 public class MetroMapActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleMap.OnInfoWindowClickListener, GoogleMap.OnCameraChangeListener,
-        GoogleMap.OnMapLoadedCallback {
+        GoogleMap.OnMapLoadedCallback, GoogleMap.OnPolylineClickListener {
 
     GoogleMap mMap;
   /* The location used for the 'Bus Exchange' menu items */
@@ -57,6 +58,7 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
   private String routeTag = null;
   private String routeName = null;
   private boolean zoomToRoute = false;
+  private int polylineWidth = 5; // Overridden later
 
   /* Paint style for the platform name text */
   protected Paint platformTextPaint = null;
@@ -64,6 +66,7 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
   public static final String TAG = "MetroMapActivity";
 
   private HashMap<Marker, Stop> markerStopMap;
+  private ArrayList<Polyline> polylines = new ArrayList<Polyline>();
 
   /* Hide stop markers below this zoom level */
   private int minPlatformZoom = 14;
@@ -93,6 +96,10 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
       float lastLongitude = preferences.getFloat("lastLon",
                 (float) interchangeLatLng.longitude);
       float zoom = preferences.getFloat("zoom", 11);
+
+      // Calculate polyline width in px
+      float density = getResources().getDisplayMetrics().density;
+      polylineWidth = (int) (3.0f * density + 0.5f);
 
     /* An intent may have been passed requesting a particular map location
      * to be centered */
@@ -134,6 +141,7 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
     mMap.setOnInfoWindowClickListener(this);
     mMap.setOnCameraChangeListener(this);
     mMap.setOnMapLoadedCallback(this);
+    mMap.setOnPolylineClickListener(this);
   }
 
 
@@ -147,7 +155,9 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
       color = Color.parseColor("#" + route.color);
     }
     polylineOptions.color(color);
-    map.addPolyline(polylineOptions);
+    polylineOptions.clickable(true);
+    polylineOptions.width(polylineWidth);
+    polylines.add(map.addPolyline(polylineOptions));
   }
 
   private void drawRoutes(GoogleMap map) {
@@ -260,6 +270,17 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
       Log.d(TAG, "LatLngBounds: " + latLngBounds);
       mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 5));
       zoomToRoute = false;
+    }
+  }
+
+  @Override
+  public void onPolylineClick(Polyline polyline) {
+    Iterator<Polyline> iterator = polylines.iterator();
+    while(iterator.hasNext()) {
+      Polyline p = iterator.next();
+      if (!p.equals(polyline)) {
+        p.setVisible(!p.isVisible());
+      }
     }
   }
 }
