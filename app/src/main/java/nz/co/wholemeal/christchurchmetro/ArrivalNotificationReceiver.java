@@ -24,6 +24,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -41,38 +42,56 @@ import java.util.Iterator;
 public class ArrivalNotificationReceiver extends BroadcastReceiver {
 
   public static final String TAG = "ArrivalNotificationReceiver";
+    private String mRouteNumber;
+    private String mDestination;
+    private String mPlatformTag;
+    private String mTripNumber;
+    private int mMinutes;
+    private Context mContext;
+    private Intent mIntent;
 
   @Override
   public void onReceive(Context context, Intent intent) {
-    Log.d(TAG, "onReceive()");
+      Log.d(TAG, "onReceive()");
 
-    Bundle extras = intent.getExtras();
+      mContext = context;
+      mIntent = intent;
+      Bundle extras = intent.getExtras();
 
-    if (extras != null) {
-      String routeNumber = extras.getString("routeNumber");
-      String destination = extras.getString("destination");
-      String platformTag = extras.getString("platformTag");
-      String tripNumber = extras.getString("tripNumber");
-      int minutes = extras.getInt("minutes");
+      if (extras != null) {
+          mRouteNumber = extras.getString("routeNumber");
+          mDestination = extras.getString("destination");
+          mPlatformTag = extras.getString("platformTag");
+          mTripNumber = extras.getString("tripNumber");
+          mMinutes = extras.getInt("minutes");
 
-      /**
-       * Load the given stop, find the trip that the alarm was set for, and
-       * check if the ETA is less than or equal to the requested ETA.  If the
-       * ETA is still greater than the requested ETA, create another alarm for
-       * the trip in 30 seconds time from now.
-       *
-       * In the event of any kind of error, just fall through and sound the
-       * alarm.  It is better for the alarm to sound early or late than not at
-       * all.
-       */
+          try {
+              Stop stop = new Stop(mPlatformTag, null, context);
+              new AsyncArrivalsTask().execute(stop);
+          } catch (Stop.InvalidPlatformNumberException e) {
+              Log.e(TAG, e.getMessage(), e);
+          }
+      }
+  }
+
+      private void handleArrivals(ArrayList<Arrival> arrivals) {
+
+        /**
+         * Load the given stop, find the trip that the alarm was set for, and
+         * check if the ETA is less than or equal to the requested ETA.  If the
+         * ETA is still greater than the requested ETA, create another alarm for
+         * the trip in 30 seconds time from now.
+         *
+         * In the event of any kind of error, just fall through and sound the
+         * alarm.  It is better for the alarm to sound early or late than not at
+         * all.
+         */
       try {
-        Stop stop = new Stop(platformTag, null, context);
-        ArrayList<Arrival> arrivals = stop.getArrivals();
         Iterator<Arrival> iterator = arrivals.iterator();
 
         while (iterator.hasNext()) {
           Arrival arrival = iterator.next();
-          if (!arrival.tripNumber.equals(tripNumber)) {
+          if (!arrival.tripNumber.equals(mTripNumber)) {
             continue;
           }
 
@@ -80,12 +99,12 @@ public class ArrivalNotificationReceiver extends BroadcastReceiver {
            * If we're here, we have the correct trip.  If the ETA is still
            * greater than requested, queue another alarm and exit.
            */
-          int requestedEtaDifference = arrival.eta - minutes;
+          int requestedEtaDifference = arrival.eta - mMinutes;
           if (requestedEtaDifference > 0) {
-            Log.d(TAG, "ETA " + arrival.eta + " > " + minutes);
+            Log.d(TAG, "ETA " + arrival.eta + " > " + mMinutes);
 
-            PendingIntent sender = PendingIntent.getBroadcast(context, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent sender = PendingIntent.getBroadcast(mContext, 0,
+                mIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             Calendar calendar = Calendar.getInstance();
 
@@ -108,7 +127,7 @@ public class ArrivalNotificationReceiver extends BroadcastReceiver {
               calendar.add(Calendar.SECOND, 30);
             }
 
-            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 sender);
             Log.d(TAG, "Reset alarm for " + DateFormat.getTimeInstance().format(calendar.getTime()));
@@ -126,30 +145,30 @@ public class ArrivalNotificationReceiver extends BroadcastReceiver {
       }
 
       NotificationManager notificationManager =
-        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
       int icon = R.drawable.stat_bus_alarm;
       long when = System.currentTimeMillis();
 
-      Resources res = context.getResources();
+      Resources res = mContext.getResources();
       // The text that appears in the status bar
       String tickerText = res.getString(R.string.route_number_to_destination,
-          routeNumber, destination);
+          mRouteNumber, mDestination);
       // Text for the notification details
       String dueMinutes = String.format(res.getQuantityString(
-            R.plurals.due_in_n_minutes, minutes), minutes);
+            R.plurals.due_in_n_minutes, mMinutes), mMinutes);
       Calendar calendar = Calendar.getInstance();
       calendar.setTimeInMillis(System.currentTimeMillis());
-      calendar.add(Calendar.MINUTE, minutes);
+      calendar.add(Calendar.MINUTE, mMinutes);
       String dueTime = DateFormat.getTimeInstance().format(calendar.getTime());
       String dueText = dueMinutes + " (" + dueTime + ")";
 
 
-      sendNotification(context, platformTag, notificationManager, icon, when,
+      sendNotification(mContext, mPlatformTag, notificationManager, icon, when,
             tickerText, dueText);
     }
-  }
 
-private void sendNotification(Context context, String platformTag,
+
+    private void sendNotification(Context context, String platformTag,
             NotificationManager notificationManager, int icon, long when,
             String tickerText, String dueText) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
@@ -183,5 +202,26 @@ private void sendNotification(Context context, String platformTag,
                     Context.NOTIFICATION_SERVICE
               );
         mNotificationManager.notify(1 , mBuilder.build());
+    }
+
+    public class AsyncArrivalsTask extends AsyncTask<Stop, Void, ArrayList<Arrival>> {
+
+        @Override
+        protected void onPostExecute(ArrayList<Arrival> arrivals) {
+            handleArrivals(arrivals);
+        }
+
+        @Override
+        protected ArrayList<Arrival> doInBackground(Stop... stops) {
+            Log.d(TAG, "Running doInBackground()");
+            ArrayList<Arrival> arrivals = null;
+            try {
+                arrivals = stops[0].getArrivals();
+            } catch (Exception e) {
+                Log.e(TAG, "getArrivals(): ", e);
+            }
+
+            return arrivals;
+        }
     }
 }
