@@ -24,6 +24,8 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -113,6 +115,9 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
       // A specific route view was requested.  Try and show the entire route
       // area.
       zoomToRoute = true;
+      TextView textView = (TextView) findViewById(R.id.route_description);
+      textView.setText(routeName);
+      textView.setVisibility(View.VISIBLE);
     }
     markerStopMap = new HashMap<Marker, Stop>();
 
