@@ -151,13 +151,18 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
                           .title(stop.name)
                           .icon(BitmapDescriptorFactory.fromResource(R.drawable.stop_marker))
           );
-          Log.d(TAG, "stop = " + stop.name);
-          Log.d(TAG, "marker id = " + m.getId());
+          if (BuildConfig.DEBUG) {
+            Log.d(TAG, "stop = " + stop.name);
+            Log.d(TAG, "marker id = " + m.getId());
+          }
           markerStopMap.put(m, stop);
         }
       }
     }
-    Log.d(TAG, "markerStopMap.size() = " + markerStopMap.size());
+
+    if (BuildConfig.DEBUG) {
+      Log.d(TAG, "markerStopMap.size() = " + markerStopMap.size());
+    }
   }
   @Override
   public void onStop() {
@@ -188,8 +193,10 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
 
   @Override
   public void onInfoWindowClick(Marker marker) {
-    Log.d(TAG, "Info Window Clicked for " + marker.getId());
-    Log.d(TAG, "markerStopMap.size() = " + markerStopMap.size());
+    if (BuildConfig.DEBUG) {
+      Log.d(TAG, "Info Window Clicked for " + marker.getId());
+      Log.d(TAG, "markerStopMap.size() = " + markerStopMap.size());
+    }
     Stop stop = markerStopMap.get(marker);
     Intent intent = new Intent();
     intent.putExtra("platformTag", stop.platformTag);

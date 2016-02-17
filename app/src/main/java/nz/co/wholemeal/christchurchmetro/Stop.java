@@ -181,7 +181,9 @@ class Stop {
   private static ArrayList<Stop> doArrayListQuery(Context context, String query) {
     ArrayList<Stop> stops = new ArrayList<Stop>();
 
-    Log.d(TAG, "query: " + query);
+    if(BuildConfig.DEBUG) {
+      Log.d(TAG, "query: " + query);
+    }
 
     DatabaseHelper databaseHelper = new DatabaseHelper(context);
     SQLiteDatabase database = databaseHelper.getWritableDatabase();
@@ -203,7 +205,9 @@ class Stop {
     } finally {
       cursor.close();
     }
-    Log.d(TAG, "stops.size() = " + stops.size());
+    if(BuildConfig.DEBUG) {
+      Log.d(TAG, "stops.size() = " + stops.size());
+    }
     database.close();
     return stops;
   }

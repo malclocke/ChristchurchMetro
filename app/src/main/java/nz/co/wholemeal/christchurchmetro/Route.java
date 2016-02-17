@@ -69,7 +69,9 @@ public class Route {
   private static ArrayList<Route> doArrayListQuery(Context context, String query) {
     ArrayList<Route> routes = new ArrayList<Route>();
 
-    Log.d(TAG, "Running query: " + query);
+    if (BuildConfig.DEBUG) {
+      Log.d(TAG, "Running query: " + query);
+    }
 
     DatabaseHelper databaseHelper = new DatabaseHelper(context);
     SQLiteDatabase database = databaseHelper.getWritableDatabase();
@@ -93,7 +95,9 @@ public class Route {
     } finally {
       cursor.close();
     }
-    Log.d(TAG, "routes.size() = " + routes.size());
+    if (BuildConfig.DEBUG) {
+      Log.d(TAG, "routes.size() = " + routes.size());
+    }
     database.close();
 
     return routes;

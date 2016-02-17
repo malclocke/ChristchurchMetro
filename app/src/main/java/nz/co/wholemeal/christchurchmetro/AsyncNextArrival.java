@@ -24,7 +24,9 @@ public class AsyncNextArrival extends AsyncTask<TextView, Void, TextView> {
         Stop stop = (Stop)textView.getTag();
         Arrival arrival = null;
         ArrayList<Arrival> arrivals = null;
-        Log.d(TAG, "Running AsyncNextArrival.doInBackground() for stop " + stop.platformNumber);
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "Running AsyncNextArrival.doInBackground() for stop " + stop.platformNumber);
+        }
         try {
             arrivals = stop.getArrivals();
         } catch (Exception e) {

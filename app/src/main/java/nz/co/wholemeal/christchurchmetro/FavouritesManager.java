@@ -104,8 +104,10 @@ public class FavouritesManager {
             stopArray.put(stop.platformTag);
         }
         editor.putString("favouriteStops", stopArray.toString());
-        Log.d(TAG, "Saving " + mStops.size() + " favourites");
-        Log.d(TAG, "json = " + stopArray.toString());
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "Saving " + mStops.size() + " favourites");
+            Log.d(TAG, "json = " + stopArray.toString());
+        }
         editor.commit();
         return true;
     }

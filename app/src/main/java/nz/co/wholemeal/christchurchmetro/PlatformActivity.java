@@ -106,7 +106,10 @@ public class PlatformActivity extends ListActivity
           int position, long id) {
 
         Arrival arrival = arrivals.get(position);
-        Log.d(TAG, "Got click on arrival " + arrival.destination);
+
+        if(BuildConfig.DEBUG) {
+          Log.d(TAG, "Got click on arrival " + arrival.destination);
+        }
 
         createAlarmDialog(arrival);
       }
@@ -199,11 +202,9 @@ public class PlatformActivity extends ListActivity
 
     switch (item.getItemId()) {
       case R.id.set_alarm:
-        Log.d(TAG, "Set alarm selected");
         createAlarmDialog(arrival);
         return true;
       case R.id.timetable:
-        Log.d(TAG, "Timetable selected for route " + arrival.routeNumber);
         Uri uri = Uri.parse("http://rtt.metroinfo.org.nz/rtt/public/Schedule.aspx?RouteNo=" + arrival.routeNumber);
         intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
@@ -238,13 +239,17 @@ protected Dialog onCreateDialog(int id) {
 
   @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    Log.d(TAG, "Activity returned resultCode = " + resultCode);
+    if(BuildConfig.DEBUG) {
+      Log.d(TAG, "Activity returned resultCode = " + resultCode);
+    }
     switch (requestCode) {
       case CHOOSE_FAVOURITE:
         if (resultCode != RESULT_CANCELED) {
           Bundle extras = data.getExtras();
           if (extras != null) {
-            Log.d(TAG, "platformTag " + extras.getString("platformTag") + " selected");
+            if (BuildConfig.DEBUG) {
+              Log.d(TAG, "platformTag " + extras.getString("platformTag") + " selected");
+            }
             loadStopByPlatformTag(extras.getString("platformTag"));
           }
         }
@@ -339,11 +344,15 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     String alarmTime = DateFormat.getTimeInstance().format(calendar.getTime());
     Toast.makeText(this, String.format(getResources().getString(
             R.string.set_alarm_for_eta), minutes), Toast.LENGTH_LONG).show();
-    Log.d(TAG, "Set alarm for " + minutes + " minutes - " + alarmTime);
+    if (BuildConfig.DEBUG) {
+      Log.d(TAG, "Set alarm for " + minutes + " minutes - " + alarmTime);
+    }
   }
 
   public void loadStop(Stop stop) {
-    Log.d(TAG, "loadStop(Stop): " + stop.platformNumber + " platformTag = " + stop.platformTag);
+    if(BuildConfig.DEBUG) {
+      Log.d(TAG, "loadStop(Stop): " + stop.platformNumber + " platformTag = " + stop.platformTag);
+    }
     current_stop = stop;
     setStopHeader(stop);
     arrivals.clear();
@@ -353,12 +362,11 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
   }
 
   public void loadStopByPlatformTag(String platformTag) {
-    Log.d(TAG, "Running loadStopByPlatformTag.doInBackground()");
     Stop stop = null;
     try {
       stop = new Stop(platformTag, null, getApplicationContext());
     } catch (Stop.InvalidPlatformNumberException e) {
-      Log.d(TAG, "InvalidPlatformNumberException: " + e.getMessage());
+      Log.e(TAG, "InvalidPlatformNumberException: " + e.getMessage());
     }
     if (stop == null) {
       Toast.makeText(getApplicationContext(), R.string.unable_to_find_stop,
@@ -473,7 +481,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     @Override
     protected void onPostExecute(ArrayList<Arrival> stopArrivals) {
-      Log.d(TAG, "onPostExecute()");
       if (stopArrivals == null) {
         ((TextView)findViewById(android.R.id.empty))
           .setText(R.string.unable_to_retrieve_arrival_information);
@@ -481,7 +488,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         arrivals.clear();
         arrivals.addAll(stopArrivals);
       } else {
-        Log.d(TAG, "No arrivals");
+        if(BuildConfig.DEBUG) {
+          Log.d(TAG, "No arrivals");
+        }
         arrivals.clear();
         ((TextView)findViewById(android.R.id.empty)).setText(R.string.no_arrivals_in_the_next_thirty_minutes);
       }
@@ -491,7 +500,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     @Override
     protected ArrayList<Arrival> doInBackground(Stop... stops) {
-      Log.d(TAG, "Running doInBackground()");
       ArrayList<Arrival> arrivals = null;
       try {
         arrivals = stops[0].getArrivals();
