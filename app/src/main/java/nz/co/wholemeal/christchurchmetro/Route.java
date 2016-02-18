@@ -170,4 +170,8 @@ public class Route {
     database.close();
     return coordinates;
   }
+
+  public String fullRouteName() {
+    return routeNumber + " " + destination + " (" + direction + ")";
+  }
 }

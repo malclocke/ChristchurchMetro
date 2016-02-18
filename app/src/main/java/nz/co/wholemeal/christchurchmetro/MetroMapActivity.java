@@ -66,6 +66,7 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
   public static final String TAG = "MetroMapActivity";
 
   private HashMap<Marker, Stop> markerStopMap;
+  private HashMap<Polyline, Route> polylineRouteMap = new HashMap<Polyline, Route>();
   private ArrayList<Polyline> polylines = new ArrayList<Polyline>();
 
   /* Hide stop markers below this zoom level */
@@ -127,11 +128,10 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
       // A specific route view was requested.  Try and show the entire route
       // area.
       zoomToRoute = true;
-      TextView textView = (TextView) findViewById(R.id.route_description);
-      textView.setText(routeName);
-      textView.setVisibility(View.VISIBLE);
     }
     markerStopMap = new HashMap<Marker, Stop>();
+
+    setRouteDesriptionVisibility();
 
     drawRoutes(mMap);
 
@@ -142,6 +142,14 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
     mMap.setOnCameraChangeListener(this);
     mMap.setOnMapLoadedCallback(this);
     mMap.setOnPolylineClickListener(this);
+  }
+
+  private int setRouteDesriptionVisibility() {
+    TextView textView = (TextView) findViewById(R.id.route_description);
+    int visibility = (routeName == null) ? View.INVISIBLE : View.VISIBLE;
+    textView.setText(routeName);
+    textView.setVisibility(visibility);
+    return visibility;
   }
 
 
@@ -157,7 +165,9 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
     polylineOptions.color(color);
     polylineOptions.clickable(true);
     polylineOptions.width(polylineWidth);
-    polylines.add(map.addPolyline(polylineOptions));
+    Polyline polyline = map.addPolyline(polylineOptions);
+    polylines.add(polyline);
+    polylineRouteMap.put(polyline, route);
   }
 
   private void drawRoutes(GoogleMap map) {
@@ -276,11 +286,26 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
   @Override
   public void onPolylineClick(Polyline polyline) {
     Iterator<Polyline> iterator = polylines.iterator();
+    Log.d(TAG, "iterating ...");
     while(iterator.hasNext()) {
       Polyline p = iterator.next();
+      Route route = polylineRouteMap.get(p);
+      if (route == null) {
+        Log.e(TAG, "Cant find route!");
+        return;
+      }
       if (!p.equals(polyline)) {
         p.setVisible(!p.isVisible());
+      } else {
+        if (routeTag == null) {
+          routeTag = route.routeTag;
+          routeName = route.fullRouteName();
+        } else {
+          routeTag = routeName = null;
+        }
+        Log.d(TAG, "matched");
       }
     }
+    setRouteDesriptionVisibility();
   }
 }

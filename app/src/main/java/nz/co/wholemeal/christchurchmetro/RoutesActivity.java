@@ -160,8 +160,7 @@ public class RoutesActivity extends ListActivity {
   private Intent getIntentForRouteMap(Route route) {
     Intent intent = new Intent();
     intent.putExtra("routeTag", route.routeTag);
-    intent.putExtra("routeName", route.routeNumber + " " +
-      route.destination + " (" + route.direction + ")");
+    intent.putExtra("routeName", route.fullRouteName());
     intent.setClassName("nz.co.wholemeal.christchurchmetro", "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
     return intent;
   }
