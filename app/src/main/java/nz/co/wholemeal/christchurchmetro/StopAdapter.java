@@ -14,7 +14,7 @@ public class StopAdapter extends ArrayAdapter<Stop> {
     private final ArrayList<Stop> mItems;
 
     public StopAdapter(Context context, int textViewResourceId,
-            ArrayList<Stop> items) {
+                       ArrayList<Stop> items) {
         super(context, textViewResourceId, items);
         this.mItems = items;
     }
@@ -25,7 +25,7 @@ public class StopAdapter extends ArrayAdapter<Stop> {
         if (v == null) {
             LayoutInflater vi =
                     (LayoutInflater) getContext()
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.stop_list_item, null);
         }
         Stop stop = mItems.get(position);

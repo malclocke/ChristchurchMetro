@@ -9,7 +9,7 @@ import android.widget.Toast;
 public class LoadPlatformsCompleteReceiver extends BroadcastReceiver {
 
     public static final String MESSAGE
-        = "nz.co.wholemeal.christchurchmetro.LOAD_PLATFORMS_COMPLETE";
+            = "nz.co.wholemeal.christchurchmetro.LOAD_PLATFORMS_COMPLETE";
 
     @Override
     public void onReceive(Context context, Intent intent) {

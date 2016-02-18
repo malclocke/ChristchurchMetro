@@ -1,19 +1,19 @@
 /**
  * Copyright 2010-2011 Malcolm Locke
- *
+ * <p/>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p/>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package nz.co.wholemeal.christchurchmetro;
 
@@ -41,7 +41,7 @@ import java.util.Iterator;
  */
 public class ArrivalNotificationReceiver extends BroadcastReceiver {
 
-  public static final String TAG = "ArrivalNotificationReceiver";
+    public static final String TAG = "ArrivalNotificationReceiver";
     private String mRouteNumber;
     private String mDestination;
     private String mPlatformTag;
@@ -50,31 +50,31 @@ public class ArrivalNotificationReceiver extends BroadcastReceiver {
     private Context mContext;
     private Intent mIntent;
 
-  @Override
-  public void onReceive(Context context, Intent intent) {
-      Log.d(TAG, "onReceive()");
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Log.d(TAG, "onReceive()");
 
-      mContext = context;
-      mIntent = intent;
-      Bundle extras = intent.getExtras();
+        mContext = context;
+        mIntent = intent;
+        Bundle extras = intent.getExtras();
 
-      if (extras != null) {
-          mRouteNumber = extras.getString("routeNumber");
-          mDestination = extras.getString("destination");
-          mPlatformTag = extras.getString("platformTag");
-          mTripNumber = extras.getString("tripNumber");
-          mMinutes = extras.getInt("minutes");
+        if (extras != null) {
+            mRouteNumber = extras.getString("routeNumber");
+            mDestination = extras.getString("destination");
+            mPlatformTag = extras.getString("platformTag");
+            mTripNumber = extras.getString("tripNumber");
+            mMinutes = extras.getInt("minutes");
 
-          try {
-              Stop stop = new Stop(mPlatformTag, null, context);
-              new AsyncArrivalsTask().execute(stop);
-          } catch (Stop.InvalidPlatformNumberException e) {
-              Log.e(TAG, e.getMessage(), e);
-          }
-      }
-  }
+            try {
+                Stop stop = new Stop(mPlatformTag, null, context);
+                new AsyncArrivalsTask().execute(stop);
+            } catch (Stop.InvalidPlatformNumberException e) {
+                Log.e(TAG, e.getMessage(), e);
+            }
+        }
+    }
 
-      private void handleArrivals(ArrayList<Arrival> arrivals) {
+    private void handleArrivals(ArrayList<Arrival> arrivals) {
 
         /**
          * Load the given stop, find the trip that the alarm was set for, and
@@ -86,96 +86,96 @@ public class ArrivalNotificationReceiver extends BroadcastReceiver {
          * alarm.  It is better for the alarm to sound early or late than not at
          * all.
          */
-      try {
-        Iterator<Arrival> iterator = arrivals.iterator();
+        try {
+            Iterator<Arrival> iterator = arrivals.iterator();
 
-        while (iterator.hasNext()) {
-          Arrival arrival = iterator.next();
-          if (!arrival.tripNumber.equals(mTripNumber)) {
-            continue;
-          }
+            while (iterator.hasNext()) {
+                Arrival arrival = iterator.next();
+                if (!arrival.tripNumber.equals(mTripNumber)) {
+                    continue;
+                }
 
-          /**
-           * If we're here, we have the correct trip.  If the ETA is still
-           * greater than requested, queue another alarm and exit.
-           */
-          int requestedEtaDifference = arrival.eta - mMinutes;
-          if (requestedEtaDifference > 0) {
-            Log.d(TAG, "ETA " + arrival.eta + " > " + mMinutes);
+                /**
+                 * If we're here, we have the correct trip.  If the ETA is still
+                 * greater than requested, queue another alarm and exit.
+                 */
+                int requestedEtaDifference = arrival.eta - mMinutes;
+                if (requestedEtaDifference > 0) {
+                    Log.d(TAG, "ETA " + arrival.eta + " > " + mMinutes);
 
-            PendingIntent sender = PendingIntent.getBroadcast(mContext, 0,
-                mIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent sender = PendingIntent.getBroadcast(mContext, 0,
+                            mIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            Calendar calendar = Calendar.getInstance();
+                    Calendar calendar = Calendar.getInstance();
 
-            calendar.setTimeInMillis(System.currentTimeMillis());
+                    calendar.setTimeInMillis(System.currentTimeMillis());
 
-            if (requestedEtaDifference > 1) {
-              /**
-               * There's more than a minutes difference between the requested
-               * and actual ETA, so just increment the time to the difference
-               */
-              Log.d(TAG, "Adding " + requestedEtaDifference +
-                  " minutes to next alarm");
-              calendar.add(Calendar.MINUTE, requestedEtaDifference);
-            } else {
-              /**
-               * There's only one minute difference between the requested
-               * and actual ETA, so increase the check frequency.
-               */
-              Log.d(TAG, "Adding 30 seconds to next alarm");
-              calendar.add(Calendar.SECOND, 30);
+                    if (requestedEtaDifference > 1) {
+                        /**
+                         * There's more than a minutes difference between the requested
+                         * and actual ETA, so just increment the time to the difference
+                         */
+                        Log.d(TAG, "Adding " + requestedEtaDifference +
+                                " minutes to next alarm");
+                        calendar.add(Calendar.MINUTE, requestedEtaDifference);
+                    } else {
+                        /**
+                         * There's only one minute difference between the requested
+                         * and actual ETA, so increase the check frequency.
+                         */
+                        Log.d(TAG, "Adding 30 seconds to next alarm");
+                        calendar.add(Calendar.SECOND, 30);
+                    }
+
+                    AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                            sender);
+                    Log.d(TAG, "Reset alarm for " + DateFormat.getTimeInstance().format(calendar.getTime()));
+
+                    // Nothing left to do
+                    return;
+                }
             }
-
-            AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                sender);
-            Log.d(TAG, "Reset alarm for " + DateFormat.getTimeInstance().format(calendar.getTime()));
-
-            // Nothing left to do
-            return;
-          }
+        } catch (Exception e) {
+            /**
+             * Fall through after this, and just sound the alarm.  Better it
+             * sounds at the wrong time than not at all
+             */
+            Log.e(TAG, "Exception: " + e.getMessage(), e);
         }
-      } catch (Exception e) {
-        /**
-         * Fall through after this, and just sound the alarm.  Better it
-         * sounds at the wrong time than not at all
-         */
-        Log.e(TAG, "Exception: " + e.getMessage(), e);
-      }
 
-      NotificationManager notificationManager =
-        (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-      int icon = R.drawable.stat_bus_alarm;
-      long when = System.currentTimeMillis();
+        NotificationManager notificationManager =
+                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        int icon = R.drawable.stat_bus_alarm;
+        long when = System.currentTimeMillis();
 
-      Resources res = mContext.getResources();
-      // The text that appears in the status bar
-      String tickerText = res.getString(R.string.route_number_to_destination,
-          mRouteNumber, mDestination);
-      // Text for the notification details
-      String dueMinutes = String.format(res.getQuantityString(
-            R.plurals.due_in_n_minutes, mMinutes), mMinutes);
-      Calendar calendar = Calendar.getInstance();
-      calendar.setTimeInMillis(System.currentTimeMillis());
-      calendar.add(Calendar.MINUTE, mMinutes);
-      String dueTime = DateFormat.getTimeInstance().format(calendar.getTime());
-      String dueText = dueMinutes + " (" + dueTime + ")";
+        Resources res = mContext.getResources();
+        // The text that appears in the status bar
+        String tickerText = res.getString(R.string.route_number_to_destination,
+                mRouteNumber, mDestination);
+        // Text for the notification details
+        String dueMinutes = String.format(res.getQuantityString(
+                R.plurals.due_in_n_minutes, mMinutes), mMinutes);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.add(Calendar.MINUTE, mMinutes);
+        String dueTime = DateFormat.getTimeInstance().format(calendar.getTime());
+        String dueText = dueMinutes + " (" + dueTime + ")";
 
 
-      sendNotification(mContext, mPlatformTag, notificationManager, icon, when,
-            tickerText, dueText);
+        sendNotification(mContext, mPlatformTag, notificationManager, icon, when,
+                tickerText, dueText);
     }
 
 
     private void sendNotification(Context context, String platformTag,
-            NotificationManager notificationManager, int icon, long when,
-            String tickerText, String dueText) {
+                                  NotificationManager notificationManager, int icon, long when,
+                                  String tickerText, String dueText) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-            .setAutoCancel(true)
-            .setSmallIcon(icon)
-            .setContentTitle(tickerText)
-            .setContentText(dueText);
+                .setAutoCancel(true)
+                .setSmallIcon(icon)
+                .setContentTitle(tickerText)
+                .setContentText(dueText);
         /**
          * Create the Intent that will fire when the user clicks on the
          * notification.  This will take the user to display the relevant
@@ -193,15 +193,15 @@ public class ArrivalNotificationReceiver extends BroadcastReceiver {
         stackBuilder.addNextIntent(notificationIntent);
 
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(
-            0, PendingIntent.FLAG_UPDATE_CURRENT
+                0, PendingIntent.FLAG_UPDATE_CURRENT
         );
         mBuilder.setContentIntent(pendingIntent);
 
         NotificationManager mNotificationManager
-            = (NotificationManager) context.getSystemService(
-                    Context.NOTIFICATION_SERVICE
-              );
-        mNotificationManager.notify(1 , mBuilder.build());
+                = (NotificationManager) context.getSystemService(
+                Context.NOTIFICATION_SERVICE
+        );
+        mNotificationManager.notify(1, mBuilder.build());
     }
 
     public class AsyncArrivalsTask extends AsyncTask<Stop, Void, ArrayList<Arrival>> {

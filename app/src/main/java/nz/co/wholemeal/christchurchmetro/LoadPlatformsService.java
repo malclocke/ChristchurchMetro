@@ -59,47 +59,47 @@ public class LoadPlatformsService extends IntentService {
 
 
         try {
-          SAXParserFactory spf = SAXParserFactory.newInstance();
-          SAXParser sp = spf.newSAXParser();
-          XMLReader xr = sp.getXMLReader();
-          URL source = new URL(PLATFORMS_URL);
-          platformHandler = new PlatformHandler();
-          platformHandler.database = database;
-          xr.setContentHandler(platformHandler);
-          database.beginTransaction();
-          database.delete("platforms", null, null);
-          xr.parse(new InputSource(source.openStream()));
-          database.setTransactionSuccessful();
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            SAXParser sp = spf.newSAXParser();
+            XMLReader xr = sp.getXMLReader();
+            URL source = new URL(PLATFORMS_URL);
+            platformHandler = new PlatformHandler();
+            platformHandler.database = database;
+            xr.setContentHandler(platformHandler);
+            database.beginTransaction();
+            database.delete("platforms", null, null);
+            xr.parse(new InputSource(source.openStream()));
+            database.setTransactionSuccessful();
         } catch (SQLiteException e) {
-          Log.e(TAG, "SQLiteException", e);
+            Log.e(TAG, "SQLiteException", e);
         } catch (Exception e) {
-          Log.e(TAG, "Exception", e);
+            Log.e(TAG, "Exception", e);
         } finally {
-          database.endTransaction();
+            database.endTransaction();
         }
 
         // Tell the progress bar that we're switching from platforms to patterns
         mNotificationBuilder.setContentTitle(getString(R.string.loading_routes));
 
         try {
-          SAXParserFactory spf = SAXParserFactory.newInstance();
-          SAXParser sp = spf.newSAXParser();
-          XMLReader xr = sp.getXMLReader();
-          URL source = new URL(ROUTE_PATTERN_URL);
-          patternHandler = new PatternHandler();
-          patternHandler.database = database;
-          xr.setContentHandler(patternHandler);
-          database.beginTransaction();
-          database.delete("patterns", null, null);
-          database.delete("patterns_platforms", null, null);
-          xr.parse(new InputSource(source.openStream()));
-          database.setTransactionSuccessful();
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            SAXParser sp = spf.newSAXParser();
+            XMLReader xr = sp.getXMLReader();
+            URL source = new URL(ROUTE_PATTERN_URL);
+            patternHandler = new PatternHandler();
+            patternHandler.database = database;
+            xr.setContentHandler(patternHandler);
+            database.beginTransaction();
+            database.delete("patterns", null, null);
+            database.delete("patterns_platforms", null, null);
+            xr.parse(new InputSource(source.openStream()));
+            database.setTransactionSuccessful();
         } catch (SQLiteException e) {
-          Log.e(TAG, "SQLiteException", e);
+            Log.e(TAG, "SQLiteException", e);
         } catch (Exception e) {
-          Log.e(TAG, "Exception", e);
+            Log.e(TAG, "Exception", e);
         } finally {
-          database.endTransaction();
+            database.endTransaction();
         }
         // Tell the progress bar that we're switching from patterns to coordinates
         mNotificationBuilder.setContentTitle(getString(R.string.loading_coordinates));
@@ -124,18 +124,18 @@ public class LoadPlatformsService extends IntentService {
             database.close();
         }
 
-        if (platformHandler != null && patternHandler != null  && routeKmlHandler != null) {
+        if (platformHandler != null && patternHandler != null && routeKmlHandler != null) {
 
-          SharedPreferences preferences =
-            getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
-          SharedPreferences.Editor editor = preferences.edit();
-          editor.putLong("lastDataLoad", System.currentTimeMillis());
-          editor.commit();
+            SharedPreferences preferences =
+                    getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putLong("lastDataLoad", System.currentTimeMillis());
+            editor.commit();
 
-          broadcastCompleteMessage(getString(R.string.loaded_route_information));
+            broadcastCompleteMessage(getString(R.string.loaded_route_information));
 
         } else {
-          broadcastCompleteMessage(getString(R.string.error_loading_bus_routes));
+            broadcastCompleteMessage(getString(R.string.error_loading_bus_routes));
         }
     }
 
@@ -149,9 +149,9 @@ public class LoadPlatformsService extends IntentService {
         );
         mNotificationBuilder =
                 new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.stat_bus_alarm)
-                    .setContentTitle(getString(R.string.loading_platforms))
-                    .setContentIntent(resultPendingIntent);
+                        .setSmallIcon(R.drawable.stat_bus_alarm)
+                        .setContentTitle(getString(R.string.loading_platforms))
+                        .setContentIntent(resultPendingIntent);
         mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(NOTIFICATION_ID, mNotificationBuilder.build());
@@ -184,45 +184,45 @@ public class LoadPlatformsService extends IntentService {
 
         @Override
         public void startElement(String uri, String localName, String qName,
-            Attributes attributes) throws SAXException {
-          if (localName.equals("Platform")) {
-            if( values == null) {
-              values = new ContentValues();
+                                 Attributes attributes) throws SAXException {
+            if (localName.equals("Platform")) {
+                if (values == null) {
+                    values = new ContentValues();
+                }
+                values.put("platform_tag", attributes.getValue("PlatformTag"));
+                values.put("platform_number", attributes.getValue("PlatformNo"));
+                values.put("name", attributes.getValue("Name"));
+                values.put("road_name", attributes.getValue("RoadName"));
+            } else if (localName.equals("Position")) {
+                values.put("latitude", Double.valueOf(attributes.getValue("Lat")));
+                values.put("longitude", Double.valueOf(attributes.getValue("Long")));
             }
-            values.put("platform_tag", attributes.getValue("PlatformTag"));
-            values.put("platform_number", attributes.getValue("PlatformNo"));
-            values.put("name", attributes.getValue("Name"));
-            values.put("road_name", attributes.getValue("RoadName"));
-          } else if (localName.equals("Position")) {
-            values.put("latitude", Double.valueOf(attributes.getValue("Lat")));
-            values.put("longitude", Double.valueOf(attributes.getValue("Long")));
-          }
         }
 
         @Override
         public void endElement(String uri, String localName, String qName)
-          throws SAXException {
-          if (localName.equals("Platform")) {
-            if (database != null) {
-              database.insert("platforms", null, values);
-              platformCount++;
+                throws SAXException {
+            if (localName.equals("Platform")) {
+                if (database != null) {
+                    database.insert("platforms", null, values);
+                    platformCount++;
 
-              values.putNull("platform_tag");
-              values.putNull("platform_number");
-              values.putNull("name");
-              values.putNull("road_name");
-              values.putNull("latitude");
-              values.putNull("longitude");
+                    values.putNull("platform_tag");
+                    values.putNull("platform_number");
+                    values.putNull("name");
+                    values.putNull("road_name");
+                    values.putNull("latitude");
+                    values.putNull("longitude");
 
-              if ((platformCount % 10) == 0) {
-                publishProgress(platformCount, PLATFORM_MAX);
-              }
+                    if ((platformCount % 10) == 0) {
+                        publishProgress(platformCount, PLATFORM_MAX);
+                    }
+                }
             }
-          }
         }
-      }
+    }
 
-      private class PatternHandler extends DefaultHandler {
+    private class PatternHandler extends DefaultHandler {
 
         public Integer patternCount = 0;
         public SQLiteDatabase database = null;
@@ -231,72 +231,72 @@ public class LoadPlatformsService extends IntentService {
 
         @Override
         public void startElement(String uri, String localName, String qName,
-            Attributes attributes) throws SAXException {
-          if (localName.equals("Route")) {
-            if( patternValues == null) {
-              patternValues = new ContentValues();
+                                 Attributes attributes) throws SAXException {
+            if (localName.equals("Route")) {
+                if (patternValues == null) {
+                    patternValues = new ContentValues();
+                }
+                patternValues.put("route_number", attributes.getValue("RouteNo"));
+                patternValues.put("route_name", attributes.getValue("Name"));
+            } else if (localName.equals("Destination")) {
+                patternValues.put("destination", attributes.getValue("Name"));
+            } else if (localName.equals("Pattern")) {
+                if (patternPlatformsValues == null) {
+                    patternPlatformsValues = new ContentValues();
+                }
+                patternValues.put("route_tag", attributes.getValue("RouteTag"));
+                patternPlatformsValues.put("route_tag",
+                        attributes.getValue("RouteTag"));
+                patternValues.put("pattern_name", attributes.getValue("Name"));
+                patternValues.put("direction", attributes.getValue("Direction"));
+                patternValues.put("length",
+                        Integer.parseInt(attributes.getValue("Length")));
+                patternValues.put("active",
+                        attributes.getValue("Schedule").equals("Active") ? true : false);
+            } else if (localName.equals("Platform")) {
+                patternPlatformsValues.put("platform_tag",
+                        attributes.getValue("PlatformTag"));
+                if (attributes.getValue("ScheduleAdheranceTimepoint") != null) {
+                    patternPlatformsValues.put("schedule_adherance_timepoint",
+                            attributes.getValue("ScheduleAdheranceTimepoint").equals("true") ? true : false);
+                } else {
+                    patternPlatformsValues.put("schedule_adherance_timepoint", false);
+                }
             }
-            patternValues.put("route_number", attributes.getValue("RouteNo"));
-            patternValues.put("route_name", attributes.getValue("Name"));
-          } else if (localName.equals("Destination")) {
-            patternValues.put("destination", attributes.getValue("Name"));
-          } else if (localName.equals("Pattern")) {
-            if(patternPlatformsValues == null) {
-              patternPlatformsValues = new ContentValues();
-            }
-            patternValues.put("route_tag", attributes.getValue("RouteTag"));
-            patternPlatformsValues.put("route_tag",
-                attributes.getValue("RouteTag"));
-            patternValues.put("pattern_name", attributes.getValue("Name"));
-            patternValues.put("direction", attributes.getValue("Direction"));
-            patternValues.put("length",
-                Integer.parseInt(attributes.getValue("Length")));
-            patternValues.put("active",
-                attributes.getValue("Schedule").equals("Active") ? true : false);
-          } else if (localName.equals("Platform")) {
-            patternPlatformsValues.put("platform_tag",
-                attributes.getValue("PlatformTag"));
-            if (attributes.getValue("ScheduleAdheranceTimepoint") != null) {
-              patternPlatformsValues.put("schedule_adherance_timepoint",
-                  attributes.getValue("ScheduleAdheranceTimepoint").equals("true") ? true : false);
-            } else {
-              patternPlatformsValues.put("schedule_adherance_timepoint", false);
-            }
-          }
         }
 
         @Override
         public void endElement(String uri, String localName, String qName)
-          throws SAXException {
-          if (localName.equals("Platform")) {
-            if (database != null) {
-              database.insert("patterns_platforms", null, patternPlatformsValues);
+                throws SAXException {
+            if (localName.equals("Platform")) {
+                if (database != null) {
+                    database.insert("patterns_platforms", null, patternPlatformsValues);
 
-              patternPlatformsValues.putNull("platform_tag");
-              patternPlatformsValues.putNull("schedule_adherance_timepoint");
-            }
-          } else if (localName.equals("Pattern")) {
-            if (database != null) {
-              database.insert("patterns", null, patternValues);
-              patternCount++;
+                    patternPlatformsValues.putNull("platform_tag");
+                    patternPlatformsValues.putNull("schedule_adherance_timepoint");
+                }
+            } else if (localName.equals("Pattern")) {
+                if (database != null) {
+                    database.insert("patterns", null, patternValues);
+                    patternCount++;
 
-              patternValues.putNull("route_tag");
-              patternPlatformsValues.putNull("route_tag");
-              patternValues.putNull("pattern_name");
-              patternValues.putNull("direction");
-              patternValues.putNull("length");
-              patternValues.putNull("active");
+                    patternValues.putNull("route_tag");
+                    patternPlatformsValues.putNull("route_tag");
+                    patternValues.putNull("pattern_name");
+                    patternValues.putNull("direction");
+                    patternValues.putNull("length");
+                    patternValues.putNull("active");
 
-              publishProgress(patternCount, PATTERN_MAX);
+                    publishProgress(patternCount, PATTERN_MAX);
+                }
+            } else if (localName.equals("Route")) {
+                if (database != null) {
+                    patternValues.putNull("route_number");
+                    patternValues.putNull("route_name");
+                }
             }
-          } else if (localName.equals("Route")) {
-            if (database != null) {
-              patternValues.putNull("route_number");
-              patternValues.putNull("route_name");
-            }
-          }
         }
-      }
+    }
 
     private class RouteKmlHandler extends DefaultHandler {
 
@@ -330,17 +330,17 @@ public class LoadPlatformsService extends IntentService {
                 throws SAXException {
             if (localName.equals("Placemark")) {
                 //if (database != null) {
-                    //database.insert("platforms", null, values);
-                    database.update("patterns", values, "pattern_name = ?", new String[] {name});
-                    Log.d(TAG, "name = " + name);
-                    Log.d(TAG, "color = " + values.getAsString("color"));
-                    Log.d(TAG, "coordinates = " + values.getAsString("coordinates"));
-                    routeCount++;
+                //database.insert("platforms", null, values);
+                database.update("patterns", values, "pattern_name = ?", new String[]{name});
+                Log.d(TAG, "name = " + name);
+                Log.d(TAG, "color = " + values.getAsString("color"));
+                Log.d(TAG, "coordinates = " + values.getAsString("coordinates"));
+                routeCount++;
 
-                    values.putNull("color");
-                    values.putNull("coordinates");
+                values.putNull("color");
+                values.putNull("coordinates");
 
-                    publishProgress(routeCount, ROUTE_MAX);
+                publishProgress(routeCount, ROUTE_MAX);
                 //}
             } else if (localName.equals("name")) {
                 name = Html.fromHtml(currentCharacters).toString();

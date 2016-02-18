@@ -40,9 +40,9 @@ public class FavouritesManager {
                 ArrayList<Stop> favouriteStops = new ArrayList<Stop>();
                 JSONArray stopsArray = (JSONArray) new JSONTokener(stops_json).nextValue();
 
-                for (int i = 0;i < stopsArray.length();i++) {
+                for (int i = 0; i < stopsArray.length(); i++) {
                     try {
-                        String platformTag = (String)stopsArray.get(i);
+                        String platformTag = (String) stopsArray.get(i);
                         Log.d(TAG, "Loading stop platformTag = " + platformTag);
                         Stop stop = new Stop(platformTag, null, mContext);
                         favouriteStops.add(stop);

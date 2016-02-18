@@ -66,13 +66,14 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
                 final StringBuilder mBuilder = new StringBuilder();
                 final java.util.Formatter mFmt = new java.util.Formatter(mBuilder);
                 final Object[] mArgs = new Object[1];
+
                 public String toString(int value) {
                     mArgs[0] = value;
                     mBuilder.delete(0, mBuilder.length());
                     mFmt.format("%02d", mArgs);
                     return mFmt.toString();
                 }
-        };
+            };
 
     private final Handler mHandler;
     private final Runnable mRunnable = new Runnable() {
@@ -130,7 +131,7 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
 
         mText = (EditText) findViewById(R.id.timepicker_input);
         mText.setOnFocusChangeListener(this);
-        mText.setFilters(new InputFilter[] {inputFilter});
+        mText.setFilters(new InputFilter[]{inputFilter});
         mText.setRawInputType(InputType.TYPE_CLASS_NUMBER);
 
         if (!isEnabled()) {
@@ -162,7 +163,7 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
      * value will be automatically set to the start.
      *
      * @param start the start of the range (inclusive)
-     * @param end the end of the range (inclusive)
+     * @param end   the end of the range (inclusive)
      */
     public void setRange(int start, int end) {
         mStart = start;
@@ -176,8 +177,8 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
      * value will be automatically set to the start. Also provide a mapping
      * for values used to display to the user.
      *
-     * @param start the start of the range (inclusive)
-     * @param end the end of the range (inclusive)
+     * @param start           the start of the range (inclusive)
+     * @param end             the end of the range (inclusive)
      * @param displayedValues the values displayed to the user.
      */
     public void setRange(int start, int end, String[] displayedValues) {
@@ -318,16 +319,17 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
         mDecrement = false;
     }
 
-    private static final char[] DIGIT_CHARACTERS = new char[] {
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+    private static final char[] DIGIT_CHARACTERS = new char[]{
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
     };
 
     private NumberPickerButton mIncrementButton;
     private NumberPickerButton mDecrementButton;
 
     private class NumberPickerInputFilter implements InputFilter {
-        @SuppressLint("DefaultLocale") public CharSequence filter(CharSequence source, int start, int end,
-                Spanned dest, int dstart, int dend) {
+        @SuppressLint("DefaultLocale")
+        public CharSequence filter(CharSequence source, int start, int end,
+                                   Spanned dest, int dstart, int dend) {
             if (mDisplayedValues == null) {
                 return mNumberInputFilter.filter(source, start, end, dest, dstart, dend);
             }
@@ -361,7 +363,7 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
 
         @Override
         public CharSequence filter(CharSequence source, int start, int end,
-                Spanned dest, int dstart, int dend) {
+                                   Spanned dest, int dstart, int dend) {
 
             CharSequence filtered = super.filter(source, start, end, dest, dstart, dend);
             if (filtered == null) {
@@ -390,7 +392,8 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
         }
     }
 
-    @SuppressLint("DefaultLocale") private int getSelectedPos(String str) {
+    @SuppressLint("DefaultLocale")
+    private int getSelectedPos(String str) {
         if (mDisplayedValues == null) {
             return Integer.parseInt(str);
         } else {

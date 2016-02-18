@@ -21,7 +21,7 @@ public class AsyncNextArrival extends AsyncTask<TextView, Void, TextView> {
     @Override
     protected TextView doInBackground(TextView... textViews) {
         TextView textView = textViews[0];
-        Stop stop = (Stop)textView.getTag();
+        Stop stop = (Stop) textView.getTag();
         Arrival arrival = null;
         ArrayList<Arrival> arrivals = null;
         if (BuildConfig.DEBUG) {
