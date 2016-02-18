@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -52,6 +53,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PlatformActivity extends ListActivity {
     private Stop current_stop;
@@ -357,7 +360,24 @@ public class PlatformActivity extends ListActivity {
         arrivals.clear();
         arrival_adapter.notifyDataSetChanged();
 
-        new AsyncLoadArrivals().execute(stop);
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+        TimerTask doAsyncTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AsyncLoadArrivals().execute(current_stop);
+                    }
+                });
+            }
+        };
+        timer.schedule(doAsyncTask, 0, arrivalRefreshRate());
+    }
+
+    private long arrivalRefreshRate() {
+        return 30000;
     }
 
     public void loadStopByPlatformTag(String platformTag) {
