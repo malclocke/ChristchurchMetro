@@ -57,6 +57,13 @@ class Stop {
   public String routes;
   public double latitude;
   public double longitude;
+  public String[] routeTags;
+
+  public static String QUERY_BASE = "SELECT p.platform_tag, p.platform_number, p.name, " +
+                                    "p.road_name, p.latitude, p.longitude, " +
+                                    "group_concat(pp.route_tag) FROM platforms p " +
+                                    "JOIN patterns_platforms pp ON pp.platform_tag = p.platform_tag ";
+  public static String QUERY_SUFFIX = " GROUP BY p.platform_tag ";
 
   // The time of the last call to getArrivals()
   public long lastArrivalFetch = 0;
@@ -64,34 +71,42 @@ class Stop {
   public Stop() {
   }
 
+  public Stop(Cursor cursor) {
+    populateFromCursor(this, cursor);
+  }
+
+  private void populateFromCursor(Stop stop, Cursor cursor) {
+    this.platformTag = cursor.getString(0);
+    this.platformNumber = cursor.getString(1);
+    this.name = cursor.getString(2);
+    this.roadName = cursor.getString(3);
+    this.latitude = cursor.getDouble(4);
+    this.longitude = cursor.getDouble(5);
+    this.routeTags = cursor.getString(6).split(",");
+  }
+
   public Stop(String platformTag, String platformNumber, Context context)
     throws InvalidPlatformNumberException {
 
-    String queryBase = "SELECT platform_tag, platform_number, name, road_name, latitude, longitude FROM platforms ";
     String whereClause;
     String whereParameter;
 
     if (platformTag == null) {
-      whereClause = "WHERE platform_number = ?";
+      whereClause = "WHERE p.platform_number = ?";
       whereParameter = platformNumber;
     } else {
-      whereClause = "WHERE platform_tag = ?";
+      whereClause = "WHERE p.platform_tag = ?";
       whereParameter = platformTag;
     }
 
     DatabaseHelper databaseHelper = new DatabaseHelper(context);
     SQLiteDatabase database = databaseHelper.getWritableDatabase();
 
-    Cursor cursor = database.rawQuery(queryBase + whereClause,
+    Cursor cursor = database.rawQuery(QUERY_BASE + whereClause + QUERY_SUFFIX,
       new String [] {whereParameter});
 
     if (cursor.moveToFirst()) {
-      this.platformTag = cursor.getString(0);
-      this.platformNumber = cursor.getString(1);
-      this.name = cursor.getString(2);
-      this.roadName = cursor.getString(3);
-      this.latitude = cursor.getDouble(4);
-      this.longitude = cursor.getDouble(5);
+      populateFromCursor(this, cursor);
       cursor.close();
       database.close();
     } else {
@@ -105,21 +120,15 @@ class Stop {
    * Returns an ArrayList of all the stops.
    */
   public static ArrayList<Stop> getAll(Context context) {
-
-    String query = "SELECT p.platform_tag, p.platform_number, p.name, " +
-            "p.road_name, p.latitude, p.longitude FROM platforms p";
-
-    return doArrayListQuery(context, query);
+    return doArrayListQuery(context, QUERY_BASE + QUERY_SUFFIX);
   }
 
   /**
    * Returns an ArrayList of all the stops within the LatLngBounds.  If routeTag
    * is not null then only stops on the provided route are returned.
    */
-  public static ArrayList<Stop> getAllWithinBounds(Context context,
-      LatLngBounds latLngBounds, String routeTag) {
+  public static ArrayList<Stop> getAllWithinBounds(Context context, LatLngBounds latLngBounds) {
 
-    String query;
     LatLng northEast = latLngBounds.northeast;
     LatLng southWest = latLngBounds.southwest;
     String topLat = Double.toString(northEast.latitude);
@@ -127,29 +136,18 @@ class Stop {
     String bottomLat = Double.toString(southWest.latitude);
     String bottomLon = Double.toString(northEast.longitude);
 
-    if (routeTag == null) {
-      query = "SELECT p.platform_tag, p.platform_number, p.name, " +
-              "p.road_name, p.latitude, p.longitude FROM platforms p" +
+    String query = QUERY_BASE +
               " WHERE p.latitude < " + topLat + " AND p.longitude > " + topLon +
-              " AND p.latitude > " + bottomLat + " AND p.longitude < " + bottomLon;
-    } else {
-      query = "SELECT p.platform_tag, p.platform_number, p.name, " +
-              "p.road_name, p.latitude, p.longitude FROM platforms p" +
-              " WHERE p.platform_tag IN" +
-              "   (SELECT platform_tag FROM patterns_platforms" +
-              "   WHERE route_tag = '" + routeTag + "')" +
-              " AND p.latitude < " + topLat + " AND p.longitude > " + topLon +
-              " AND p.latitude > " + bottomLat + " AND p.longitude < " + bottomLon;
-    }
+              " AND p.latitude > " + bottomLat + " AND p.longitude < " + bottomLon + QUERY_SUFFIX;
     return doArrayListQuery(context, query);
   }
 
   /* Perform a search query for any stops which match query string */
   public static ArrayList<Stop> searchStops(Context context, String queryString) {
-    return doArrayListQuery(context, "SELECT platform_tag, platform_number, name, road_name, latitude, longitude FROM platforms " +
-                   "WHERE platform_number LIKE '" + queryString + "%' " +
-                   "OR name LIKE '%" + queryString +"%' " +
-                   "OR road_name LIKE '%" + queryString + "%'");
+    return doArrayListQuery(context, QUERY_BASE +
+                   "WHERE p.platform_number LIKE '" + queryString + "%' " +
+                   "OR p.name LIKE '%" + queryString +"%' " +
+                   "OR p.road_name LIKE '%" + queryString + "%'" + QUERY_SUFFIX);
   }
 
   public ArrayList<Arrival> getArrivals() throws Exception {
@@ -192,13 +190,7 @@ class Stop {
     try {
       if (cursor.moveToFirst()) {
         do {
-          Stop stop = new Stop();
-          stop.platformTag = cursor.getString(0);
-          stop.platformNumber = cursor.getString(1);
-          stop.name = cursor.getString(2);
-          stop.roadName = cursor.getString(3);
-          stop.latitude = cursor.getDouble(4);
-          stop.longitude = cursor.getDouble(5);
+          Stop stop = new Stop(cursor);
           stops.add(stop);
         } while (cursor.moveToNext());
       }

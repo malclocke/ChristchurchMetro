@@ -42,6 +42,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -157,6 +158,7 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
     PolylineOptions polylineOptions = new PolylineOptions();
     ArrayList<LatLng> coordinates = route.getCoordinates(this);
     int color = Color.BLACK;
+    boolean visibility = true;
 
     polylineOptions.addAll(coordinates);
     if (route.color != null) {
@@ -165,22 +167,24 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
     polylineOptions.color(color);
     polylineOptions.clickable(true);
     polylineOptions.width(polylineWidth);
+
+    if (routeTag != null) {
+      visibility = route.routeTag.equals(routeTag);
+    }
+    polylineOptions.visible(visibility);
+
     Polyline polyline = map.addPolyline(polylineOptions);
     polylines.add(polyline);
     polylineRouteMap.put(polyline, route);
   }
 
   private void drawRoutes(GoogleMap map) {
-    if (routeTag != null) {
-      drawRoute(map, Route.get(this, routeTag));
-    } else {
-      ArrayList<Route> routes = Route.getAll(this);
-      Iterator<Route> iterator = routes.iterator();
+    ArrayList<Route> routes = Route.getAll(this);
+    Iterator<Route> iterator = routes.iterator();
 
-      while (iterator.hasNext()) {
-        Route route = iterator.next();
-        drawRoute(map, route);
-      }
+    while (iterator.hasNext()) {
+      Route route = iterator.next();
+      drawRoute(map, route);
     }
   }
 
@@ -191,7 +195,7 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     LatLngBounds latLngBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
-    ArrayList<Stop> stops = Stop.getAllWithinBounds(this, latLngBounds, routeTag);
+    ArrayList<Stop> stops = Stop.getAllWithinBounds(this, latLngBounds);
 
     if (stops != null) {
       Iterator<Stop> iterator = stops.iterator();
@@ -267,11 +271,27 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
   public void onCameraChange(CameraPosition cameraPosition) {
     drawStopsForCameraPosition(cameraPosition);
     Log.d(TAG, "Camera Zoom = " + cameraPosition.zoom);
+    setMarkersVisibility(cameraPosition);
+  }
+
+  private void setMarkersVisibility(CameraPosition cameraPosition) {
     for(Marker m : markerStopMap.keySet()) {
-      m.setVisible(cameraPosition.zoom > minPlatformZoom);
+      setMarkerVisibility(cameraPosition, m);
     }
   }
 
+  private boolean setMarkerVisibility(CameraPosition cameraPosition, Marker m) {
+    boolean visibility = (cameraPosition.zoom > minPlatformZoom) && markerVisible(m);
+    m.setVisible(visibility);
+    return visibility;
+  }
+
+  private boolean markerVisible(Marker m) {
+    if (routeTag == null) {
+      return true;
+    }
+    return Arrays.asList(markerStopMap.get(m).routeTags).contains(routeTag);
+  }
   @Override
   public void onMapLoaded() {
     if(zoomToRoute) {
@@ -286,7 +306,6 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
   @Override
   public void onPolylineClick(Polyline polyline) {
     Iterator<Polyline> iterator = polylines.iterator();
-    Log.d(TAG, "iterating ...");
     while(iterator.hasNext()) {
       Polyline p = iterator.next();
       Route route = polylineRouteMap.get(p);
@@ -294,6 +313,7 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
         Log.e(TAG, "Cant find route!");
         return;
       }
+
       if (!p.equals(polyline)) {
         p.setVisible(!p.isVisible());
       } else {
@@ -303,9 +323,10 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
         } else {
           routeTag = routeName = null;
         }
-        Log.d(TAG, "matched");
+        p.setVisible(true);
       }
     }
     setRouteDesriptionVisibility();
+    setMarkersVisibility(mMap.getCameraPosition());
   }
 }

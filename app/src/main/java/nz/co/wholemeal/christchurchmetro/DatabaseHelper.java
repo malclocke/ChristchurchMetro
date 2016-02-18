@@ -38,6 +38,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
   private static String CREATE_PATTERNS_PLATFORMS = "CREATE TABLE patterns_platforms " +
     "(route_tag varchar, platform_tag varchar, " +
     "schedule_adherance_timepoint boolean)";
+
+  private static String CREATE_PATTERNS_ROUTE_TAG_INDEX = "CREATE INDEX patterns_route_tag_idx ON patterns (route_tag)";
+  private static String CREATE_PLATFORMS_PLATFORM_TAG_INDEX = "CREATE INDEX patterns_platform_tag_idx ON platforms (platform_tag)";
+  private static String CREATE_PATTERNS_PLATFORMS_PLATFORM_TAG_ROUTE_TAG_INDEX = "CREATE INDEX patterns_platforms_platform_tag_route_tag_idx ON patterns_platforms (platform_tag, route_tag)";
+
   private static String ADD_COLOR_TO_PATTERNS = "ALTER TABLE patterns ADD COLUMN color varchar";
   private static String ADD_COORDINATES_TO_PATTERNS = "ALTER TABLE patterns ADD COLUMN coordinates text";
 
@@ -51,6 +56,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
       db.execSQL(CREATE_PLATFORMS);
       db.execSQL(CREATE_PATTERNS);
       db.execSQL(CREATE_PATTERNS_PLATFORMS);
+      db.execSQL(CREATE_PLATFORMS_PLATFORM_TAG_INDEX);
+      db.execSQL(CREATE_PATTERNS_ROUTE_TAG_INDEX);
+      db.execSQL(CREATE_PATTERNS_PLATFORMS_PLATFORM_TAG_ROUTE_TAG_INDEX);
       Log.i(TAG, "Database load complete");
     } catch (SQLiteException e) {
       Log.e(TAG, "Error parsing SQL: " + e.getMessage(), e);
@@ -75,6 +83,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
       try {
         db.execSQL(ADD_COLOR_TO_PATTERNS);
         db.execSQL(ADD_COORDINATES_TO_PATTERNS);
+        db.execSQL(CREATE_PLATFORMS_PLATFORM_TAG_INDEX);
+        db.execSQL(CREATE_PATTERNS_ROUTE_TAG_INDEX);
+        db.execSQL(CREATE_PATTERNS_PLATFORMS_PLATFORM_TAG_ROUTE_TAG_INDEX);
         Log.i(TAG, "Added mid/mif to patterns");
       } catch (SQLiteException e) {
         Log.e(TAG, "Error parsing SQL: " + e.getMessage(), e);
