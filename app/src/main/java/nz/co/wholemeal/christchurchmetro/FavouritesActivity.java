@@ -18,41 +18,38 @@ package nz.co.wholemeal.christchurchmetro;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import nz.co.wholemeal.christchurchmetro.FavouritesFragment.FavouriteSelectedListener;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 /*
  * Some of the authors favourites:
  * "40188", "20763", "21450", "37375", "37334", "14864", "21957"
  */
 
-public class FavouritesActivity extends FragmentActivity implements FavouriteSelectedListener {
+public class FavouritesActivity extends ListActivity {
 
     public final static String TAG = "FavouritesActivity";
 
-    private FavouritesFragment mFavouritesFragment;
     static final int DIALOG_LOAD_DATA = 0;
+    private FavouritesManager mFavouritesManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.main_layout);
-
+        registerForContextMenu(getListView());
         promptToLoadPlatforms();
-
-        getFavouritesFragment();
-
     }
 
     /**
@@ -105,23 +102,6 @@ public class FavouritesActivity extends FragmentActivity implements FavouriteSel
         }
     }
 
-    public FavouritesFragment getFavouritesFragment() {
-        if (mFavouritesFragment == null) {
-            mFavouritesFragment = new FavouritesFragment();
-            Bundle args = new Bundle();
-            mFavouritesFragment.setArguments(args);
-
-            FragmentTransaction transaction =
-                    getSupportFragmentManager().beginTransaction();
-
-            transaction.replace(R.id.fragment_container, mFavouritesFragment);
-            transaction.commit();
-        }
-
-        return mFavouritesFragment;
-    }
-
-
     @Override
     protected Dialog onCreateDialog(int id) {
         Dialog dialog;
@@ -154,11 +134,76 @@ public class FavouritesActivity extends FragmentActivity implements FavouriteSel
         return dialog;
     }
 
-    @Override
     public void onFavouriteSelected(Stop stop) {
         Intent intent = new Intent(this, PlatformActivity.class);
         intent.putExtra("platformTag", stop.platformTag);
         startActivity(intent);
+    }
+
+    private void reloadFavourites() {
+        initFavourites();
+        setListAdapter(mFavouritesManager.getStopAdapter());
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+//        Intent intent = new Intent();
+        Stop stop = (Stop) getListAdapter().getItem(position);
+
+        if (stop != null) {
+            onFavouriteSelected(stop);
+        } else {
+            Log.e(TAG, "Didn't get a stop");
+        }
+    }
+
+    // TODO
+//    @Override
+//    public void onViewCreated(View view, Bundle savedInstanceState) {
+//        getListView().setEmptyText(getText(R.string.no_favourites_help));
+//        super.onViewCreated(view, savedInstanceState);
+//    }
+
+    @Override
+    public void onResume() {
+        reloadFavourites();
+        super.onResume();
+    }
+
+    private void initFavourites() {
+        mFavouritesManager = new FavouritesManager(this);
+    }
+
+    public void removeFavourite(Stop stop) {
+        if (mFavouritesManager.removeStop(stop)) {
+            Log.d(TAG, "Removed stop " + stop.platformNumber + " from favourites");
+        } else {
+            Log.e(TAG, "Remove requested for stop " + stop.platformNumber +
+                    " but it's not present in favourites");
+        }
+        reloadFavourites();
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Stop stop = (Stop) getListAdapter().getItem((int)info.id);
+        switch (item.getItemId()) {
+            case R.id.remove_favourite:
+                removeFavourite(stop);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle(R.string.options);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.favourite_context_menu, menu);
     }
 
 }
