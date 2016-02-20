@@ -14,10 +14,12 @@
     tools:layout="@layout/metro_map" />
     <TextView
         android:id="@+id/route_description"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_width="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/route_map_box"
-        android:padding="6dp"
+        android:background="#aa000000"
+        android:padding="8dp"
+        android:textColor="#fff"
+        android:textSize="18sp"
         android:visibility="invisible"/>
 </FrameLayout>
