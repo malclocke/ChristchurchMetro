@@ -154,11 +154,10 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
 
     private void drawRoute(GoogleMap map, Route route) {
         PolylineOptions polylineOptions = new PolylineOptions();
-        ArrayList<LatLng> coordinates = route.getCoordinates(this);
         int color = Color.BLACK;
         boolean visibility = true;
 
-        polylineOptions.addAll(coordinates);
+        polylineOptions.addAll(route.getCoordinateList());
         if (route.color != null) {
             color = Color.parseColor("#" + route.color);
         }
