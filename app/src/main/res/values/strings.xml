@@ -4,14 +4,8 @@
     <string name="short_app_name">Chch Metro</string>
 
     <!-- Menu strings -->
-    <string name="bus_exchange">Bus Exchange</string>
-    <string name="bealey_ave_terminus">Bealey Ave Terminus</string>
-    <string name="parkside_terminus">Parkside Terminus</string>
-    <string name="central_station">Central Station</string>
     <string name="details">Details</string>
-    <string name="favourite_stops">Favourite stops</string>
     <string name="map">Map</string>
-    <string name="my_location">My Location</string>
     <string name="options">Options</string>
     <string name="remove_from_favourites">Remove from favourites</string>
     <string name="refresh">Refresh</string>
@@ -26,8 +20,6 @@
     <string name="no_results_description">Unable to find any matches to your search.</string>
 
     <!-- FavouritesActivity -->
-    <string name="favourites_window_title">Chch Metro - Favourite stops</string>
-    <string name="no_favourites">No Favourites</string>
     <string name="no_favourites_help">You don\'t have any favourite stops saved yet.  Select \'Search\' or \'Map\' from the menu to find stops and add them to your favourites list</string>
     <string name="next_bus_loading">Next bus: Loading &#8230;</string>
     <string name="unable_to_retrieve_information">Unable to retrieve information</string>
@@ -54,19 +46,12 @@
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="go">Go</string>
     <string name="set">Set</string>
     <string name="min">min</string>
-    <string name="mins">mins</string>
 
     <plurals name="mins">
       <item quantity="one">1 min</item>
       <item quantity="other">%d mins</item>
-    </plurals>
-
-    <plurals name="minutes">
-      <item quantity="one">1 minute</item>
-      <item quantity="other">%d minutes</item>
     </plurals>
 
     <plurals name="due_in_n_minutes">

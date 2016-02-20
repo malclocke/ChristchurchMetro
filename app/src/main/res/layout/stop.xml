@@ -35,7 +35,7 @@
             android:id="@+id/favourite_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/favourite_inactive"/>
+            android:src="@drawable/ic_favorite_border_black_36dp"/>
 
     </LinearLayout>
 

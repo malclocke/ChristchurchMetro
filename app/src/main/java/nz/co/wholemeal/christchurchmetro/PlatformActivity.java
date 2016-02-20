@@ -414,20 +414,21 @@ public class PlatformActivity extends AppCompatListActivity {
         platformName.setText(stop.name);
 
         if (mFavouritesManager.isFavourite(stop)) {
-            favouriteIcon.setImageResource(R.drawable.favourite_active);
+            favouriteIcon.setImageResource(R.drawable.ic_favorite_black_36dp);
         } else {
-            favouriteIcon.setImageResource(R.drawable.favourite_inactive);
+            favouriteIcon.setImageResource(R.drawable.ic_favorite_border_black_36dp);
         }
 
+        // TODO - DRY
         favouriteIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mFavouritesManager.isFavourite(stop)) {
                     removeFromFavourites(stop);
-                    favouriteIcon.setImageResource(R.drawable.favourite_inactive);
+                    favouriteIcon.setImageResource(R.drawable.ic_favorite_border_black_36dp);
                 } else {
                     addToFavourites(stop);
-                    favouriteIcon.setImageResource(R.drawable.favourite_active);
+                    favouriteIcon.setImageResource(R.drawable.ic_favorite_black_36dp);
                 }
             }
         });
@@ -480,7 +481,6 @@ public class PlatformActivity extends AppCompatListActivity {
                 TextView destination = (TextView) v.findViewById(R.id.destination);
                 TextView eta = (TextView) v.findViewById(R.id.eta);
                 TextView mins = (TextView) v.findViewById(R.id.mins);
-                ImageView wheelchairAccess = (ImageView) v.findViewById(R.id.wheelchair_access);
                 if (routeNumber != null) {
                     routeNumber.setText(arrival.routeNumber);
                 }
@@ -490,11 +490,6 @@ public class PlatformActivity extends AppCompatListActivity {
                 if (eta != null) {
                     eta.setText(Integer.toString(arrival.eta));
                     mins.setText(new SimpleDateFormat("HH:mm").format(arrival.getEstimatedArrivalTime()));
-                }
-                if (wheelchairAccess != null) {
-                    int drawable = arrival.wheelchairAccess ? R.drawable.wheelchair_access :
-                            R.drawable.no_wheelchair_access;
-                    wheelchairAccess.setImageResource(drawable);
                 }
             }
             return v;

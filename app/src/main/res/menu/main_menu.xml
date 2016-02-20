@@ -3,22 +3,20 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/map"
-        android:icon="@drawable/ic_menu_mapmode"
+        android:icon="@drawable/ic_map_white_48dp"
         app:showAsAction="ifRoom"
         android:title="@string/map"/>
     <item
         android:id="@+id/search"
-        android:icon="@drawable/ic_menu_search"
+        android:icon="@drawable/ic_search_white_48dp"
         app:showAsAction="ifRoom"
         android:title="@string/search"/>
     <item
         android:id="@+id/routes"
-        android:icon="@drawable/ic_menu_directions"
         app:showAsAction="never"
         android:title="@string/routes"/>
     <item
         android:id="@+id/preferences"
-        android:icon="@drawable/ic_menu_preferences"
         app:showAsAction="never"
         android:title="@string/preferences"/>
 </menu>

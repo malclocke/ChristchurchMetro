@@ -2,22 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/refresh"
-          android:icon="@drawable/ic_menu_refresh"
+          android:icon="@drawable/ic_cached_white_48dp"
           app:showAsAction="ifRoom"
           android:title="@string/refresh" />
 
     <item android:id="@+id/map"
-          android:icon="@drawable/ic_menu_mapmode"
+          android:icon="@drawable/ic_map_white_48dp"
           app:showAsAction="ifRoom"
           android:title="@string/show_on_map" />
 
     <item android:id="@+id/routes_for_platform"
-          android:icon="@drawable/ic_menu_directions"
           app:showAsAction="never"
           android:title="@string/routes_for_stop" />
 
     <item android:id="@+id/info"
-          android:icon="@drawable/ic_menu_info_details"
           app:showAsAction="never"
           android:title="@string/details" />
 
