@@ -410,25 +410,28 @@ public class PlatformActivity extends AppCompatListActivity {
         platformNumber.setText(stop.platformNumber);
         platformName.setText(stop.name);
 
-        if (mFavouritesManager.isFavourite(stop)) {
-            favouriteIcon.setImageResource(R.drawable.ic_favorite_black_36dp);
-        } else {
-            favouriteIcon.setImageResource(R.drawable.ic_favorite_border_black_36dp);
-        }
+        setFavouriteIconState(stop, favouriteIcon);
 
-        // TODO - DRY
         favouriteIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mFavouritesManager.isFavourite(stop)) {
                     removeFromFavourites(stop);
-                    favouriteIcon.setImageResource(R.drawable.ic_favorite_border_black_36dp);
                 } else {
                     addToFavourites(stop);
-                    favouriteIcon.setImageResource(R.drawable.ic_favorite_black_36dp);
                 }
+
+                setFavouriteIconState(stop, favouriteIcon);
             }
         });
+    }
+
+    private void setFavouriteIconState(Stop stop, ImageView favouriteIcon) {
+        if (mFavouritesManager.isFavourite(stop)) {
+            favouriteIcon.setImageResource(R.drawable.ic_favorite_black_36dp);
+        } else {
+            favouriteIcon.setImageResource(R.drawable.ic_favorite_border_black_36dp);
+        }
     }
 
     public void addToFavourites(Stop stop) {
