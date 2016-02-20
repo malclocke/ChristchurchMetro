@@ -18,6 +18,7 @@
         android:layout_height="match_parent"
         android:id="@android:id/empty"
         android:text="@string/no_favourites_help"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:gravity="center"/>
 
 </LinearLayout>

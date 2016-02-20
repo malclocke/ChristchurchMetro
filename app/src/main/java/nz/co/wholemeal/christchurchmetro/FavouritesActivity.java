@@ -55,6 +55,7 @@ public class FavouritesActivity extends AppCompatListActivity {
 
         setToolbar(R.id.toolbar);
 
+        getListView().setEmptyView(findViewById(android.R.id.empty));
         registerForContextMenu(getListView());
         promptToLoadPlatforms();
         getListView().setOnItemClickListener(new FavouriteItemClickListener());

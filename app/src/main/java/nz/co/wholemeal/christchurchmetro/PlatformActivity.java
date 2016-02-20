@@ -91,6 +91,7 @@ public class PlatformActivity extends AppCompatListActivity {
 
         stopHeader = findViewById(R.id.stop_header);
 
+        getListView().setEmptyView(findViewById(android.R.id.empty));
         arrival_adapter = new ArrivalAdapter(this, R.layout.arrival, arrivals);
         setListAdapter(arrival_adapter);
 
