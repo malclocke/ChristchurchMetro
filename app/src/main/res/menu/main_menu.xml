@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/search"
-          android:icon="@drawable/ic_menu_search"
-          android:title="@string/search" android:showAsAction="ifRoom"/>
-    <item android:id="@+id/map"
-          android:icon="@drawable/ic_menu_mapmode"
-          android:title="@string/map" android:showAsAction="ifRoom"/>
-    <item android:id="@+id/routes"
-          android:icon="@drawable/ic_menu_directions"
-          android:title="@string/routes" android:showAsAction="ifRoom"/>
-    <item android:id="@+id/preferences"
-          android:icon="@drawable/ic_menu_preferences"
-          android:title="@string/preferences" android:showAsAction="ifRoom"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/map"
+        android:icon="@drawable/ic_menu_mapmode"
+        app:showAsAction="ifRoom"
+        android:title="@string/map"/>
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_menu_search"
+        app:showAsAction="ifRoom"
+        android:title="@string/search"/>
+    <item
+        android:id="@+id/routes"
+        android:icon="@drawable/ic_menu_directions"
+        app:showAsAction="never"
+        android:title="@string/routes"/>
+    <item
+        android:id="@+id/preferences"
+        android:icon="@drawable/ic_menu_preferences"
+        app:showAsAction="never"
+        android:title="@string/preferences"/>
 </menu>

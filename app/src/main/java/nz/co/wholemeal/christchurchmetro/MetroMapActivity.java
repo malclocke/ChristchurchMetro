@@ -23,8 +23,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -71,7 +69,7 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
     private ArrayList<Polyline> polylines = new ArrayList<Polyline>();
 
     /* Hide stop markers below this zoom level */
-    private int minPlatformZoom = 14;
+    private int minPlatformZoom = 16;
 
     protected boolean isRouteDisplayed() {
         return false;
@@ -242,13 +240,6 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
 
         editor.commit();
         super.onStop();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.map_menu, menu);
-        return true;
     }
 
     @Override

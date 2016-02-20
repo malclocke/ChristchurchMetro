@@ -18,11 +18,12 @@ package nz.co.wholemeal.christchurchmetro;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -30,26 +31,33 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+
 
 /*
  * Some of the authors favourites:
  * "40188", "20763", "21450", "37375", "37334", "14864", "21957"
  */
 
-public class FavouritesActivity extends ListActivity {
+public class FavouritesActivity extends AppCompatListActivity {
 
     public final static String TAG = "FavouritesActivity";
 
     static final int DIALOG_LOAD_DATA = 0;
     private FavouritesManager mFavouritesManager;
+    public ListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
+
+        setToolbar(R.id.toolbar);
+
         registerForContextMenu(getListView());
         promptToLoadPlatforms();
+        getListView().setOnItemClickListener(new FavouriteItemClickListener());
     }
 
     /**
@@ -146,25 +154,6 @@ public class FavouritesActivity extends ListActivity {
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-//        Intent intent = new Intent();
-        Stop stop = (Stop) getListAdapter().getItem(position);
-
-        if (stop != null) {
-            onFavouriteSelected(stop);
-        } else {
-            Log.e(TAG, "Didn't get a stop");
-        }
-    }
-
-    // TODO
-//    @Override
-//    public void onViewCreated(View view, Bundle savedInstanceState) {
-//        getListView().setEmptyText(getText(R.string.no_favourites_help));
-//        super.onViewCreated(view, savedInstanceState);
-//    }
-
-    @Override
     public void onResume() {
         reloadFavourites();
         super.onResume();
@@ -206,4 +195,16 @@ public class FavouritesActivity extends ListActivity {
         inflater.inflate(R.menu.favourite_context_menu, menu);
     }
 
+    private class FavouriteItemClickListener implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Stop stop = (Stop) getListAdapter().getItem(position);
+
+            if (stop != null) {
+                onFavouriteSelected(stop);
+            } else {
+                Log.e(TAG, "Didn't get a stop");
+            }
+        }
+    }
 }

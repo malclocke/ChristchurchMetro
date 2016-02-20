@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -39,7 +40,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class RoutesActivity extends ListActivity {
+public class RoutesActivity extends AppCompatListActivity {
 
     public final static String TAG = "RoutesActivity";
 
@@ -49,6 +50,13 @@ public class RoutesActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // TODO - Add specific empty text
+        setContentView(R.layout.main_layout);
+
+        setToolbar(R.id.toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -83,47 +91,6 @@ public class RoutesActivity extends ListActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.routes_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-            case R.id.map:
-                Log.d(TAG, "Map selected from menu");
-                intent = new Intent();
-                intent.setClassName("nz.co.wholemeal.christchurchmetro",
-                        "nz.co.wholemeal.christchurchmetro.MetroMapActivity");
-                startActivity(intent);
-                return true;
-            case R.id.search:
-                Log.d(TAG, "Search selected from menu");
-                onSearchRequested();
-                return true;
-            case R.id.favourite_stops:
-                Log.d(TAG, "Favourite stops selected");
-                intent = new Intent();
-                intent.setClassName("nz.co.wholemeal.christchurchmetro",
-                        "nz.co.wholemeal.christchurchmetro.FavouritesActivity");
-                startActivity(intent);
-                return true;
-            case R.id.preferences:
-                Log.d(TAG, "Preferences selected from menu");
-                intent = new Intent();
-                intent.setClassName("nz.co.wholemeal.christchurchmetro",
-                        "nz.co.wholemeal.christchurchmetro.PreferencesActivity");
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override

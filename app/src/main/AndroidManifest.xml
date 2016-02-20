@@ -24,26 +24,47 @@
       </activity>
 
       <activity android:name=".PlatformActivity"
-                android:label="@string/bus_stop"/>
+                android:label="@string/bus_stop"
+                android:parentActivityName=".FavouritesActivity">
+          <meta-data android:name="android.support.PARENT_ACTIVITY"
+                     android:value=".FavouritesActivity"/>
+      </activity>
 
       <activity android:name=".MetroMapActivity"
                 android:label="@string/map"
-                android:theme="@android:style/Theme.NoTitleBar" />
+                android:parentActivityName=".FavouritesActivity">
+          <meta-data android:name="android.support.PARENT_ACTIVITY"
+                     android:value=".FavouritesActivity"/>
+      </activity>
 
-      <activity android:name=".SearchActivity" android:exported="false">
+      <activity android:name=".SearchActivity"
+                android:exported="false"
+                android:label="@string/search"
+                android:parentActivityName=".FavouritesActivity">
         <intent-filter>
           <action android:name="android.intent.action.SEARCH" />
           <category android:name="android.intent.category.DEFAULT" />
         </intent-filter>
         <meta-data android:name="android.app.searchable"
           android:resource="@xml/searchable"/>
+          <meta-data android:name="android.support.PARENT_ACTIVITY"
+                     android:value=".FavouritesActivity"/>
       </activity>
 
       <activity android:name=".RoutesActivity"
-                android:label="@string/routes"/>
+                android:label="@string/routes"
+                android:parentActivityName=".FavouritesActivity">
+          <meta-data android:name="android.support.PARENT_ACTIVITY"
+                     android:value=".FavouritesActivity"/>
+      </activity>
+
 
       <activity android:name=".PreferencesActivity"
-                android:label="@string/preferences"/>
+                android:label="@string/preferences"
+                android:parentActivityName=".FavouritesActivity">
+          <meta-data android:name="android.support.PARENT_ACTIVITY"
+                     android:value=".FavouritesActivity"/>
+      </activity>
 
       <service android:name=".LoadPlatformsService"
           android:enabled="true"

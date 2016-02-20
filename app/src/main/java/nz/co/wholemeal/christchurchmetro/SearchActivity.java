@@ -34,7 +34,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends ListActivity {
+public class SearchActivity extends AppCompatListActivity {
 
     String TAG = "SearchActivity";
 
@@ -45,6 +45,8 @@ public class SearchActivity extends ListActivity {
         super.onCreate(saveInstanceState);
 
         setContentView(R.layout.search_list);
+
+        setToolbar(R.id.toolbar);
 
         Intent intent = getIntent();
 

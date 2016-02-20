@@ -17,6 +17,7 @@
 
 package nz.co.wholemeal.christchurchmetro;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -29,6 +30,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -45,6 +48,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +60,7 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class PlatformActivity extends ListActivity {
+public class PlatformActivity extends AppCompatListActivity {
     private Stop current_stop;
     private final ArrayList<Arrival> arrivals = new ArrayList<Arrival>();
     private ArrivalAdapter arrival_adapter;
@@ -68,6 +72,10 @@ public class PlatformActivity extends ListActivity {
     static final String TAG = "PlatformActivity";
     static final String PREFERENCES_FILE = "Preferences";
 
+    public ListView listView;
+    private Timer mTimer;
+    private String mPlatformTag;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,9 +83,14 @@ public class PlatformActivity extends ListActivity {
 
         mFavouritesManager = new FavouritesManager(this);
 
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        // TODO
+        //requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         setContentView(R.layout.stop);
+
+        setToolbar(R.id.toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         stopHeader = findViewById(R.id.stop_header);
 
@@ -89,10 +102,7 @@ public class PlatformActivity extends ListActivity {
     /* Load the requested stop information */
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String platformTag = extras.getString("platformTag");
-            if (platformTag != null) {
-                loadStopByPlatformTag(platformTag);
-            }
+            mPlatformTag = extras.getString("platformTag");
         } else {
             Log.e(TAG, "No extras in intent");
         }
@@ -119,6 +129,14 @@ public class PlatformActivity extends ListActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (mPlatformTag != null) {
+            loadStopByPlatformTag(mPlatformTag);
+        }
+    }
+
+    @Override
     public void onNewIntent(Intent intent) {
         Log.d(TAG, "onNewIntent() called");
         Bundle extras = intent.getExtras();
@@ -132,8 +150,8 @@ public class PlatformActivity extends ListActivity {
 
     @Override
     protected void onStop() {
+        mTimer.cancel();
         super.onStop();
-
     }
 
     @Override
@@ -171,14 +189,6 @@ public class PlatformActivity extends ListActivity {
                 intent.putExtra("platformTag", current_stop.platformTag);
                 intent.setClassName("nz.co.wholemeal.christchurchmetro",
                         "nz.co.wholemeal.christchurchmetro.RoutesActivity");
-                startActivity(intent);
-                return true;
-
-            case R.id.preferences:
-                Log.d(TAG, "Preferences selected from menu");
-                intent = new Intent();
-                intent.setClassName("nz.co.wholemeal.christchurchmetro",
-                        "nz.co.wholemeal.christchurchmetro.PreferencesActivity");
                 startActivity(intent);
                 return true;
 
@@ -361,7 +371,7 @@ public class PlatformActivity extends ListActivity {
         arrival_adapter.notifyDataSetChanged();
 
         final Handler handler = new Handler();
-        Timer timer = new Timer();
+        mTimer = new Timer();
         TimerTask doAsyncTask = new TimerTask() {
             @Override
             public void run() {
@@ -373,7 +383,8 @@ public class PlatformActivity extends ListActivity {
                 });
             }
         };
-        timer.schedule(doAsyncTask, 0, arrivalRefreshRate());
+        // Timer gets cancelled in onStop()
+        mTimer.schedule(doAsyncTask, 0, arrivalRefreshRate());
     }
 
     private long arrivalRefreshRate() {
