@@ -83,9 +83,6 @@ public class PlatformActivity extends AppCompatListActivity {
 
         mFavouritesManager = new FavouritesManager(this);
 
-        // TODO
-        //requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
         setContentView(R.layout.stop);
 
         setToolbar(R.id.toolbar);
