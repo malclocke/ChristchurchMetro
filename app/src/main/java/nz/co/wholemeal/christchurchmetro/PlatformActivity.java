@@ -17,11 +17,9 @@
 
 package nz.co.wholemeal.christchurchmetro;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,8 +29,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -43,19 +41,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
@@ -74,6 +69,7 @@ public class PlatformActivity extends AppCompatListActivity {
     static final String PREFERENCES_FILE = "Preferences";
 
     public ListView listView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private Timer mTimer;
     private String mPlatformTag;
 
@@ -123,6 +119,14 @@ public class PlatformActivity extends AppCompatListActivity {
                 }
 
                 createAlarmDialog(arrival);
+            }
+        });
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new AsyncLoadArrivals().execute(current_stop);
             }
         });
     }
@@ -510,6 +514,7 @@ public class PlatformActivity extends AppCompatListActivity {
         @Override
         protected void onPostExecute(ArrayList<Arrival> stopArrivals) {
             updateArrivals(stopArrivals);
+            mSwipeRefreshLayout.setRefreshing(false);
         }
 
         @Override
