@@ -30,6 +30,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -147,9 +148,9 @@ public class PlatformActivity extends AppCompatListActivity {
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         mTimer.cancel();
-        super.onStop();
+        super.onPause();
     }
 
     @Override
@@ -373,10 +374,11 @@ public class PlatformActivity extends AppCompatListActivity {
         TimerTask doAsyncTask = new TimerTask() {
             @Override
             public void run() {
+                final ArrayList<Arrival> newArrivals = getArrivals(current_stop);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        new AsyncLoadArrivals().execute(current_stop);
+                        updateArrivals(newArrivals);
                     }
                 });
             }
@@ -507,33 +509,42 @@ public class PlatformActivity extends AppCompatListActivity {
 
         @Override
         protected void onPostExecute(ArrayList<Arrival> stopArrivals) {
-            if (stopArrivals == null) {
-                ((TextView) findViewById(android.R.id.empty))
-                        .setText(R.string.unable_to_retrieve_arrival_information);
-            } else if (stopArrivals.size() > 0) {
-                arrivals.clear();
-                arrivals.addAll(stopArrivals);
-            } else {
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "No arrivals");
-                }
-                arrivals.clear();
-                ((TextView) findViewById(android.R.id.empty)).setText(R.string.no_arrivals_in_the_next_thirty_minutes);
-            }
-            setProgressBarIndeterminateVisibility(false);
-            arrival_adapter.notifyDataSetChanged();
+            updateArrivals(stopArrivals);
         }
 
         @Override
         protected ArrayList<Arrival> doInBackground(Stop... stops) {
-            ArrayList<Arrival> arrivals = null;
-            try {
-                arrivals = stops[0].getArrivals();
-            } catch (Exception e) {
-                Log.e(TAG, "getArrivals(): ", e);
-            }
-
-            return arrivals;
+            return getArrivals(stops[0]);
         }
+    }
+
+    private void updateArrivals(ArrayList<Arrival> stopArrivals) {
+        if (stopArrivals == null) {
+            ((TextView) findViewById(android.R.id.empty))
+                    .setText(R.string.unable_to_retrieve_arrival_information);
+        } else if (stopArrivals.size() > 0) {
+            arrivals.clear();
+            arrivals.addAll(stopArrivals);
+        } else {
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "No arrivals");
+            }
+            arrivals.clear();
+            ((TextView) findViewById(android.R.id.empty)).setText(R.string.no_arrivals_in_the_next_thirty_minutes);
+        }
+        setProgressBarIndeterminateVisibility(false);
+        arrival_adapter.notifyDataSetChanged();
+    }
+
+    @Nullable
+    private ArrayList<Arrival> getArrivals(Stop stop) {
+        ArrayList<Arrival> arrivals = null;
+        try {
+            arrivals = stop.getArrivals();
+        } catch (Exception e) {
+            Log.e(TAG, "getArrivals(): ", e);
+        }
+
+        return arrivals;
     }
 }
