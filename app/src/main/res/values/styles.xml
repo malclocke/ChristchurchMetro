@@ -12,10 +12,9 @@
     <style name="routeNumber">
         <item name="android:textSize">14pt</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">left</item>
+        <item name="android:layout_width">56dp</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_marginRight">6dip</item>
     </style>
 
     <style name="listSeparator">
