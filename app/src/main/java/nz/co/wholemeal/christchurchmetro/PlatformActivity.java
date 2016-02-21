@@ -492,7 +492,7 @@ public class PlatformActivity extends AppCompatListActivity {
                 }
                 if (eta != null) {
                     eta.setText(Integer.toString(arrival.eta));
-                    mins.setText(new SimpleDateFormat("HH:mm").format(arrival.getEstimatedArrivalTime()));
+                    mins.setText(arrival.eta == 1 ? R.string.min : R.string.mins);
                 }
             }
             return v;

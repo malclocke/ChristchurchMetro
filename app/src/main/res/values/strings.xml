@@ -48,6 +48,7 @@
     <string name="cancel">Cancel</string>
     <string name="set">Set</string>
     <string name="min">min</string>
+    <string name="mins">mins</string>
 
     <plurals name="mins">
       <item quantity="one">1 min</item>
