@@ -235,21 +235,23 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onStop() {
-        SharedPreferences preferences = getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
-        SharedPreferences.Editor editor = preferences.edit();
+        if (mMap != null) {
+            SharedPreferences preferences = getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
+            SharedPreferences.Editor editor = preferences.edit();
 
-        CameraPosition cameraPosition = mMap.getCameraPosition();
+            CameraPosition cameraPosition = mMap.getCameraPosition();
 
-        // Delete the old preferences with incompatible types
-        editor.remove("lastLatitude");
-        editor.remove("lastLongitude");
-        editor.remove("lastZoom");
+            // Delete the old preferences with incompatible types
+            editor.remove("lastLatitude");
+            editor.remove("lastLongitude");
+            editor.remove("lastZoom");
 
-        editor.putFloat("lastLat", (float) cameraPosition.target.latitude);
-        editor.putFloat("lastLon", (float) cameraPosition.target.longitude);
-        editor.putFloat("zoom", cameraPosition.zoom);
+            editor.putFloat("lastLat", (float) cameraPosition.target.latitude);
+            editor.putFloat("lastLon", (float) cameraPosition.target.longitude);
+            editor.putFloat("zoom", cameraPosition.zoom);
 
-        editor.commit();
+            editor.commit();
+        }
         super.onStop();
     }
 
