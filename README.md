@@ -7,16 +7,16 @@ v0.6
 - [x] Auto refresh on PlatformActivity
 - [ ] Auto refresh on FavouritesActivity
 - [ ] Nearby stops
-- [ ] Auto refresh route data with configurable interval
+- [x] Auto refresh route data with configurable interval
 - [ ] Rename favourites
 - [x] Stop timer on platform activity
 - [x] Fix slow route query on map load
 - [ ] Fix default map location
-- [ ] Escape search queries
+- [x] Escape search queries
 - [ ] Zoom out to route button on map
-- [ ] Fix notification bar icon
+- [x] Fix notification bar icon
 
 v0.7
 ----
-- AppBar Search
+- [ ] AppBar Search
 - [ ] Snackbar

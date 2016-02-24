@@ -144,10 +144,11 @@ class Stop {
 
     /* Perform a search query for any stops which match query string */
     public static ArrayList<Stop> searchStops(Context context, String queryString) {
+        String wildcard = "%" + queryString + "%";
         return doArrayListQuery(context, QUERY_BASE +
-                "WHERE p.platform_number LIKE '" + queryString + "%' " +
-                "OR p.name LIKE '%" + queryString + "%' " +
-                "OR p.road_name LIKE '%" + queryString + "%'" + QUERY_SUFFIX);
+                "WHERE p.platform_number LIKE ? OR p.name LIKE ? OR p.road_name LIKE ? "
+                        + QUERY_SUFFIX,
+                new String[] {queryString + "%", wildcard, wildcard});
     }
 
     public ArrayList<Arrival> getArrivals() throws Exception {
@@ -177,6 +178,10 @@ class Stop {
     }
 
     private static ArrayList<Stop> doArrayListQuery(Context context, String query) {
+        return doArrayListQuery(context, query, null);
+    }
+
+    private static ArrayList<Stop> doArrayListQuery(Context context, String query, String[] queryArgs) {
         ArrayList<Stop> stops = new ArrayList<Stop>();
 
         if (BuildConfig.DEBUG) {
@@ -185,7 +190,7 @@ class Stop {
 
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
-        Cursor cursor = database.rawQuery(query, null);
+        Cursor cursor = database.rawQuery(query, queryArgs);
 
         try {
             if (cursor.moveToFirst()) {

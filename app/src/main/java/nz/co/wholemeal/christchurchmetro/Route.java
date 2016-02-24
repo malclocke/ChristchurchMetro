@@ -69,15 +69,19 @@ public class Route {
 
     /* Perform a search query for any routes which match query string */
     public static ArrayList<Route> searchRoutes(Context context, String queryString) {
-        return doArrayListQuery(context, QUERY_PREFIX +
-                " FROM patterns" +
-                " WHERE route_number LIKE '" + queryString + "%'" +
-                " OR route_name LIKE '%" + queryString + "%'" +
-                " OR destination LIKE '%" + queryString + "%'" +
-                " ORDER BY CAST(route_number AS INTEGER)");
+        String queryWildcard = "%" + queryString + "%";
+        return doArrayListQuery(context, QUERY_PREFIX + " FROM patterns" +
+                " WHERE route_number LIKE ? OR route_name LIKE ? OR destination LIKE ?"  +
+                " ORDER BY CAST(route_number AS INTEGER)",
+                new String[] {queryString + "%", queryWildcard, queryWildcard}
+        );
     }
 
     private static ArrayList<Route> doArrayListQuery(Context context, String query) {
+        return doArrayListQuery(context, query, null);
+    }
+
+    private static ArrayList<Route> doArrayListQuery(Context context, String query, String[] queryArgs) {
         ArrayList<Route> routes = new ArrayList<Route>();
 
         if (BuildConfig.DEBUG) {
@@ -86,7 +90,7 @@ public class Route {
 
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
-        Cursor cursor = database.rawQuery(query, null);
+        Cursor cursor = database.rawQuery(query, queryArgs);
 
         try {
             if (cursor.moveToFirst()) {
