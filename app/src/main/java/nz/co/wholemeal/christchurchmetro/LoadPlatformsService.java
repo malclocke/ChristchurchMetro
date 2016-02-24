@@ -149,7 +149,7 @@ public class LoadPlatformsService extends IntentService {
         );
         mNotificationBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.stat_bus_alarm)
+                        .setSmallIcon(R.drawable.ic_directions_bus_white_24dp)
                         .setContentTitle(getString(R.string.loading_platforms))
                         .setContentIntent(resultPendingIntent);
         mNotificationManager =
@@ -329,8 +329,6 @@ public class LoadPlatformsService extends IntentService {
         public void endElement(String uri, String localName, String qName)
                 throws SAXException {
             if (localName.equals("Placemark")) {
-                //if (database != null) {
-                //database.insert("platforms", null, values);
                 database.update("patterns", values, "pattern_name = ?", new String[]{name});
                 Log.d(TAG, "name = " + name);
                 Log.d(TAG, "color = " + values.getAsString("color"));
@@ -341,7 +339,6 @@ public class LoadPlatformsService extends IntentService {
                 values.putNull("coordinates");
 
                 publishProgress(routeCount, ROUTE_MAX);
-                //}
             } else if (localName.equals("name")) {
                 name = Html.fromHtml(currentCharacters).toString();
                 recordCharacters = false;

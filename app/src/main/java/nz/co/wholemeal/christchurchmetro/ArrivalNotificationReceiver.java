@@ -146,7 +146,7 @@ public class ArrivalNotificationReceiver extends BroadcastReceiver {
 
         NotificationManager notificationManager =
                 (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        int icon = R.drawable.stat_bus_alarm;
+        int icon = R.drawable.ic_directions_bus_white_24dp;
         long when = System.currentTimeMillis();
 
         Resources res = mContext.getResources();
