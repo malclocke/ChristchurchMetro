@@ -120,8 +120,7 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
         }
 
         LatLng ll = new LatLng(lastLatitude, lastLongitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, zoom));
 
         if (routeTag != null) {
             // A specific route view was requested.  Try and show the entire route
