@@ -63,7 +63,7 @@
     <!-- Preferences screen -->
     <string name="preferences">Preferences</string>
     <string name="update_routes">Update routes</string>
-    <string name="update_routes_summary">Fetch the latest route information from the MetroInfo system</string>
+    <string name="update_routes_summary">Fetch the latest route information from the MetroInfo system now</string>
     <string name="loading_routes">Loading routes</string>
     <string name="loading_platforms">Loading platforms</string>
     <string name="loaded_route_information">Loaded route information</string>

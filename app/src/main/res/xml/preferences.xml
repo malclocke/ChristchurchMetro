@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-  <PreferenceCategory
-    android:title="@string/update_routes">
+    <PreferenceCategory
+        android:title="@string/update_routes">
 
-    <Preference
-      android:title="@string/update_routes"
-      android:summary="@string/update_routes_summary"
-      android:key="updateRoutes" />
+        <Preference
+            android:key="updateRoutes"
+            android:summary="@string/update_routes_summary"
+            android:title="@string/update_routes"/>
 
-  </PreferenceCategory>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="autoUpdateRoutes"
+            android:summary="Route and stop information will be updated periodically."
+            android:title="Automatically update route information"/>
+
+        <ListPreference
+            android:entries="@array/autoUpdateRouteFrequencies"
+            android:entryValues="@array/autoUpdateRouteFrequencies"
+            android:defaultValue="14"
+            android:dependency="autoUpdateRoutes"
+            android:key="autoUpdateRouteFrequency"
+            android:summary="Update route and stop information every %s days"
+            android:title="Update frequency"
+            android:dialogTitle="Update frequency (days)"
+            android:numeric="integer"/>
+
+    </PreferenceCategory>
 </PreferenceScreen>

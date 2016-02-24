@@ -22,8 +22,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -31,8 +30,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import java.util.concurrent.TimeUnit;
 
 
 /*
@@ -51,25 +51,53 @@ public class FavouritesActivity extends AppCompatListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        PreferenceManager.setDefaultValues(this, PlatformActivity.PREFERENCES_FILE,
+                MODE_PRIVATE, R.xml.preferences, false);
+
         setContentView(R.layout.main_layout);
 
         setToolbar(R.id.toolbar);
 
         getListView().setEmptyView(findViewById(android.R.id.empty));
         registerForContextMenu(getListView());
-        promptToLoadPlatforms();
+        loadPlatformsCheck();
         getListView().setOnItemClickListener(new FavouriteItemClickListener());
     }
 
     /**
      * If this is the first time the user has loaded the application, and the list of
      * routes and platforms has not been loaded into the database yet, ask the user
-     * if they want to.
+     * if they want to.  Otherwise, check how long since the data was loaded and reload if
+     * it's out of date.
      */
-    private void promptToLoadPlatforms() {
+    private void loadPlatformsCheck() {
         SharedPreferences preferences = getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
-        if (preferences.getLong("lastDataLoad", -1) == -1) {
+        long lastDataLoad = preferences.getLong("lastDataLoad", -1);
+        long daysSinceLastLoad = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - lastDataLoad);
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "preferences = " + preferences.getAll());
+        }
+        int reloadFrequency = Integer.parseInt(
+                preferences.getString("autoUpdateRouteFrequency", "14")
+        );
+
+        boolean reloadAllowed = preferences.getBoolean("autoUpdateRoutes", false);
+        boolean reloadRequired = reloadAllowed && daysSinceLastLoad >= reloadFrequency;
+
+        if(BuildConfig.DEBUG) {
+            Log.d(TAG, "loadPlatformsCheck(): lastDataLoad = " + lastDataLoad);
+            Log.d(TAG, "loadPlatformsCheck(): reloadFrequency = " + reloadFrequency);
+            Log.d(TAG, "loadPlatformsCheck(): currentTimeMillis() = " + System.currentTimeMillis());
+            Log.d(TAG, "loadPlatformsCheck(): reloadAllowed = " + reloadAllowed);
+            Log.d(TAG, "loadPlatformsCheck(): reloadRequired = " + reloadRequired);
+            Log.d(TAG, "loadPlatformsCheck(): days since last load = " + daysSinceLastLoad);
+        }
+
+        if (lastDataLoad == -1) {
             showDialog(DIALOG_LOAD_DATA);
+        } else if(reloadRequired) {
+            loadPlatforms();
         }
     }
 
@@ -123,8 +151,7 @@ public class FavouritesActivity extends AppCompatListActivity {
                         .setPositiveButton(R.string.load_now, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(getBaseContext(), LoadPlatformsService.class);
-                                startService(intent);
+                                loadPlatforms();
                                 dialog.cancel();
                             }
                         })
@@ -141,6 +168,11 @@ public class FavouritesActivity extends AppCompatListActivity {
                 dialog = null;
         }
         return dialog;
+    }
+
+    private void loadPlatforms() {
+        Intent intent = new Intent(getBaseContext(), LoadPlatformsService.class);
+        startService(intent);
     }
 
     public void onFavouriteSelected(Stop stop) {
