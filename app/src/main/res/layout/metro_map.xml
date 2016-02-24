@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
              xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-<fragment
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/map"
-    tools:context=".MapsActivity"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    tools:layout="@layout/metro_map" />
-    <TextView
-        android:id="@+id/route_description"
-        android:layout_gravity="bottom|center_horizontal"
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MapsActivity"
+        tools:layout="@layout/metro_map"/>
+
+    <RelativeLayout
+        android:id="@+id/route_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#aa000000"
-        android:padding="8dp"
-        android:textColor="#fff"
-        android:textSize="18sp"
-        android:visibility="invisible"/>
+        android:layout_gravity="bottom|center_horizontal"
+        android:visibility="invisible"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/route_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            />
+
+        <ImageButton
+            android:id="@+id/zoom_to_route"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_zoom_out_map_white_24dp"
+            />
+    </RelativeLayout>
 </FrameLayout>

@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -54,7 +55,7 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
     private final LatLng interchangeLatLng = new LatLng(-43.533798, 172.637573);
 
     /* An optional route tag, if set only stops on this route will be displayed */
-    private String routeTag = null;
+    private String mRouteTag = null;
     private String routeName = null;
     private boolean zoomToRoute = false;
     private int polylineWidth = 5; // Overridden later
@@ -115,20 +116,21 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
             }
 
             // If this was not set in the Intent, null is fine
-            routeTag = extras.getString("routeTag");
+            mRouteTag = extras.getString("routeTag");
             routeName = extras.getString("routeName");
         }
 
         LatLng ll = new LatLng(lastLatitude, lastLongitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, zoom));
 
-        if (routeTag != null) {
+        if (mRouteTag != null) {
             // A specific route view was requested.  Try and show the entire route
             // area.
             zoomToRoute = true;
         }
         markerStopMap = new HashMap<Marker, Stop>();
 
+        setRouteDescriptionZoomCallback();
         setRouteDesriptionVisibility();
 
         drawRoutes(mMap);
@@ -142,11 +144,22 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
         mMap.setOnPolylineClickListener(this);
     }
 
+    private void setRouteDescriptionZoomCallback() {
+        ImageButton imageButton = (ImageButton) findViewById(R.id.zoom_to_route);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                zoomToRoute(mRouteTag);
+            }
+        });
+    }
+
     private int setRouteDesriptionVisibility() {
+        View routeView = (View) findViewById(R.id.route_view);
         TextView textView = (TextView) findViewById(R.id.route_description);
         int visibility = (routeName == null) ? View.INVISIBLE : View.VISIBLE;
         textView.setText(routeName);
-        textView.setVisibility(visibility);
+        routeView.setVisibility(visibility);
         return visibility;
     }
 
@@ -164,8 +177,8 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
         polylineOptions.clickable(true);
         polylineOptions.width(polylineWidth);
 
-        if (routeTag != null) {
-            visibility = route.routeTag.equals(routeTag);
+        if (mRouteTag != null) {
+            visibility = route.routeTag.equals(mRouteTag);
         }
         polylineOptions.visible(visibility);
 
@@ -276,21 +289,27 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     private boolean markerVisible(Marker m) {
-        if (routeTag == null) {
+        if (mRouteTag == null) {
             return true;
         }
-        return Arrays.asList(markerStopMap.get(m).routeTags).contains(routeTag);
+        return Arrays.asList(markerStopMap.get(m).routeTags).contains(mRouteTag);
     }
 
     @Override
     public void onMapLoaded() {
         if (zoomToRoute) {
-            LatLngBounds latLngBounds = Route.getLatLngBounds(getApplicationContext(),
-                    routeTag);
-            Log.d(TAG, "LatLngBounds: " + latLngBounds);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 5));
+            zoomToRoute(mRouteTag);
             zoomToRoute = false;
         }
+    }
+
+    private void zoomToRoute(String routeTag) {
+        LatLngBounds latLngBounds = Route.getLatLngBounds(getApplicationContext(),
+                routeTag);
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "LatLngBounds: " + latLngBounds);
+        }
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 5));
     }
 
     @Override
@@ -307,11 +326,11 @@ public class MetroMapActivity extends FragmentActivity implements OnMapReadyCall
             if (!p.equals(polyline)) {
                 p.setVisible(!p.isVisible());
             } else {
-                if (routeTag == null) {
-                    routeTag = route.routeTag;
+                if (mRouteTag == null) {
+                    mRouteTag = route.routeTag;
                     routeName = route.fullRouteName();
                 } else {
-                    routeTag = routeName = null;
+                    mRouteTag = routeName = null;
                 }
                 p.setVisible(true);
             }

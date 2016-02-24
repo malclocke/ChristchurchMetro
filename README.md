@@ -11,9 +11,9 @@ v0.6
 - [ ] Rename favourites
 - [x] Stop timer on platform activity
 - [x] Fix slow route query on map load
-- [ ] Fix default map location
+- [x] Fix default map location
 - [x] Escape search queries
-- [ ] Zoom out to route button on map
+- [x] Zoom out to route button on map
 - [x] Fix notification bar icon
 
 v0.7
