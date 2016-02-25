@@ -170,7 +170,7 @@ public class PlatformActivity extends AppCompatListActivity {
         switch (item.getItemId()) {
             case R.id.info:
                 Log.d(TAG, "Info selected");
-                showDialog(DIALOG_PLATFORM_INFO);
+                showPlatformInfoDialog();
                 return true;
 
             case R.id.map:
@@ -229,27 +229,18 @@ public class PlatformActivity extends AppCompatListActivity {
         }
     }
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        Dialog dialog;
-        switch (id) {
-            case DIALOG_PLATFORM_INFO:
-                String message = String.format(
-                        getResources().getString(R.string.platform_info),
-                        current_stop.roadName, current_stop.platformNumber,
-                        current_stop.platformTag, current_stop.latitude,
-                        current_stop.longitude);
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(current_stop.name)
-                        .setMessage(message)
-                        .setNeutralButton(R.string.ok, null);
-                dialog = builder.create();
-                break;
-            default:
-                dialog = null;
-                break;
-        }
-        return dialog;
+    private void showPlatformInfoDialog() {
+        String message = String.format(
+                getResources().getString(R.string.platform_info),
+                current_stop.roadName, current_stop.platformNumber,
+                current_stop.platformTag, current_stop.latitude,
+                current_stop.longitude);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(current_stop.name)
+                .setMessage(message)
+                .setNeutralButton(R.string.ok, null);
+        Dialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
