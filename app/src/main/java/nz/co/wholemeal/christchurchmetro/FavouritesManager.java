@@ -120,6 +120,15 @@ public class FavouritesManager {
         }
     }
 
+    public void renameStop(Stop stop, String newName) {
+        Stop favouriteStop = getStopByPlatformTag(stop.platformTag);
+        if (favouriteStop != null) {
+            favouriteStop.name = newName;
+            saveFavourites();
+            mStopAdapter.notifyDataSetInvalidated();
+        }
+    }
+
     public boolean addStop(Stop stop) {
         if (!isFavourite(stop)) {
             mStops.add(stop);
@@ -176,17 +185,25 @@ public class FavouritesManager {
         return true;
     }
 
-    public boolean isFavourite(Stop stop) {
+    public Stop getStopByPlatformTag(String platformTag) {
         Iterator<Stop> iterator = mStops.iterator();
 
         /* Check the Stop is not already present in favourites */
         while (iterator.hasNext()) {
             Stop favourite = iterator.next();
-            if (favourite.platformTag.equals(stop.platformTag)) {
-                return true;
+            if (favourite.platformTag.equals(platformTag)) {
+                return favourite;
             }
         }
-        return false;
+        return null;
+    }
+
+    public boolean isFavourite(Stop stop) {
+        if (getStopByPlatformTag(stop.platformTag) == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public StopAdapter getStopAdapter() {

@@ -8,7 +8,7 @@ v0.6
 - [ ] Auto refresh on FavouritesActivity
 - [ ] Nearby stops
 - [x] Auto refresh route data with configurable interval
-- [ ] Rename favourites
+- [x] Rename favourites
 - [x] Stop timer on platform activity
 - [x] Fix slow route query on map load
 - [x] Fix default map location
@@ -21,3 +21,4 @@ v0.7
 ----
 - [ ] AppBar Search
 - [ ] Snackbar
+- [ ] Ignore selected routes on favourites view

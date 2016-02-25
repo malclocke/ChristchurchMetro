@@ -70,5 +70,6 @@
     <string name="error_loading_bus_routes">Error loading bus routes, please try again later</string>
     <string name="failed_to_add_stop_to_favourites">Failed to add stop to favourites</string>
     <string name="loading_coordinates">Loading coordinates</string>
+    <string name="rename">Rename</string>
 
 </resources>

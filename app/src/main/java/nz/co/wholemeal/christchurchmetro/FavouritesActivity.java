@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -30,6 +31,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.concurrent.TimeUnit;
@@ -214,9 +216,36 @@ public class FavouritesActivity extends AppCompatListActivity {
             case R.id.remove_favourite:
                 removeFavourite(stop);
                 return true;
+            case R.id.rename:
+                renameFavourite(stop);
+                return true;
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    private void renameFavourite(final Stop stop) {
+        final EditText editText = new EditText(this);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+        editText.setText(stop.name);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(editText);
+        builder.setMessage("Rename favourite");
+
+        builder.setPositiveButton("Rename", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                mFavouritesManager.renameStop(stop, editText.getText().toString());
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) { }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
