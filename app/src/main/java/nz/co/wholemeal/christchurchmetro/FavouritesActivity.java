@@ -97,7 +97,7 @@ public class FavouritesActivity extends AppCompatListActivity {
         }
 
         if (lastDataLoad == -1) {
-            showDialog(DIALOG_LOAD_DATA);
+            showLoadPlatformDataDialog();
         } else if(reloadRequired) {
             loadPlatforms();
         }
@@ -141,35 +141,23 @@ public class FavouritesActivity extends AppCompatListActivity {
         }
     }
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        Dialog dialog;
-        switch (id) {
-            case DIALOG_LOAD_DATA:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setCancelable(true)
-                        .setTitle(R.string.route_update_required)
-                        .setMessage(R.string.do_you_want_to_load_bus_stop_and_route_data)
-                        .setPositiveButton(R.string.load_now, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                loadPlatforms();
-                                dialog.cancel();
-                            }
-                        })
-                        .setNegativeButton(R.string.do_it_later, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
-                ;
-                dialog = builder.create();
-                break;
-            default:
-                dialog = null;
-        }
-        return dialog;
+    private void showLoadPlatformDataDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.route_update_required)
+                .setMessage(R.string.do_you_want_to_load_bus_stop_and_route_data)
+                .setPositiveButton(R.string.load_now, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        loadPlatforms();
+                    }
+                })
+                .setNegativeButton(R.string.do_it_later, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {}
+                })
+        ;
+        Dialog dialog = builder.create();
+        dialog.show();
     }
 
     private void loadPlatforms() {
