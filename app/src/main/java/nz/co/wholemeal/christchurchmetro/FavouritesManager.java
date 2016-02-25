@@ -6,6 +6,7 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class FavouritesManager {
     static final String PREFERENCES_FILE = "Preferences";
 
     private static final String TAG = "FavouritesManager";
+    private static final String FAVOURITES_KEY = "favourites";
+    private static final String OLD_FAVOURITES_KEY = "favouriteStops";
 
     private final Context mContext;
     private final ArrayList<Stop> mStops = new ArrayList<Stop>();
@@ -32,7 +35,12 @@ public class FavouritesManager {
 
         SharedPreferences favourites =
                 mContext.getSharedPreferences(PlatformActivity.PREFERENCES_FILE, 0);
-        String stops_json = favourites.getString("favouriteStops", null);
+
+        if (convertFavouritesToNewFormat(favourites)) {
+            return;
+        }
+
+        String stops_json = favourites.getString(FAVOURITES_KEY, null);
 
         if (stops_json != null) {
             Log.d(TAG, "initFavourites(): stops_json = " + stops_json);
@@ -42,11 +50,14 @@ public class FavouritesManager {
 
                 for (int i = 0; i < stopsArray.length(); i++) {
                     try {
-                        String platformTag = (String) stopsArray.get(i);
-                        Log.d(TAG, "Loading stop platformTag = " + platformTag);
+                        JSONObject jsonObject = (JSONObject) stopsArray.get(i);
+                        String platformTag = (String) jsonObject.get("platformTag");
                         Stop stop = new Stop(platformTag, null, mContext);
+                        stop.name = (String) jsonObject.get("name");
                         favouriteStops.add(stop);
-                        Log.d(TAG, "initFavourites(): added stop platformTag = " + stop.platformTag);
+                        if (BuildConfig.DEBUG) {
+                            Log.d(TAG, "initFavourites(): added stop platformTag = " + stop.platformTag);
+                        }
                     } catch (Stop.InvalidPlatformNumberException e) {
                         Log.e(TAG, "Invalid platformTag in favourites: " + e.getMessage());
                     } catch (JSONException e) {
@@ -60,6 +71,52 @@ public class FavouritesManager {
             } catch (JSONException e) {
                 Log.e(TAG, "initFavourites(): JSONException: " + e.toString());
             }
+        }
+    }
+
+    private boolean convertFavouritesToNewFormat(SharedPreferences favourites) {
+        /*
+        Old format was an array of strings containing platformTags, e.g.
+            ["123","456"]
+        If the old format is still present in the preferences, load the stops
+        from it, save to the new format and then delete the old entry.
+         */
+        String stops_json = favourites.getString(OLD_FAVOURITES_KEY, null);
+        if (stops_json == null) {
+            return false;
+        } else {
+            try {
+                ArrayList<Stop> favouriteStops = new ArrayList<Stop>();
+                JSONArray stopsArray = (JSONArray) new JSONTokener(stops_json).nextValue();
+
+                for (int i = 0; i < stopsArray.length(); i++) {
+                    try {
+                        String platformTag = (String) stopsArray.get(i);
+                        Stop stop = new Stop(platformTag, null, mContext);
+                        favouriteStops.add(stop);
+                        if (BuildConfig.DEBUG) {
+                            Log.d(TAG, "convertFavouritesToNewFormat(): added stop platformTag = " + stop.platformTag);
+                        }
+                    } catch (Stop.InvalidPlatformNumberException e) {
+                        Log.e(TAG, "Invalid platformTag in favourites: " + e.getMessage());
+                    } catch (JSONException e) {
+                        Log.e(TAG, "JSONException() parsing favourites: " + e.getMessage());
+                    }
+                }
+
+                if (favouriteStops.size() > 0) {
+                    mStops.addAll(favouriteStops);
+                    saveFavourites();
+                }
+
+                SharedPreferences.Editor editor = favourites.edit();
+                editor.remove(OLD_FAVOURITES_KEY);
+                editor.apply();
+
+            } catch (JSONException e) {
+                Log.e(TAG, "initFavourites(): JSONException: " + e.toString());
+            }
+            return true;
         }
     }
 
@@ -101,9 +158,16 @@ public class FavouritesManager {
         Iterator<Stop> iterator = mStops.iterator();
         while (iterator.hasNext()) {
             Stop stop = iterator.next();
-            stopArray.put(stop.platformTag);
+            JSONObject object = new JSONObject();
+            try {
+                object.put("platformTag", stop.platformTag);
+                object.put("name", stop.name);
+                stopArray.put(object);
+            } catch (JSONException e) {
+                Log.e(TAG, "JSONException() generating favourite: " + e.getMessage());
+            }
         }
-        editor.putString("favouriteStops", stopArray.toString());
+        editor.putString(FAVOURITES_KEY, stopArray.toString());
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "Saving " + mStops.size() + " favourites");
             Log.d(TAG, "json = " + stopArray.toString());
