@@ -173,6 +173,9 @@ public class ArrivalNotificationReceiver extends BroadcastReceiver {
                                   String tickerText, String dueText) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setAutoCancel(true)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setSmallIcon(icon)
                 .setContentTitle(tickerText)
                 .setContentText(dueText);

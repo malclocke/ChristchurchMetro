@@ -15,6 +15,7 @@ v0.6
 - [x] Escape search queries
 - [x] Zoom out to route button on map
 - [x] Fix notification bar icon
+- [x] Increase notification priority
 
 v0.7
 ----
