@@ -30,10 +30,8 @@ public class StopAdapter extends ArrayAdapter<Stop> {
         }
         Stop stop = mItems.get(position);
         if (stop != null) {
-            TextView platformNumber = (TextView) v.findViewById(R.id.platform_number);
             TextView platformName = (TextView) v.findViewById(R.id.platform_name);
             TextView nextBus = (TextView) v.findViewById(R.id.next_bus);
-            platformNumber.setText(stop.platformNumber);
             platformName.setText(stop.name);
             nextBus.setTag(stop);
             nextBus.setText(R.string.next_bus_loading);
